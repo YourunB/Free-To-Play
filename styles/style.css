@@ -17,6 +17,16 @@ a {
 
 .all {background-image: url('../assets/images/background/all.png');}
 .shooter {background-image: url('../assets/images/background/shooter.png');}
+.mmorpg {background-image: url('../assets/images/background/mmorpg.png');}
+.fighting {background-image: url('../assets/images/background/fighting.png');}
+.moba {background-image: url('../assets/images/background/moba.png');}
+.strategy {background-image: url('../assets/images/background/strategy.png');}
+.racing {background-image: url('../assets/images/background/racing.png');}
+.cards {background-image: url('../assets/images/background/cards.png');}
+.mmo {background-image: url('../assets/images/background/mmo.png');}
+.sports {background-image: url('../assets/images/background/sports.png');}
+.battle-royale {background-image: url('../assets/images/background/battle-royale.png');}
+.arpg {background-image: url('../assets/images/background/arpg.png');}
 
 .header-btns__box {
   position: fixed;
@@ -65,6 +75,38 @@ a {
   width: 100%;
 }
 
+.load {
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(0, 0);
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  padding: 10px;
+  box-sizing: border-box;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+.load__img {
+  width: 100%;
+  max-width: 500px;
+  max-height: 500px;
+  border-radius: 50%;
+  animation: rotate 10s;
+}
+
+.load__line {
+  height: 10px;
+  background: rgb(255,251,0);
+  background: linear-gradient(90deg, rgba(255,251,0,1) 0%, rgba(5,189,26,1) 27%, rgba(5,151,225,1) 48%, rgba(234,0,255,1) 68%, rgba(255,45,45,1) 84%, rgba(199,255,0,1) 100%);
+  animation: load-line 10s;
+  border-radius: 1px;
+}
+
 .btns {
   opacity: 0.5;
   width: 30px;
@@ -102,9 +144,10 @@ a {
 }
 
 .light {
-  background: white;
+  background-color: white;
   color: black;
 }
+.light__img {filter: invert(1);}
 .unvisible {display: none;}
 
 footer {
@@ -117,7 +160,231 @@ footer {
   text-align: right;
 }
 
+.area{
+  width: 100%;
+}
+
+.area:hover .circles li{
+  filter: blur(0);
+}
+
+.circles{
+  position: absolute;
+  z-index: -100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.circles li{
+  transition: 0.5s;
+  filter: blur(8px);
+  position: absolute;
+  z-index: -100;
+  display: block;
+  list-style: none;
+  width: 20px;
+  height: 20px;
+  background: #fff708;
+  border: solid 1px black;
+  animation: animate 25s linear infinite;
+  bottom: -150px;
+}
+
+.circles li:nth-child(1){
+    left: 25%;
+    width: 60px;
+    height: 60px;
+    animation-delay: 0s;
+}
+
+.circles li:nth-child(2){
+    left: 10%;
+    width: 15px;
+    height: 15px;
+    animation-delay: 2s;
+    animation-duration: 12s;
+}
+
+.circles li:nth-child(3){
+    left: 70%;
+    width: 15px;
+    height: 15px;
+    animation-delay: 4s;
+}
+
+.circles li:nth-child(4){
+    left: 40%;
+    width: 40px;
+    height: 40px;
+    animation-delay: 0s;
+    animation-duration: 18s;
+}
+
+.circles li:nth-child(5){
+    left: 65%;
+    width: 15px;
+    height: 15px;
+    animation-delay: 0s;
+}
+
+.circles li:nth-child(6){
+    left: 75%;
+    width: 80px;
+    height: 80px;
+    animation-delay: 3s;
+}
+
+.circles li:nth-child(7){
+    left: 35%;
+    width: 100px;
+    height: 100px;
+    animation-delay: 7s;
+}
+
+.circles li:nth-child(8){
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 15s;
+    animation-duration: 45s;
+}
+
+.circles li:nth-child(9){
+    left: 20%;
+    width: 10px;
+    height: 10px;
+    animation-delay: 2s;
+    animation-duration: 35s;
+}
+
+.circles li:nth-child(10){
+    left: 85%;
+    width: 95px;
+    height: 95px;
+    animation-delay: 0s;
+    animation-duration: 11s;
+}
+
+.entrance {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.entrance__btns {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/*buttons*/
+
+.button {
+  width: 120px;
+  padding: 5px;
+  background: yellow;
+  background: linear-gradient(90deg, rgb(238, 222, 47) 0%, rgb(235, 232, 38) 100%);
+  border: none;
+  border-radius: 2px;
+  box-shadow: 4px 4px 6px rgba(255, 247, 8, 0.6);
+  transition: all 0.3s ease-in-out 0s;
+  cursor: pointer;
+  position: relative;
+  }
+
+button::before {
+content: '';
+  border-radius: 2px;
+  min-width: calc(120px + 7px);
+  min-height: calc(30px + 7px);
+  border: 2px solid yellow;
+  box-shadow: 6px 6px 8px rgba(255, 247, 8, 0.5);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: all .3s ease-in-out 0s;
+}
+
+.button:hover, .button:focus {
+  color: #313133;
+  transform: translateY(-6px);
+}
+
+button:hover::before, button:focus::before {
+  opacity: 1;
+}
+
+button::after {
+  content: '';
+  width: 20px; height: 20px;
+  border-radius: 100%;
+  border: 3px solid yellow;
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ring 1.5s infinite;
+}
+
+button:hover::after, button:focus::after {
+  animation: none;
+  display: none;
+}
+
+@keyframes ring {
+  0% {
+    width: 30px;
+    height: 30px;
+    opacity: 1;
+  }
+  100% {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+}
+
+/*end buttons*/
+
+@keyframes animate {
+  0%{
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+  100%{
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
+}
+
 @keyframes heart {
   0% {transform:scale(1);}
   100% {transform:scale(0.8);}
+}
+
+@keyframes load-line {
+  0% {width: 0;}
+  100% {width: 100%;}
+}
+
+@keyframes rotate {
+  from {rotate: 0deg;}
+  to {rotate: 360deg;}
 }
