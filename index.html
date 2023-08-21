@@ -10,23 +10,51 @@
   <title>Free To Play</title>
 </head>
 <body class="all">
+
+  <audio src="assets/sounds/music.mp3" id="song-music"></audio>
+  <audio src="assets/sounds/click.mp3" id="song-click"></audio>
+  <audio src="assets/sounds/fail.mp3" id="song-fail"></audio>
+  <audio src="assets/sounds/up.mp3" id="song-up"></audio>
   
   <div class="overlay unvisible"></div>
   
   <header>
     <img class="btns btns__music unvisible" alt="Music" title="Music On/Of" src="assets/images/svg/music-on.svg" id="btn-music-on">
-    <img class="btns btns__music" alt="Music" title="Music On/Of" src="assets/images/svg/music-off.svg" id="btn-music-off">
+    <img class="btns btns__music unvisible" alt="Music" title="Music On/Of" src="assets/images/svg/music-off.svg" id="btn-music-off">
 
     <div class="header-btns__box">
       <img class="btns unvisible" alt="Settings" title="Setting" src="assets/images/svg/settings.svg" id="btn-settings">
-      <img class="btns" alt="Sign Up" title="Sign Up" src="assets/images/svg/sign-up.svg" id="btn-sign-up">
-      <img class="btns" alt="Sign In" title="Sign In" src="assets/images/svg/sign-in.svg" id="btn-sign-in">
+      <img class="btns unvisible" alt="Sign Up" title="Sign Up" src="assets/images/svg/sign-up.svg" id="btn-sign-up">
+      <img class="btns unvisible" alt="Sign In" title="Sign In" src="assets/images/svg/sign-in.svg" id="btn-sign-in">
     </div>
   </header>
 
-  <main class="container">
-    <div class="welcome" id="window-welcome"><h1 class="welcome__text">Free&thinsp;To&thinsp;Play</h1><div><img class="welcome__img" src="assets/images/svg/gamepad.svg" alt="Gamepad"></div>
-    
+  <main class="container area">
+    <div class="welcome" id="window-welcome">
+      <h1 class="welcome__text">Free&thinsp;To&thinsp;Play</h1>
+      <div>
+        <img class="welcome__img" src="assets/images/svg/gamepad.svg" alt="Gamepad">
+      </div>
+    </div>
+
+    <div class="load unvisible">
+      <img class="load__img" src="assets/images/welcome-load.gif" alt="Loading" id="img-loading">
+      <div class="load__line"></div>
+    </div>
+
+    <ul class="circles">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+
   </main>
 
   <img class="btns btns__up unvisible" alt="Up" title="Up" src="assets/images/svg/to-top.svg" id="btn-to-top">
