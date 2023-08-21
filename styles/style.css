@@ -139,16 +139,9 @@ a {
   left: 0;
   background: black;
   position: fixed;
-  opacity: 0.8;
+  opacity: 0.5;
   z-index: 1000;
 }
-
-.light {
-  background-color: white;
-  color: black;
-}
-.light__img {filter: invert(1);}
-.unvisible {display: none;}
 
 footer {
   font-family:Arial, Helvetica, sans-serif;
@@ -271,6 +264,7 @@ footer {
 }
 
 .entrance {
+  z-index: 1001;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -289,6 +283,12 @@ footer {
   gap: 10px;
 }
 
+.entrance-btn {
+  position: absolute;
+  right: 0;
+  top: -20px;
+}
+
 /*buttons*/
 
 .button {
@@ -296,7 +296,7 @@ footer {
   padding: 5px;
   background: yellow;
   background: linear-gradient(90deg, rgb(238, 222, 47) 0%, rgb(235, 232, 38) 100%);
-  border: none;
+  border: solid 1px black;
   border-radius: 2px;
   box-shadow: 4px 4px 6px rgba(255, 247, 8, 0.6);
   transition: all 0.3s ease-in-out 0s;
@@ -353,13 +353,20 @@ button:hover::after, button:focus::after {
     opacity: 1;
   }
   100% {
-    width: 300px;
-    height: 300px;
+    width: 170px;
+    height: 170px;
     opacity: 0;
   }
 }
 
 /*end buttons*/
+
+.light {
+  background-color: white;
+  color: black;
+}
+.light__img {filter: invert(1);}
+.unvisible {display: none;}
 
 @keyframes animate {
   0%{
