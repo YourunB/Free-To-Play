@@ -1,0 +1,74 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  background-color: black;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+  background-size: calc((50vh + 50vw) / 2);
+  height: 100vh;
+}
+
+.all {background-image: url('../assets/images/background/all.png');}
+
+.welcome {
+  overflow: hidden;
+  height: 100vh;
+  cursor: pointer;
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.welcome__text {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  font-weight: 900;
+  font-size: 3.5em;
+  height: 100px;
+}
+
+.welcome__text .letter {
+  display: inline-block;
+  line-height: 1em;
+}
+
+.welcome__img {
+  width: 50px;
+  animation: heart 1s infinite;
+}
+
+.container {
+  left: 0;
+  right: 0;
+  margin: auto;
+  max-width: 1280px;
+  width: 100%;
+}
+
+.overlay {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: black;
+  position: fixed;
+  opacity: 0.8;
+  z-index: 1000;
+}
+
+.light {
+  background: white;
+  color: black;
+}
+.unvisible {display: none;}
+
+@keyframes heart {
+  0% {transform:scale(1);}
+  100% {transform:scale(0.8);}
+}
