@@ -36,7 +36,7 @@ const FreeToPlay = (function () {
     this.showAllBtns = function () {
       myContainer.querySelector("#btn-music-off").classList.remove("unvisible");
       myContainer.querySelector(".settings").classList.remove("unvisible");
-      myContainer.querySelector("#btn-search").classList.remove("unvisible");
+      myContainer.querySelector(".search").classList.remove("unvisible");
       myContainer.querySelector("#btn-enter").classList.remove("unvisible");
     }
 
@@ -51,7 +51,7 @@ const FreeToPlay = (function () {
     this.showBtnMusicOff = function () { myContainer.querySelector("#btn-music-off").classList.remove("unvisible"); }
     this.hideBtnMusicOff = function () { myContainer.querySelector("#btn-music-off").classList.add("unvisible"); }
 
-    this.vibration = function () { navigator.vibrate(500); }
+    this.vibration = function () { navigator.vibrate(250); }
 
     this.toggleTheme = function () {
       myContainer.classList.toggle("light");
@@ -59,6 +59,12 @@ const FreeToPlay = (function () {
       windowLoadingImage.classList.toggle("light__img");
       windowLoadingLine.classList.toggle("light__img");
     }
+
+    this.switchLanguage = function () {
+      for (let i = 0; i < myContainer.getElementsByTagName("span").length; i++) {
+        if (myContainer.getElementsByTagName("span")[i].dataset.language === "en" || myContainer.getElementsByTagName("span")[i].dataset.language === "ru") myContainer.getElementsByTagName("span")[i].classList.toggle("unvisible");
+      }
+    };
 
   }
   
@@ -111,6 +117,8 @@ const FreeToPlay = (function () {
 
     this.toggleTheme = function () { myView.toggleTheme(); }
 
+    this.switchLanguage = function () { myView.switchLanguage(); }
+
   }
 
   //--------------------------------------CONTROLLER------------------------------------
@@ -134,6 +142,9 @@ const FreeToPlay = (function () {
     btnMainWindowSearch = null,
     btnMainWindowSettings = null,
     btnMainWindowEnter = null
+    //window settings
+    switchLanguage = null;
+    switchTheme = null;
 
     this.init = function (model, container) { 
       myModel = model;
@@ -154,6 +165,9 @@ const FreeToPlay = (function () {
       btnMainWindowSettings = myContainer.querySelector("#btn-settings");
       btnMainWindowEnter = myContainer.querySelector("#btn-enter");
       btnMainWindowSearch = myContainer.querySelector("#btn-enter");
+      //window settings
+      switchLanguage = myContainer.querySelector("#language");
+      switchTheme = myContainer.querySelector("#theme");
 
       //main window
       btnMainWundowMusicOff.addEventListener("click", () => { this.audio("music", "pause"); });
@@ -165,9 +179,11 @@ const FreeToPlay = (function () {
         this.open(myContainer.querySelector(".load"), false, 10000, myContainer.querySelector("#window-enters"));
         this.audio("music", "play");
       });
-
+      //window settings
+      switchLanguage.addEventListener("click", this.switchLanguage);
+      switchTheme.addEventListener("click", () => { this.toggleTheme(); })
       //window choice enters
-      window.addEventListener("click", () => { this.audio("click"); this.toggleTheme(); }); //бурать !!! toggle !!!
+      window.addEventListener("click", () => { this.audio("click");});
       btnWindowEntersClose.addEventListener("click", () => { this.close(myContainer.querySelector("#window-enters"), true); });
       //window registratin
       btnWindowEntersOpenRegistration.addEventListener("click", () => { 
@@ -188,6 +204,8 @@ const FreeToPlay = (function () {
     this.closeAll = function () { myModel.closeAll(); }
 
     this.toggleTheme = function () { myModel.toggleTheme(); }
+
+    this.switchLanguage = function () { myModel.switchLanguage(); }
   }
 
   //-------------------------------------INIT-------------------------------------------
@@ -214,4 +232,3 @@ const FreeToPlay = (function () {
 })();
 
 FreeToPlay.start(document.body);
-  

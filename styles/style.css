@@ -43,6 +43,18 @@ h2::after {
   box-shadow: 0 0 2px 2px rgb(128, 128, 128, 0.2);
 }
 
+select {
+  padding: 20px;
+}
+
+option {
+  padding: 20px;
+  margin: 20px;
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+  outline: none;
+  border: solid 1px black;
+}
+
 .all {background-image: url('../assets/images/background/all.png');}
 .shooter {background-image: url('../assets/images/background/shooter.png');}
 .mmorpg {background-image: url('../assets/images/background/mmorpg.png');}
@@ -141,7 +153,7 @@ h2::after {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: yellow;
+  background: white;
   transition: 1s;
 }
 
@@ -149,7 +161,7 @@ h2::after {
   cursor: pointer;
   opacity: 1;
   transform: scale(1.2);
-  box-shadow: 0 0 8px 4px rgba(238, 255, 0, 0.7);
+  box-shadow: 0 0 8px 4px rgba(255, 255, 255, 0.7);
   rotate: 360deg;
 }
 
@@ -166,7 +178,6 @@ h2::after {
 }
 
 .settings { position: relative; }
-
 .settings__param {
   position: absolute;
   border-radius: 5px;
@@ -177,15 +188,37 @@ h2::after {
   height: 300px;
   backdrop-filter: blur(5px);
   font-size: 20px ;
+  transition: 2s;
+  transform: translateX(140%);
 }
 
-.settings__param div {
-  margin: 10px 0 10px 0;
-}
-
+.settings__param div { margin: 10px 0 10px 0; }
 .settings__param_volume {
   padding: 0;
   margin: 0;
+}
+
+.settings:hover .settings__param{ transform: translateX(0); }
+
+.search { position: relative; }
+.search__param {
+  position: absolute;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 10px 10px;
+  right: 40px;
+  backdrop-filter: blur(5px);
+  font-size: 20px ;
+  transition: 2s;
+  transform: translateY(-100%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.search:hover .search__param {
+  transform: translateY(0);
 }
 
 /*toggle switch theme*/
@@ -207,6 +240,7 @@ h2::after {
   position: relative;
   vertical-align: middle;
   transition: 0.5s;
+  margin: 10px 0;
 }
 .toggle-switch:before, .toggle-switch:after { content: ""; }
 .toggle-switch:before {
@@ -418,6 +452,81 @@ footer {
   right: 10px;
   top: 0;
 }
+
+/*sort list select*/
+
+.list-choice{
+  width:150px;
+  margin:1em auto;
+  position: relative;
+  cursor: pointer;  
+  color: #000000;
+  border: 1px black solid;
+}
+.list-choice input[type="radio"]{
+  position:absolute;
+  left:-9999px;
+}
+
+.list-choice-title {
+  width: 100%;
+  display: block;
+  background: white;
+  text-align: center;
+  padding: 0.55em 1em;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+}
+.list-choice:hover .list-choice-title {
+  border-radius:0.2em 0.2em 0 0;
+}
+.list-choice-objects label:nth-last-of-type(1) span{
+  border-radius:0 0 0.2em 0.2em;
+}
+.list-choice input[type="radio"] + span {
+  background: white;
+  padding: 0.55em 1em;
+  display: block;
+  text-align: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 100%;
+}
+.list-choice-objects {
+  position: absolute;
+  top: 0;
+  padding-top: 2.1em;
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+  max-height: 0;
+  transition: all 1s ease;
+  border-radius: 2px;
+}
+.list-choice:hover .list-choice-objects  input[type="radio"] + span {
+  position: relative;
+  top: 0;
+  transition: all 1s ease-in-out;
+}
+.list-choice:hover input[type="radio"] + span:hover {
+  background:rgb(179, 0, 0, 0.7);
+  color: white;
+}
+.list-choice:hover input[type="radio"]:checked + span:hover {
+  background:#e7e12c;
+}
+.list-choice input[type="radio"]:checked + span {
+  background:#e7e12c;
+  position: absolute;
+  top: 0em;
+  border-radius: 0.2em;
+}
+.list-choice:hover input[type="radio"]:checked + span { border-radius: 0; }
+.list-choice:hover .list-choice-objects label:nth-last-of-type(1) input[type="radio"]:checked + span{ border-radius:0 0 0.2em 0.2em; }
+.list-choice:hover .list-choice-objects { max-height: 540px; }
+
+/*end sort list select*/
 
 /*music volume*/
 
