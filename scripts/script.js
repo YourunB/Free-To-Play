@@ -183,7 +183,7 @@ const FreeToPlay = (function () {
       switchLanguage.addEventListener("click", this.switchLanguage);
       switchTheme.addEventListener("click", () => { this.toggleTheme(); })
       //window choice enters
-      window.addEventListener("click", () => { this.audio("click");});
+      window.addEventListener("click", () => { this.audio("click", "play");});
       btnWindowEntersClose.addEventListener("click", () => { this.close(myContainer.querySelector("#window-enters"), true); });
       //window registratin
       btnWindowEntersOpenRegistration.addEventListener("click", () => { 
@@ -195,6 +195,8 @@ const FreeToPlay = (function () {
       });
       //overlay
       overlay.addEventListener("click", this.closeAll);
+
+      window.addEventListener('beforeunload', () => { this.warning(event); });
     }
 
     this.audio = function (ev, choice) { myModel.audio(ev, choice) };
@@ -206,6 +208,11 @@ const FreeToPlay = (function () {
     this.toggleTheme = function () { myModel.toggleTheme(); }
 
     this.switchLanguage = function () { myModel.switchLanguage(); }
+
+    this.warning = function (event) {
+      event.preventDefault();
+      event.returnValue = '';
+    }
   }
 
   //-------------------------------------INIT-------------------------------------------
