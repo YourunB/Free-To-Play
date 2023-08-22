@@ -207,19 +207,19 @@ option {
   box-sizing: border-box;
   padding: 10px 10px;
   right: 40px;
+  top: 0;
   backdrop-filter: blur(5px);
   font-size: 20px ;
   transition: 2s;
-  transform: translateY(-100%);
-  display: flex;
-  flex-wrap: wrap;
+  transform: translateY(-200%);
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
   justify-content: center;
-  gap: 15px;
+  align-items: center;
 }
 
-.search:hover .search__param {
-  transform: translateY(0);
-}
+.search:hover .search__param { transform: translateY(-30px); }
 
 /*toggle switch theme*/
 
@@ -453,16 +453,39 @@ footer {
   top: 0;
 }
 
+.warning {
+  max-width: 400px;
+  width: 100%;
+  padding: 30px 10px;
+  backdrop-filter: blur(5px);
+  z-index: 1210;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.warning__img {width: 30%;}
+.warning__btns {
+  display: flex;
+  justify-content: space-around;
+}
+
 /*sort list select*/
 
 .list-choice{
-  width:150px;
+  width:200px;
   margin:1em auto;
   position: relative;
   cursor: pointer;  
   color: #000000;
   border: 1px black solid;
+  opacity: 0.8;
+  transition: 1s;
 }
+.list-choice:hover {opacity: 1;}
 .list-choice input[type="radio"]{
   position:absolute;
   left:-9999px;
@@ -478,12 +501,8 @@ footer {
   box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.3);
   border-radius: 2px;
 }
-.list-choice:hover .list-choice-title {
-  border-radius:0.2em 0.2em 0 0;
-}
-.list-choice-objects label:nth-last-of-type(1) span{
-  border-radius:0 0 0.2em 0.2em;
-}
+.list-choice:hover .list-choice-title { border-radius:0.2em 0.2em 0 0; }
+.list-choice-objects label:nth-last-of-type(1) span{ border-radius:0 0 0.2em 0.2em; }
 .list-choice input[type="radio"] + span {
   background: white;
   padding: 0.55em 1em;
@@ -513,9 +532,7 @@ footer {
   background:rgb(179, 0, 0, 0.7);
   color: white;
 }
-.list-choice:hover input[type="radio"]:checked + span:hover {
-  background:#e7e12c;
-}
+.list-choice:hover input[type="radio"]:checked + span:hover { background:#e7e12c; }
 .list-choice input[type="radio"]:checked + span {
   background:#e7e12c;
   position: absolute;
@@ -525,6 +542,10 @@ footer {
 .list-choice:hover input[type="radio"]:checked + span { border-radius: 0; }
 .list-choice:hover .list-choice-objects label:nth-last-of-type(1) input[type="radio"]:checked + span{ border-radius:0 0 0.2em 0.2em; }
 .list-choice:hover .list-choice-objects { max-height: 540px; }
+
+.list-choice:nth-child(1) {z-index: 1204;}
+.list-choice:nth-child(2) {z-index: 1203;}
+.list-choice:nth-child(3) {z-index: 1202;}
 
 /*end sort list select*/
 
@@ -747,4 +768,31 @@ button:hover::after, button:focus::after {
 @keyframes rotate {
   from {rotate: 0deg;}
   to {rotate: 360deg;}
+}
+
+@media (max-width: 1024px) {
+  .search__param {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 890px) {
+  .search__param {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .search__param {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .search__param {
+    right: -60px;
+  }
+  
+  .search:hover .search__param { transform: translateY(50px); }
 }
