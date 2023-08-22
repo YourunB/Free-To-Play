@@ -23,9 +23,24 @@
     <img class="btns btns__music unvisible" alt="Music" title="Music On/Of" src="assets/images/svg/music-off.svg" id="btn-music-off">
 
     <div class="header-btns__box">
-      <img class="btns unvisible" alt="Settings" title="Setting" src="assets/images/svg/settings.svg" id="btn-settings">
-      <img class="btns unvisible" alt="Sign Up" title="Sign Up" src="assets/images/svg/sign-up.svg" id="btn-sign-up">
-      <img class="btns unvisible" alt="Sign In" title="Sign In" src="assets/images/svg/sign-in.svg" id="btn-sign-in">
+      <img class="btns unvisible" alt="Search" title="Search" src="assets/images/svg/search.svg" id="btn-search">
+      
+      <div class="settings unvisible">
+        <img class="btns" alt="Settings" title="Setting" src="assets/images/svg/settings.svg" id="btn-settings">
+        <div class="settings__param">
+          <div>
+            <p class="settings__param_volume">Music volume</p>
+            <input type="range" min="1" max="20" value="5" id="myNumber">
+          </div>
+          <label class="toggle">
+            <input class="toggle-checkbox" type="checkbox" checked>
+            <div class="toggle-switch"></div>
+            <span class="toggle-label">Change theme</span>
+          </label>
+        </div>
+      </div>
+
+      <img class="btns unvisible" alt="Enter" title="Enter" src="assets/images/svg/enter.svg" id="btn-enter">
     </div>
   </header>
 
@@ -56,37 +71,42 @@
     </ul>
 
     <div class="entrance unvisible" id="window-enters">
-      <img class="btns entrance-btn" src="assets/images/svg/close.svg" alt="Close" title="Close">
-      <h3>Do you already have an account?</h3>
-      <div class="entrance__btns">
+      <img class="btns entrance-btn" src="assets/images/svg/close.svg" alt="Close" title="Close" id="btn-window-enters-close">
+      <h2>Do you already have an account?</h2>
+      <div class="box-button">
         <button class="button" id="btn-window-choice-sign-up">Sign Up</button>
         <button class="button" id="btn-window-choice-sign-in">Sign In</button>
       </div>
     </div>
 
-    <form class="registration unvisible">
-      <div>
-        <label for="input-registration-name">Your Name</label>
-        <input type="text" maxlength="20" id="input-registration-name">
+    <form class="registration unvisible" id="window-registration">
+      <img class="btns registration-btn" src="assets/images/svg/close.svg" alt="Close" title="Close" id="btn-window-registration-close">
+      <h2>User Registration</h2>
+      <div class="registration__box">
+        <label for="input-registration-name">Your Name:</label>
+        <input type="text" maxlength="30" id="input-registration-name">
       </div>
-      <div>  
-        <label for="input-registration-user">Choose a username</label>
-        <input type="text" maxlength="20" id="input-registration-user">
+      <div class="registration__box">  
+        <label for="input-registration-user">Choose a username:</label>
+        <input type="text" maxlength="30" id="input-registration-user">
       </div>
-      <div>
-        <label for="input-registration-mail">Email</label>
-        <input type="mail" maxlength="25" id="input-registration-mail">
+      <div class="registration__box">
+        <label for="input-registration-mail">Email:</label>
+        <input type="mail" maxlength="30" id="input-registration-mail">
       </div>
-      <div>
-        <label for="input-registration-pass">Choose Password</label>
-        <input type="password" maxlength="20" id="input-registration-pass">
+      <div class="registration__box">
+        <label for="input-registration-pass">Choose Password:</label>
+        <input type="password" maxlength="30" id="input-registration-pass">
+      </div>
+      <div class="box-button">
+        <button class="button" id="btn-window-registration-save">Register</button>
       </div>
     </form>
 
   </main>
 
   <img class="btns btns__up unvisible" alt="Up" title="Up" src="assets/images/svg/to-top.svg" id="btn-to-top">
-  <footer><a href="https://github.com/YourunB" target="_blank">&copy; 2023 Application created for educational purposes.</a></footer>
+  <footer><a href="https://github.com/YourunB" target="_blank" class="footer-link">&copy; 2023 Application created for educational purposes.</a></footer>
 
   <script src="scripts/anim-letters.js"></script>
   <script src="scripts/anim-letters-show.js"></script>
