@@ -3,33 +3,53 @@ const FreeToPlay = (function () {
   //-------------------------------------VIEW---------------------------------------
 
   function View() {
-    let myContainer = null;
-    let myOverlay = null;
-    let windowChoiceEnter = null;
-    let windowLoading = null;
-    let windowLoadingImage = null;
-    let windowLoadingLine = null;
+    let myContainer = null,
+    myOverlay = null,
+    windowEnters = null,
+    windowRegistration = null,
+    windowLoading = null,
+    windowLoadingImage = null,
+    windowLoadingLine = null
 
     this.init = function (container) {
       myContainer = container;
-      myOverlay = document.querySelector(".overlay")
+      myOverlay = container.querySelector(".overlay")
       //window choice
-      windowChoiceEnter = document.querySelector("#window-enters");
+      windowEnters = container.querySelector("#window-enters");
       //window loading
-      windowLoading = document.querySelector("#window-loading");
-      windowLoadingImage = document.querySelector("#window-loading-image");
-      windowLoadingLine = document.querySelector("#window-loading-line");
+      windowLoading = container.querySelector("#window-loading");
+      windowLoadingImage = container.querySelector("#window-loading-image");
+      windowLoadingLine = container.querySelector("#window-loading-line");
+      //window registration
+      windowRegistration = container.querySelector("#window-registration");
     }
 
     this.open = function (window) { window.classList.remove("unvisible"); }
     this.close = function (window) { window.classList.add("unvisible"); }
+    this.closeAll = function () {
+      myOverlay.classList.add("unvisible");
+      windowEnters.classList.add("unvisible");
+      windowRegistration.classList.add("unvisible");
+    }
     this.closeOverlay = function () { myOverlay.classList.add("unvisible"); }
     this.openOverlay = function () { myOverlay.classList.remove("unvisible"); }
+    this.showAllBtns = function () {
+      myContainer.querySelector("#btn-music-off").classList.remove("unvisible");
+      myContainer.querySelector(".settings").classList.remove("unvisible");
+      myContainer.querySelector("#btn-search").classList.remove("unvisible");
+      myContainer.querySelector("#btn-enter").classList.remove("unvisible");
+    }
 
     this.audioClick = function () { document.querySelector("#song-click").play(); }
     this.audioMusic = function () { document.querySelector("#song-music").play(); }
+    this.audioMusicPause = function () { document.querySelector("#song-music").pause(); }
     this.audioFail = function () { document.querySelector("#song-fail").play(); }
     this.audioUp = function () { document.querySelector("#song-up").play(); }
+
+    this.showBtnMusicOn = function () { myContainer.querySelector("#btn-music-on").classList.remove("unvisible"); }
+    this.hideBtnMusicOn = function () { myContainer.querySelector("#btn-music-on").classList.add("unvisible"); }
+    this.showBtnMusicOff = function () { myContainer.querySelector("#btn-music-off").classList.remove("unvisible"); }
+    this.hideBtnMusicOff = function () { myContainer.querySelector("#btn-music-off").classList.add("unvisible"); }
 
     this.vibration = function () { navigator.vibrate(500); }
 
@@ -61,20 +81,32 @@ const FreeToPlay = (function () {
             myView.close(window);
             myView.open(additionally);
             myView.openOverlay();
+            myView.showAllBtns();
           }
         }, timer);
       }
       if (overlay === true) myView.openOverlay();
     }
 
-    this.close = function (window, overlay, timer) {
+    this.close = function (window, overlay, timer, additionally) {
       myView.close(window);
       if (overlay === true) myView.closeOverlay();
     }
 
-    this.audio = function (ev) {
-      if (ev === "click") myView.audioClick();
-      if (ev === "music") myView.audioMusic();
+    this.closeAll = function () { myView.closeAll(); }
+
+    this.audio = function (ev, choice) {
+      if (ev === "click" && choice === "play") myView.audioClick();
+      if (ev === "music" && choice === "play") {
+        myView.audioMusic();
+        myView.hideBtnMusicOn();
+        myView.showBtnMusicOff();
+      }
+      if (ev === "music" && choice === "pause") {
+        myView.audioMusicPause();
+        myView.showBtnMusicOn();
+        myView.hideBtnMusicOff();
+      }
     }
 
     this.toggleTheme = function () { myView.toggleTheme(); }
@@ -84,31 +116,76 @@ const FreeToPlay = (function () {
   //--------------------------------------CONTROLLER------------------------------------
 
   function Controller () {
-    let myContainer = null;
-    let myModel = null;
-    let windowWelcome = null;
-    let overlay = null;
+    let myContainer = null,
+    myModel = null,
+    windowWelcome = null,
+    overlay = null,
+    //window choice enters
+    windowEnters = null;
+    btnWindowEntersClose = null,
+    btnWindowEntersOpenRegistration = null,
+    btnWindowEntersOpenLogin = null,
+    //window registration
+    btnWindowRegistrationClose = null,
+    btnWindowRegistrationSave = null,
+    //main window
+    btnMainWundowMusicOff = null,
+    btnMainWundowMusicOn = null,
+    btnMainWindowSearch = null,
+    btnMainWindowSettings = null,
+    btnMainWindowEnter = null
 
     this.init = function (model, container) { 
       myModel = model;
       myContainer = container;
-      windowWelcome = container.querySelector("#window-welcome");
-      overlay = container.querySelector(".overlay");
+      windowWelcome = myContainer.querySelector("#window-welcome");
+      overlay = myContainer.querySelector(".overlay");
+      //window choice enters
+      windowEnters = myContainer.querySelector("#window-enters");
+      btnWindowEntersClose = myContainer.querySelector("#btn-window-enters-close");
+      btnWindowEntersOpenRegistration = myContainer.querySelector("#btn-window-choice-sign-up");
+      btnWindowEntersOpenLogin = myContainer.querySelector("#btn-window-choice-sign-in");
+      //window registratin
+      btnWindowRegistrationClose = myContainer.querySelector("#btn-window-registration-close");
+      btnWindowRegistrationSave = myContainer.querySelector("#btn-window-registration-save");
+      //main window
+      btnMainWundowMusicOff = myContainer.querySelector("#btn-music-off");
+      btnMainWundowMusicOn = myContainer.querySelector("#btn-music-on");
+      btnMainWindowSettings = myContainer.querySelector("#btn-settings");
+      btnMainWindowEnter = myContainer.querySelector("#btn-enter");
+      btnMainWindowSearch = myContainer.querySelector("#btn-enter");
 
+      //main window
+      btnMainWundowMusicOff.addEventListener("click", () => { this.audio("music", "pause"); });
+      btnMainWundowMusicOn.addEventListener("click", () => { this.audio("music", "play"); });
+      btnMainWindowEnter.addEventListener("click", () => { this.open(windowEnters, true) });
+      //window welcome
       windowWelcome.addEventListener("click", () => { 
         this.close(windowWelcome);
-        this.open(container.querySelector(".load"), false, 10000, document.querySelector("#window-enters"));
-        this.audio("music");
+        this.open(myContainer.querySelector(".load"), false, 10000, myContainer.querySelector("#window-enters"));
+        this.audio("music", "play");
       });
-      
-      window.addEventListener("click", () => { this.audio("click");
-    this.toggleTheme(); });
 
+      //window choice enters
+      window.addEventListener("click", () => { this.audio("click"); this.toggleTheme(); }); //бурать !!! toggle !!!
+      btnWindowEntersClose.addEventListener("click", () => { this.close(myContainer.querySelector("#window-enters"), true); });
+      //window registratin
+      btnWindowEntersOpenRegistration.addEventListener("click", () => { 
+        this.close(myContainer.querySelector("#window-enters"), true);
+        this.open(myContainer.querySelector("#window-registration"), true); 
+      });
+      btnWindowRegistrationClose.addEventListener("click", () => {
+        this.close(myContainer.querySelector("#window-registration"), true); 
+      });
+      //overlay
+      overlay.addEventListener("click", this.closeAll);
     }
 
-    this.audio = function (ev) { myModel.audio(ev) };
+    this.audio = function (ev, choice) { myModel.audio(ev, choice) };
+
     this.open = function (window, overlay = false, timer = 0, additionally = "") { myModel.open(window, overlay, timer, additionally); }
     this.close = function (window, overlay = false, timer = 0, additionally = "") { myModel.close(window, overlay, timer, additionally); }
+    this.closeAll = function () { myModel.closeAll(); }
 
     this.toggleTheme = function () { myModel.toggleTheme(); }
   }
