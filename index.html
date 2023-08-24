@@ -15,6 +15,8 @@
   <audio src="assets/sounds/click.mp3" id="song-click"></audio>
   <audio src="assets/sounds/fail.mp3" id="song-fail"></audio>
   <audio src="assets/sounds/up.mp3" id="song-up"></audio>
+
+  <div class="mouse-anime unvisible" id="mouse-click"></div>
   
   <div class="overlay unvisible"></div>
   
@@ -79,7 +81,13 @@
         </div>
       </div>
 
-      <img class="btns unvisible" alt="Enter" title="Enter" src="assets/images/svg/enter.svg" id="btn-enter">
+      <div class="profile">
+        <img class="btns unvisible" alt="Enter" title="Enter" src="assets/images/svg/enter.svg" id="btn-enter">
+        <div class="profile__param">
+          <p>Настройки профиля</p>
+          <p>Моя коллекция</p>
+        </div>
+      </div>
     </div>
 
     <div class="warning unvisible" id="warning">
@@ -96,7 +104,7 @@
   <main class="container area">
 
     <div class="container__games">
-      <h2>Free To Play Game</h2>
+      <h2 class="container__games_title">Free To Play Game</h2>
     </div>
 
     <div class="welcome" id="window-welcome">
@@ -157,6 +165,22 @@
       </div>
     </form>
 
+    <form class="registration unvisible" id="window-login">
+      <img class="btns registration-btn" src="assets/images/svg/close.svg" alt="Close" title="Close" id="btn-window-login-close">
+      <h2><span data-language="en">User LogIn</span><span data-language="ru" class="unvisible">Вход пользователя</span></h2>
+      <div class="registration__box">
+        <label for="input-login-mail"><span data-language="en">Email:</span><span data-language="ru" class="unvisible">Эл. почта:</span></label>
+        <input type="email" maxlength="30" id="input-login-mail">
+      </div>
+      <div class="registration__box">
+        <label for="input-login-pass"><span data-language="en">Enter password:</span><span data-language="ru" class="unvisible">Введите пароль:</span></label>
+        <input type="password" maxlength="30" id="input-login-pass">
+      </div>
+      <div class="box-button">
+        <button class="button" id="btn-window-login"><span data-language="en">LogIn</span><span data-language="ru" class="unvisible">Войти</span></button>
+      </div>
+    </form>
+
   </main>
 
   <img class="btns btns__up unvisible" alt="Up" title="Up" src="assets/images/svg/to-top.svg" id="btn-to-top">
@@ -165,6 +189,30 @@
   <script src="scripts/anim-letters.js"></script>
   <script src="scripts/anim-letters-show.js"></script>
   <script src="scripts/script.js"></script>
+  <script>
 
+/*
+const url = 'https://free-to-play-games-database.p.rapidapi.com/api/filter?tag=3d.mmorpg.fantasy.pvp&platform=pc';
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': 'a103204f4fmsh27c54e4cba38877p121bd4jsn8f32775b6bb9',
+		'X-RapidAPI-Host': 'free-to-play-games-database.p.rapidapi.com'
+	}
+};
+
+fetchAsync();
+async function fetchAsync() { 
+  try {
+  	const response = await fetch(url, options);
+  	const data = await response.json();
+  	console.log(data);
+  } catch (error) {
+  	console.error(error);
+  }
+}
+*/
+  </script>
+    
 </body>
 </html>
