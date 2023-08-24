@@ -45,6 +45,7 @@ const FreeToPlay = (function () {
       myContainer.querySelector(".settings").classList.remove("unvisible");
       myContainer.querySelector(".search").classList.remove("unvisible");
       myContainer.querySelector("#btn-enter").classList.remove("unvisible");
+      myContainer.querySelector(".about").classList.remove("unvisible");
     }
 
     this.audioClick = function () { document.querySelector("#song-click").play(); }
@@ -79,6 +80,10 @@ const FreeToPlay = (function () {
         if (myContainer.getElementsByTagName("span")[i].dataset.language === "en" || myContainer.getElementsByTagName("span")[i].dataset.language === "ru") myContainer.getElementsByTagName("span")[i].classList.toggle("unvisible");
       }
     };
+
+    this.volume = function (vol) {
+      document.querySelector("#song-music").volume = vol;
+    }
 
   }
   
@@ -142,6 +147,11 @@ const FreeToPlay = (function () {
 
     this.switchLanguage = function () { myView.switchLanguage(); }
 
+    this.volume = function (value) {
+      let vol = value / 100;
+      myView.volume(vol);
+    }
+
   }
 
   //--------------------------------------CONTROLLER------------------------------------
@@ -171,6 +181,7 @@ const FreeToPlay = (function () {
     //window settings
     switchLanguage = null;
     switchTheme = null;
+    musicVolume = null;
 
     this.init = function (model, container) { 
       myModel = model;
@@ -197,6 +208,7 @@ const FreeToPlay = (function () {
       //window settings
       switchLanguage = myContainer.querySelector("#language");
       switchTheme = myContainer.querySelector("#theme");
+      musicVolume = myContainer.querySelector("#volume");
 
       //main window
       btnMainWundowMusicOff.addEventListener("click", () => { this.audio("music", "pause"); });
@@ -209,6 +221,7 @@ const FreeToPlay = (function () {
         this.audio("music", "play");
       });
       //window settings
+      musicVolume.addEventListener("input", () => { this.volume(musicVolume.value); });
       switchLanguage.addEventListener("click", this.switchLanguage);
       switchTheme.addEventListener("click", () => { this.toggleTheme(); })
       //window choice enters
@@ -239,6 +252,7 @@ const FreeToPlay = (function () {
       window.addEventListener('beforeunload', () => { this.warning(event); });
     }
 
+    this.volume = function (value) { myModel.volume(value); }
     this.audio = function (ev, choice) { myModel.audio(ev, choice); };
     this.click = function () { myModel.click(event); };
 
