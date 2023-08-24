@@ -68,6 +68,24 @@ option {
 .battle-royale {background-image: url('../assets/images/background/battle-royale.png');}
 .arpg {background-image: url('../assets/images/background/arpg.png');}
 
+.mouse-anime {
+  z-index: 99999;
+  box-sizing: border-box;
+  position: absolute;
+  background: none;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: 0.3s mouse-click;
+  box-shadow: 0 0 0 3px rgb(232, 8, 8, 0.5);
+}
+
+.container__games_title {
+  position: sticky;
+  text-align: center;
+  top: 0;
+  opacity: 0.7;
+}
+
 .header-btns__box {
   position: fixed;
   top: 30px;
@@ -220,6 +238,31 @@ option {
 }
 
 .search:hover .search__param { transform: translateY(-30px); }
+
+.profile {position: relative;}
+
+.profile__param {
+  position: absolute;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 30px 10px;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  backdrop-filter: blur(5px);
+  font-size: 20px ;
+  transition: 2s;
+  transform: translateX(140%);
+}
+
+.profile__param p { transition: 1s; }
+.profile__param p:hover {
+  cursor: pointer;
+  color: #d50112;
+  transform: scale(1.1);
+}
+
+.profile:hover .profile__param{ transform: translateX(0); }
 
 /*toggle switch theme*/
 
@@ -741,6 +784,21 @@ button:hover::after, button:focus::after {
 }
 .light__img {filter: invert(1);}
 .unvisible {display: none;}
+
+@keyframes mouse-click {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  50% {
+    width: 40px;
+    height: 40px;
+  }
+  100% {
+    width: 0;
+    height: 0;
+  }
+}
 
 @keyframes animate {
   0%{
