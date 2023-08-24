@@ -7,21 +7,27 @@ const FreeToPlay = (function () {
     myOverlay = null,
     windowEnters = null,
     windowRegistration = null,
+    windowLogin = null,
     windowLoading = null,
     windowLoadingImage = null,
     windowLoadingLine = null
+    mouseClick = null;
 
     this.init = function (container) {
       myContainer = container;
-      myOverlay = container.querySelector(".overlay")
+      myOverlay = myContainer.querySelector(".overlay")
       //window choice
-      windowEnters = container.querySelector("#window-enters");
+      windowEnters = myContainer.querySelector("#window-enters");
       //window loading
-      windowLoading = container.querySelector("#window-loading");
-      windowLoadingImage = container.querySelector("#window-loading-image");
-      windowLoadingLine = container.querySelector("#window-loading-line");
+      windowLoading = myContainer.querySelector("#window-loading");
+      windowLoadingImage = myContainer.querySelector("#window-loading-image");
+      windowLoadingLine = myContainer.querySelector("#window-loading-line");
       //window registration
-      windowRegistration = container.querySelector("#window-registration");
+      windowRegistration = myContainer.querySelector("#window-registration");
+      //window login
+      windowLogin = myContainer.querySelector("#window-login");
+      //mouse click
+      mouseClick = myContainer.querySelector("#mouse-click");
     }
 
     this.open = function (window) { window.classList.remove("unvisible"); }
@@ -30,6 +36,7 @@ const FreeToPlay = (function () {
       myOverlay.classList.add("unvisible");
       windowEnters.classList.add("unvisible");
       windowRegistration.classList.add("unvisible");
+      windowLogin.classList.add("unvisible");
     }
     this.closeOverlay = function () { myOverlay.classList.add("unvisible"); }
     this.openOverlay = function () { myOverlay.classList.remove("unvisible"); }
@@ -59,6 +66,13 @@ const FreeToPlay = (function () {
       windowLoadingImage.classList.toggle("light__img");
       windowLoadingLine.classList.toggle("light__img");
     }
+
+    this.showClick = function (x, y) {
+      mouseClick.style.left = x + "px";
+      mouseClick.style.top = y + "px";
+      mouseClick.classList.remove("unvisible");
+    }
+    this.hideClick = function () { mouseClick.classList.add("unvisible"); }
 
     this.switchLanguage = function () {
       for (let i = 0; i < myContainer.getElementsByTagName("span").length; i++) {
@@ -115,6 +129,15 @@ const FreeToPlay = (function () {
       }
     }
 
+    this.click = function (event) { 
+      let x = event.clientX;
+      let y = event.clientY;
+      myView.showClick(x, y);
+      setTimeout(() => {
+        myView.hideClick();
+      }, 250);
+    }
+
     this.toggleTheme = function () { myView.toggleTheme(); }
 
     this.switchLanguage = function () { myView.switchLanguage(); }
@@ -136,6 +159,9 @@ const FreeToPlay = (function () {
     //window registration
     btnWindowRegistrationClose = null,
     btnWindowRegistrationSave = null,
+    //window login
+    btnWindowLoginClose = null,
+    btnWindowLoginOpen = null,
     //main window
     btnMainWundowMusicOff = null,
     btnMainWundowMusicOn = null,
@@ -159,6 +185,9 @@ const FreeToPlay = (function () {
       //window registratin
       btnWindowRegistrationClose = myContainer.querySelector("#btn-window-registration-close");
       btnWindowRegistrationSave = myContainer.querySelector("#btn-window-registration-save");
+      //window login
+      btnWindowLoginClose = myContainer.querySelector("#btn-window-login-close");
+      btnWindowLoginOpen  = myContainer.querySelector("#btn-window-login");
       //main window
       btnMainWundowMusicOff = myContainer.querySelector("#btn-music-off");
       btnMainWundowMusicOn = myContainer.querySelector("#btn-music-on");
@@ -183,7 +212,10 @@ const FreeToPlay = (function () {
       switchLanguage.addEventListener("click", this.switchLanguage);
       switchTheme.addEventListener("click", () => { this.toggleTheme(); })
       //window choice enters
-      window.addEventListener("click", () => { this.audio("click", "play");});
+      window.addEventListener("click", () => { 
+        this.audio("click", "play");
+        this.click(event);
+      });
       btnWindowEntersClose.addEventListener("click", () => { this.close(myContainer.querySelector("#window-enters"), true); });
       //window registratin
       btnWindowEntersOpenRegistration.addEventListener("click", () => { 
@@ -193,13 +225,22 @@ const FreeToPlay = (function () {
       btnWindowRegistrationClose.addEventListener("click", () => {
         this.close(myContainer.querySelector("#window-registration"), true); 
       });
+      //window login
+      btnWindowEntersOpenLogin.addEventListener("click", () => { 
+        this.close(myContainer.querySelector("#window-enters"), true);
+        this.open(myContainer.querySelector("#window-login"), true); 
+      });
+      btnWindowLoginClose.addEventListener("click", () => {
+        this.close(myContainer.querySelector("#window-login"), true); 
+      });
       //overlay
       overlay.addEventListener("click", this.closeAll);
 
       window.addEventListener('beforeunload', () => { this.warning(event); });
     }
 
-    this.audio = function (ev, choice) { myModel.audio(ev, choice) };
+    this.audio = function (ev, choice) { myModel.audio(ev, choice); };
+    this.click = function () { myModel.click(event); };
 
     this.open = function (window, overlay = false, timer = 0, additionally = "") { myModel.open(window, overlay, timer, additionally); }
     this.close = function (window, overlay = false, timer = 0, additionally = "") { myModel.close(window, overlay, timer, additionally); }
