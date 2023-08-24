@@ -21,8 +21,8 @@
   <div class="overlay unvisible"></div>
   
   <header>
-    <img class="btns btns__music unvisible" alt="Music" title="Music On/Of" src="assets/images/svg/music-on.svg" id="btn-music-on">
-    <img class="btns btns__music unvisible" alt="Music" title="Music On/Of" src="assets/images/svg/music-off.svg" id="btn-music-off">
+    <img class="btns btns__music unvisible" alt="Music" title="Music start/pause" src="assets/images/svg/music-on.svg" id="btn-music-on">
+    <img class="btns btns__music unvisible" alt="Music" title="Music start/pause" src="assets/images/svg/music-off.svg" id="btn-music-off">
 
     <div class="header-btns__box">
       <div class="search unvisible">
@@ -66,7 +66,7 @@
         <div class="settings__param">
           <div>
             <p class="settings__param_volume"><span data-language="en">Music volume</span><span data-language="ru" class="unvisible">Громкость музыки</span></p>
-            <input type="range" min="1" max="20" value="5" id="volume">
+            <input type="range" min="1" max="100" value="100" id="volume">
           </div>
           <label class="toggle">
             <input class="toggle-checkbox" type="checkbox" checked id="theme">
@@ -76,7 +76,7 @@
           <label class="toggle">
             <input class="toggle-checkbox" type="checkbox" checked id="language">
             <span class="toggle-switch"></span>
-            <span class="toggle-label"><span data-language="ru">Change language</span><span data-language="ru" class="unvisible">Изменить язык</span></span>
+            <span class="toggle-label"><span data-language="en">Change language</span><span data-language="ru" class="unvisible">Изменить язык</span></span>
           </label>
         </div>
       </div>
@@ -84,9 +84,24 @@
       <div class="profile">
         <img class="btns unvisible" alt="Enter" title="Enter" src="assets/images/svg/enter.svg" id="btn-enter">
         <div class="profile__param">
-          <p>Настройки профиля</p>
-          <p>Моя коллекция</p>
+          <p><span data-language="en">Profile settings</span><span data-language="ru" class="unvisible">Настройки профиля</span></p>
+          <p><span data-language="en">My сollection</span><span data-language="ru" class="unvisible">Моя коллекция</span></p>
         </div>
+      </div>
+    </div>
+    
+    <div class="about unvisible">
+      <img class="btns" alt="About" title="About developer" src="assets/images/svg/info.svg" id="about">
+      <div class="about__param">
+        <h2><span data-language="en">About Developer</span><span data-language="ru" class="unvisible">О разработчике</span></h2>
+        <p>&copy; 2023 <span data-language="en">Yury Butskevich</span><span data-language="ru" class="unvisible">Юрий Буцкевич</span></p>
+        <div class="about__param_social">
+          <span data-language="en">Works:</span><span data-language="ru" class="unvisible">Работы:</span>
+          <a href="https://github.com/YourunB" target="_blank"><img class="btns" src="assets/images/svg/github.svg" alt="GitHub" title="Open github"></a>
+          <a href="https://codepen.io/BxYura/pens/public" target="_blank"><img class="btns" src="assets/images/svg/codepen.svg" alt="CodePen" title="Open codepen"></a>
+          <a href="https://www.codewars.com/users/rsschool_785da839e5c30a16" target="_blank"><img class="btns" src="assets/images/svg/codewars.svg" alt="CodeWars" title="Open codewars"></a>
+        </div>
+        <p><span data-language="en">Email: </span><span data-language="ru" class="unvisible">Почта: </span><a href="mailto:bxyura@gmail.com" target="_blank" class="about__param_social_mail">bxyra@gmail.com</a></p>
       </div>
     </div>
 
