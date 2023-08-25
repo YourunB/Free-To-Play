@@ -64,11 +64,32 @@ const mySPA = (function() {
 
     this.close = function (element) { element.classList.add("unvisible"); }
     this.open = function (element) { element.classList.remove("unvisible"); }
+
+    this.createCards = function (image, title, genre, date, platform) {
+      let box = document.getElementById("games-box");
+      box.append(document.createElement("div"));
+      box.getElementsByTagName("div")[box.getElementsByTagName("div").length - 1].classList.add("card");
+      box.getElementsByTagName("div")[box.getElementsByTagName("div").length - 1].innerHTML = `
+      <img class="card__img" src="${image}" alt="Game img">
+      <h3 class="card__title"> ${title}</h3>
+      <div class="card__discription">
+        <p><span data-language="en">Genre:</span><span data-language="ru" class="unvisible">Жанр:</span> ${genre}</p>
+        <p><span data-language="en">Release date:</span><span data-language="ru" class="unvisible">Дата выхода:</span> ${date}</p>
+        <p><span data-language="en">Platform:</span><span data-language="ru" class="unvisible">Платформа:</span> ${platform}</p>
+        <img class="card__btn" alt="Star" title="To favorites" src="assets/images/svg/star.svg">
+      </div>
+      `;
+    }
+
   };
   /* -------- end view --------- */
   /* ------- begin model ------- */
   function ModuleModel () {
     let myModuleView = null;
+
+    let arrCards = [];
+    let maxCards = 0;
+    let countCards = 0;
 
     this.init = function(view) {
       myModuleView = view;
@@ -111,6 +132,41 @@ const mySPA = (function() {
         }, 10000)
       }
     }
+
+    this.getGames = function (link) {
+      const url = link;
+      const options = {
+      	method: 'GET',
+      	headers: {
+      		'X-RapidAPI-Key': 'a103204f4fmsh27c54e4cba38877p121bd4jsn8f32775b6bb9',
+      		'X-RapidAPI-Host': 'free-to-play-games-database.p.rapidapi.com'
+      	}
+      };
+
+      fetchAsync();
+      async function fetchAsync() { 
+        try {
+        	const response = await fetch(url, options);
+        	const data = await response.json();
+        	arrCards = data;
+          console.log(arrCards)
+          maxCards = data.length;
+        } catch (error) {
+        	console.error(error);
+        }
+      }
+    }
+
+    this.createCards = function () {
+      let length = countCards + 20;
+      for (let i = countCards; i < length; i++) {
+        if (countCards < maxCards) {
+          myModuleView.createCards(arrCards[i].thumbnail, arrCards[i].title, arrCards[i].genre, arrCards[i].release_date, arrCards[i].platform); 
+          countCards = countCards + 1;
+        } else return;
+      }
+    }
+
   }
 
   /* -------- end model -------- */
@@ -155,6 +211,11 @@ const mySPA = (function() {
       this.updateState = function() {
         const hashPageName = location.hash.slice(1).toLowerCase();
         myModuleModel.updateState(hashPageName);
+        
+        if (location.hash === "#main") {
+          myModuleModel.getGames('https://free-to-play-games-database.p.rapidapi.com/api/games');
+          setTimeout(()=>{myModuleModel.createCards();}, 1000);
+        }
       }
 
       this.audio = function (sound, choice) { myModuleModel.audio(sound, choice); };
