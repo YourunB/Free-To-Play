@@ -26,7 +26,7 @@ const MainPage = {
     return `
       <div class="header-btns__box_left">
         <div class="sort">
-          <img class="btns" alt="Sort" title="Sort" src="assets/images/svg/sort.svg" id="btn-sort">
+          <img class="btns btns-rotate" alt="Sort" title="Sort" src="assets/images/svg/sort.svg" id="btn-sort">
           <div class="sort__param">
             <div class="list-choice">
               <div class="list-choice-title"><span data-language="en">Genre</span><span data-language="ru" class="unvisible">Жанр</span></div>
@@ -61,7 +61,7 @@ const MainPage = {
           </div>
         </div>
         <div class="search">
-          <img class="btns" alt="Search" title="Search" src="assets/images/svg/search.svg" id="btn-search">
+          <img class="btns btns-rotate" alt="Search" title="Search" src="assets/images/svg/search.svg" id="btn-search">
           <div class="search__param">
             <input>
           </div>

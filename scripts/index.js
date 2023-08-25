@@ -4,6 +4,8 @@ const components = {
   header: Header,
   content: Content,
   footer: Footer,
+  click: Click,
+  song: Song,
 };
 
 // Список поддердживаемых роутов (from pages.js)
@@ -24,14 +26,12 @@ const mySPA = (function() {
     let menu = null;
     let contentContainer = null;
     let routesObj = null;
-    let mouseClick = null;
 
     this.init = function(container, routes) {
       myModuleContainer = container;
       routesObj = routes;
       menu = myModuleContainer.querySelector("#mainmenu");
       contentContainer = myModuleContainer.querySelector("#content");
-      mouseClick = document.querySelector("#mouse-click");
     }
 
     this.renderContent = function(hashPageName) {
@@ -47,18 +47,18 @@ const mySPA = (function() {
     }
 
     this.showClick = function (x, y) {
-      mouseClick.style.left = x + "px";
-      mouseClick.style.top = y + "px";
-      mouseClick.classList.remove("unvisible");
+      document.getElementById("mouse-click").style.left = x + "px";
+      document.getElementById("mouse-click").style.top = y + "px";
+      document.getElementById("mouse-click").classList.remove("unvisible");
     }
-    this.hideClick = function () { mouseClick.classList.add("unvisible"); }
+    this.hideClick = function () { document.getElementById("mouse-click").classList.add("unvisible"); }
 
-    this.audioPlay = function (sound) { document.querySelector(sound).play(); }
-    this.audioPause = function (sound) { document.querySelector(sound).pause(); }
+    this.audioPlay = function (sound) { document.getElementById(sound).play(); }
+    this.audioPause = function (sound) { document.getElementById(sound).pause(); }
 
     this.vibration = function () { navigator.vibrate(250); }
 
-    this.volume = function (vol) { document.querySelector("#song-music").volume = vol; }
+    this.volume = function (vol) { document.getElementById("song-music").volume = vol; }
 
     this.close = function (element) { element.classList.add("unvisible"); }
     this.open = function (element) { element.classList.remove("unvisible"); }
@@ -68,42 +68,44 @@ const mySPA = (function() {
       box.append(document.createElement("div"));
       box.getElementsByTagName("div")[box.getElementsByTagName("div").length - 1].classList.add("card");
       box.getElementsByTagName("div")[box.getElementsByTagName("div").length - 1].innerHTML = `
-      <img class="card__img" src="${image}" alt="Game img">
+      <img class="card__img" src="${image}" alt="Game img" data-id="${id}" data-pos="${arrPos}">
       <h3 class="card__title"> ${title}</h3>
-      <div class="card__discription" data-id="${id}" data-pos="${arrPos}">
+      <div class="card__discription">
         <p><span data-language="en">Genre:</span><span data-language="ru" class="unvisible">Жанр:</span> ${genre}</p>
         <p><span data-language="en">Release date:</span><span data-language="ru" class="unvisible">Дата выхода:</span> ${date}</p>
         <p><span data-language="en">Platform:</span><span data-language="ru" class="unvisible">Платформа:</span> ${platform}</p>
-        <img class="card__btn" alt="Star" title="To favorites" src="assets/images/svg/star.svg">
+        <img class="card__btn" alt="Star" title="To favorites" src="assets/images/svg/star.svg" data-id="${id}" data-pos="${arrPos}">
       </div>
       `;
     }
 
-    this.showCardDescription = function () {
+    this.showCardDescription = function (id, image, title, dev, pub, link, genre, platform, date, description) {
       let app = document.getElementById("app");
       app.append(document.createElement("div"));
       app.getElementsByTagName("div")[app.getElementsByTagName("div").length - 1].id = "window-description";
       let windowDescription = document.getElementById("window-description");
       windowDescription.innerHTML = `
-      <di v class="overlay"></div>
-      <div class="card-show">
+      <div class="overlay" id="overlay-description"></div>
+      <div class="card-show" id="window-description">
         <div class="card-show__play">
-          <img class="card-show__background" src="https://www.freetogame.com/g/508/thumbnail.jpg" alt="Game img">
-          <img class="card-show__img" src="https://www.freetogame.com/g/508/thumbnail.jpg" alt="Game img">
-          <a class="card-show__play_link" href="#"><img class="card-show__play_icon" src="../Downloads/top_icon_124040 (1).svg" alt="Icon play"></a>
+          <img class="card-show__background" src="${image}" alt="Game image">
+          <img class="card-show__img" src="${image}" alt="Game image">
+          <a class="card-show__play_link" href="${link}" target="_blank" title="Play in game"><img class="card-show__play_icon" src="assets/images/svg/play.svg" alt="Icon play"></a>
         </div>
-        <h3 class="card-show__play_title">Genshin Impact asdasdas</h3>
-        <p><span data-language="en">Developer:</span><span data-language="ru" class="unvisible">Разработчик:</span> Blizzard Entertainment</p>
-        <p><span data-language="en">Publisher:</span><span data-language="ru" class="unvisible">Издатель:</span> Activision</p>
-        <p><span data-language="en">Genre:</span><span data-language="ru" class="unvisible">Жанр:</span> Strategy</p>
-        <p><span data-language="en">Platform:</span><span data-language="ru" class="unvisible">Платформа:</span> PC Windows BRowser</p>
-        <p><span data-language="en">Release date:</span><span data-language="ru" class="unvisible">Дата релиза:</span> "2022-02-11"</p>
-        <p><span data-language="en">Description:</span><span data-language="ru" class="unvisible">Описание:</span> "Smilegate’s free-to-play multiplayer ARPG is a massive adventure filled with lands waiting to be explored, people waiting to be met, and an ancient evil waiting to be destroyed."</p>
-        <img class="btns card-show__btn-close" alt="Close" title="Close" src="assets/images/svg/close.svg" id="btn-close-discription-main">
-        <img class="card__btn card-show__btn-to-favorite" alt="Star" title="To favorites" src="assets/images/svg/star.svg" id="btn-favorites-discription-main">
+        <h3 class="card-show__play_title">${title}</h3>
+        <p><span data-language="en">Developer:</span><span data-language="ru" class="unvisible">Разработчик:</span> ${dev}</p>
+        <p><span data-language="en">Publisher:</span><span data-language="ru" class="unvisible">Издатель:</span> ${pub}</p>
+        <p><span data-language="en">Genre:</span><span data-language="ru" class="unvisible">Жанр:</span> ${genre}</p>
+        <p><span data-language="en">Platform:</span><span data-language="ru" class="unvisible">Платформа:</span> ${platform}</p>
+        <p><span data-language="en">Release date:</span><span data-language="ru" class="unvisible">Дата релиза:</span> ${date}</p>
+        <p><span data-language="en">Description:</span><span data-language="ru" class="unvisible">Описание:</span> ${description}</p>
+        <img class="btns card-show__btn-close" alt="Close" title="Close" src="assets/images/svg/close.svg" id="close-window-description">
+        <img data-id="${id}" class="card__btn card-show__btn-to-favorite" alt="Star" title="To favorites" src="assets/images/svg/star.svg" id="btn-favorites-discription-main">
       </div>
       `;
     }
+
+    this.deleteElementById = function (id) { document.getElementById(id).remove(); };
 
   };
   /* -------- end view --------- */
@@ -134,8 +136,8 @@ const mySPA = (function() {
     }
 
     this.click = function (event) { 
-      let x = event.clientX;
-      let y = event.clientY;
+      let x = event.pageX;
+      let y = event.pageY;
       myModuleView.showClick(x, y);
       setTimeout(() => {
         myModuleView.hideClick();
@@ -166,7 +168,6 @@ const mySPA = (function() {
       		'X-RapidAPI-Host': 'free-to-play-games-database.p.rapidapi.com'
       	}
       };
-
       fetchAsync();
       async function fetchAsync() { 
         try {
@@ -191,6 +192,21 @@ const mySPA = (function() {
       }
     }
 
+    this.showCardDescription = function (id, pos) { 
+      let title = arrCards[pos].title;
+      let dev = arrCards[pos].developer;
+      let pub = arrCards[pos].publisher;
+      let link = arrCards[pos].game_url;
+      let genre = arrCards[pos].genre;
+      let platform = arrCards[pos].platform;
+      let date = arrCards[pos].release_date;
+      let description = arrCards[pos].short_description;
+      let image = arrCards[pos].thumbnail;
+      myModuleView.showCardDescription(id, image, title, dev, pub, link, genre, platform, date, description);
+    }
+
+    this.deleteElementById = function (id) { myModuleView.deleteElementById(id); }
+
   }
 
   /* -------- end model -------- */
@@ -208,24 +224,28 @@ const mySPA = (function() {
         window.addEventListener("click", () => {
           if (event.target.classList.value === "letter" || event.target.classList.value === "welcome__text" || event.target.classList.value === "welcome__img") {
             this.open(document.getElementById("window-loading"));
-            this.audio("#song-music", "play");
+            this.audio("song-music", "play");
           }
-          this.audio("#song-click", "play");
+          this.audio("song-click", "play");
           this.click(event);
 
           if (event.target.id == "btn-music-off") {
             this.close(event.target);
-            this.audio("#song-music", "pause");
+            this.audio("song-music", "pause");
             this.open(document.getElementById("btn-music-on"))
           }
           if (event.target.id == "btn-music-on") {
             this.close(event.target);
-            this.audio("#song-music", "play");
+            this.audio("song-music", "play");
             this.open(document.getElementById("btn-music-off"))
           }
-          
-          console.log(event.target.parentElement.classList.value)
-          console.log(event.target.classList.value)
+          if (event.target.classList == "card__img") {
+            myModuleModel.showCardDescription(event.target.dataset.id, event.target.dataset.pos);
+          }
+          if (event.target.id === "overlay-description" || event.target.id === "close-window-description") {
+            this.deleteElementById("overlay-description");
+            this.deleteElementById("window-description");
+          }
         });
 
         window.addEventListener("input", () => {
@@ -252,6 +272,8 @@ const mySPA = (function() {
 
       this.open = function (element) { myModuleModel.open(element); }
       this.close = function (element) { myModuleModel.close(element); }
+
+      this.deleteElementById = function (id) { myModuleModel.deleteElementById(id); }
   };
   /* ------ end controller ----- */
 

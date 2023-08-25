@@ -7,7 +7,7 @@ const Header = {
           <img class="btns" alt="Music" title="Music start/pause" src="assets/images/svg/music-off.svg" id="btn-music-off">
 
           <div class="settings">
-            <img class="btns" alt="Settings" title="Setting" src="assets/images/svg/settings.svg" id="btn-settings">
+            <img class="btns btns-rotate" alt="Settings" title="Setting" src="assets/images/svg/settings.svg" id="btn-settings">
             <div class="settings__param">
               <div>
                 <p class="settings__param_volume"><span data-language="en">Music volume</span><span data-language="ru" class="unvisible">Громкость музыки</span></p>
@@ -27,7 +27,7 @@ const Header = {
           </div>
     
           <div class="profile">
-            <img class="btns" alt="Enter" title="Enter" src="assets/images/svg/enter.svg" id="btn-enter">
+            <img class="btns btns-rotate" alt="Enter" title="Enter" src="assets/images/svg/enter.svg" id="btn-enter">
             <div class="profile__param">
               <p><span data-language="en">Profile settings</span><span data-language="ru" class="unvisible">Настройки профиля</span></p>
               <p><span data-language="en">My сollection</span><span data-language="ru" class="unvisible">Моя коллекция</span></p>
@@ -36,7 +36,7 @@ const Header = {
         </div>
     
         <div class="about">
-          <img class="btns" alt="About" title="About developer" src="assets/images/svg/info.svg" id="about">
+          <img class="btns btns-rotate" alt="About" title="About developer" src="assets/images/svg/info.svg" id="about">
           <div class="about__param">
             <h2><span data-language="en">About Developer</span><span data-language="ru" class="unvisible">О разработчике</span></h2>
             <p>&copy; 2023 <span data-language="en">Yury Butskevich</span><span data-language="ru" class="unvisible">Юрий Буцкевич</span></p>
@@ -83,6 +83,25 @@ const Footer = {
   render: (customClass = "") => {
     return `
     <footer class="footer ${customClass}"><a href="https://github.com/YourunB" target="_blank" class="footer-link">&copy; <span data-language="en">2023 Application created for educational purposes.</span><span data-language="ru" class="unvisible">2023 Приложение, созданное в учебных целях.</span></a></footer>
+    `;
+  }
+};
+
+const Click = {
+  render: (customClass = "") => {
+    return ` <div class="mouse-anime unvisible ${customClass}" id="mouse-click"></div>`;
+  }
+};
+
+const Song = {
+  render: (customClass = "") => {
+    return `
+    <div class="${customClass}">
+      <audio src="assets/sounds/music.mp3" id="song-music" loop></audio>
+      <audio src="assets/sounds/click.mp3" id="song-click"></audio>
+      <audio src="assets/sounds/fail.mp3" id="song-fail"></audio>
+      <audio src="assets/sounds/up.mp3" id="song-up"></audio>
+    </div>
     `;
   }
 };
