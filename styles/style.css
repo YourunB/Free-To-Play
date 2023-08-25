@@ -10,6 +10,10 @@ body {
   color: white;
 }
 
+header, main {
+  animation: show 3s;
+}
+
 a {
   color: inherit;
   text-decoration: inherit;
@@ -43,9 +47,7 @@ h2::after {
   box-shadow: 0 0 2px 2px rgb(128, 128, 128, 0.2);
 }
 
-select {
-  padding: 20px;
-}
+select { padding: 20px; }
 
 option {
   padding: 20px;
@@ -68,6 +70,28 @@ option {
 .battle-royale {background-image: url('../assets/images/background/battle-royale.png');}
 .arpg {background-image: url('../assets/images/background/arpg.png');}
 
+.mouse-anime {
+  z-index: 99999;
+  box-sizing: border-box;
+  position: absolute;
+  background: none;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: 0.3s mouse-click;
+  box-shadow: 0 0 0 3px rgb(232, 8, 8, 0.5);
+}
+
+.container__games_title {
+  position: sticky;
+  left: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+  top: 0;
+  opacity: 0.7;
+  width: 50%;
+}
+
 .header-btns__box {
   position: fixed;
   top: 30px;
@@ -88,6 +112,7 @@ option {
 }
 
 .welcome__text {
+  z-index: 1;
   display: flex;
   align-items: center;
   margin: 0;
@@ -118,6 +143,7 @@ option {
 .load {
   overflow: hidden;
   position: absolute;
+  z-index: 2;
   left: 0;
   top: 0;
   transform: translate(0, 0);
@@ -129,6 +155,7 @@ option {
   display: grid;
   justify-content: center;
   align-items: center;
+  animation: show 1s;
 }
 
 .load__img {
@@ -177,6 +204,53 @@ option {
   top: 30px;
 }
 
+.about { 
+  position: relative;
+  position: fixed;
+  left: 30px;
+  bottom: 30px;
+}
+.about__param {
+  position: absolute;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 30px 10px;
+  left: 0;
+  bottom: 50px;
+  width: 280px;
+  height: 300px;
+  backdrop-filter: blur(5px);
+  font-size: 20px ;
+  transition: 2s;
+  transform: translateX(-140%);
+}
+
+.about__param_social {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.about:hover .about__param{ transform: translateX(0); }
+
+.about__param_social_mail {
+  color: #A9121F;
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+}
+
+.error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  animation: show 1s;
+}
+
+.error h1 {color: #A9121F;}
+.error p {transition: 1s;}
+.error p:hover {transform: scale(1.1);}
+
 .settings { position: relative; }
 .settings__param {
   position: absolute;
@@ -220,6 +294,31 @@ option {
 }
 
 .search:hover .search__param { transform: translateY(-30px); }
+
+.profile {position: relative;}
+
+.profile__param {
+  position: absolute;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 30px 10px;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  backdrop-filter: blur(5px);
+  font-size: 20px ;
+  transition: 2s;
+  transform: translateX(140%);
+}
+
+.profile__param p { transition: 1s; }
+.profile__param p:hover {
+  cursor: pointer;
+  color: #d50112;
+  transform: scale(1.1);
+}
+
+.profile:hover .profile__param{ transform: translateX(0); }
 
 /*toggle switch theme*/
 
@@ -329,7 +428,7 @@ footer {
 
 .circles{
   position: absolute;
-  z-index: -100;
+  z-index: 0;
   top: 0;
   left: 0;
   width: 100%;
@@ -341,7 +440,7 @@ footer {
 
 .circles li{
   transition: 0.5s;
-  filter: blur(8px);
+  filter: blur(5px);
   position: absolute;
   z-index: -100;
   display: block;
@@ -353,6 +452,8 @@ footer {
   animation: animate 25s linear infinite;
   bottom: -150px;
 }
+
+.circles li:hover {filter: blur(0);}
 
 .circles li:nth-child(1){
     left: 25%;
@@ -742,6 +843,32 @@ button:hover::after, button:focus::after {
 .light__img {filter: invert(1);}
 .unvisible {display: none;}
 
+@keyframes show {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@keyframes show-hide {
+  0% {opacity: 0;}
+  50% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+@keyframes mouse-click {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  50% {
+    width: 40px;
+    height: 40px;
+  }
+  100% {
+    width: 0;
+    height: 0;
+  }
+}
+
 @keyframes animate {
   0%{
     transform: translateY(0) rotate(0deg);
@@ -786,6 +913,8 @@ button:hover::after, button:focus::after {
   .search__param {
     grid-template-columns: 1fr;
   }
+  .container__games { margin-top: 80px; }
+  .container__games_title { width: 90%; }
 }
 
 

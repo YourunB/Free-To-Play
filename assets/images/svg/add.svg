@@ -1,1 +1,46 @@
-<?xml version="1.0" ?><svg enable-background="new 0 0 512 512" id="Layer_1" version="1.1" viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><g><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_1_" x1="0.0000038" x2="512" y1="256" y2="256"><stop offset="0" style="stop-color:#E24263"/><stop offset="1" style="stop-color:#DD1E47"/></linearGradient><circle cx="256" cy="256" fill="url(#SVGID_1_)" r="256"/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_2_" x1="42.6666679" x2="469.3333435" y1="256.0005188" y2="256.0005188"><stop offset="0" style="stop-color:#DD1E47"/><stop offset="1" style="stop-color:#E24263"/></linearGradient><path d="M256,469.3338623c-117.6314697,0-213.3333282-95.7018738-213.3333282-213.3333435    c0-117.6309204,95.7018585-213.333313,213.3333282-213.333313c117.6357422,0,213.3333435,95.7024002,213.3333435,213.333313    C469.3333435,373.6319885,373.6357422,469.3338623,256,469.3338623z" fill="url(#SVGID_2_)"/></g><polygon opacity="0.3" points="384,259 269,259 269,144 259,144 259,259 144,259 144,269 259,269 259,384 269,384 269,269 384,269     "/><polygon fill="#FFFFFF" points="376,251 261,251 261,136 251,136 251,251 136,251 136,261 251,261 251,376 261,376 261,261    376,261  "/></g></svg>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="612px" height="612px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;" xml:space="preserve">
+<g>
+	<g id="plus">
+		<g>
+			<path d="M554.625,248.625h-191.25V57.375C363.375,25.685,337.69,0,306,0c-31.69,0-57.375,25.685-57.375,57.375v191.25H57.375
+				C25.685,248.625,0,274.31,0,306c0,31.69,25.685,57.375,57.375,57.375h191.25v191.25C248.625,586.315,274.31,612,306,612
+				c31.69,0,57.375-25.685,57.375-57.375v-191.25h191.25C586.315,363.375,612,337.69,612,306
+				C612,274.31,586.315,248.625,554.625,248.625z"/>
+		</g>
+	</g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
