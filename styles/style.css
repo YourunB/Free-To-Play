@@ -10,6 +10,10 @@ body {
   color: white;
 }
 
+header, main {
+  animation: show 3s;
+}
+
 a {
   color: inherit;
   text-decoration: inherit;
@@ -43,9 +47,7 @@ h2::after {
   box-shadow: 0 0 2px 2px rgb(128, 128, 128, 0.2);
 }
 
-select {
-  padding: 20px;
-}
+select { padding: 20px; }
 
 option {
   padding: 20px;
@@ -110,6 +112,7 @@ option {
 }
 
 .welcome__text {
+  z-index: 1;
   display: flex;
   align-items: center;
   margin: 0;
@@ -140,6 +143,7 @@ option {
 .load {
   overflow: hidden;
   position: absolute;
+  z-index: 2;
   left: 0;
   top: 0;
   transform: translate(0, 0);
@@ -151,6 +155,7 @@ option {
   display: grid;
   justify-content: center;
   align-items: center;
+  animation: show 1s;
 }
 
 .load__img {
@@ -232,6 +237,19 @@ option {
   color: #A9121F;
   text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
 }
+
+.error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  animation: show 1s;
+}
+
+.error h1 {color: #A9121F;}
+.error p {transition: 1s;}
+.error p:hover {transform: scale(1.1);}
 
 .settings { position: relative; }
 .settings__param {
@@ -410,7 +428,7 @@ footer {
 
 .circles{
   position: absolute;
-  z-index: -100;
+  z-index: 0;
   top: 0;
   left: 0;
   width: 100%;
@@ -422,7 +440,7 @@ footer {
 
 .circles li{
   transition: 0.5s;
-  filter: blur(8px);
+  filter: blur(5px);
   position: absolute;
   z-index: -100;
   display: block;
@@ -434,6 +452,8 @@ footer {
   animation: animate 25s linear infinite;
   bottom: -150px;
 }
+
+.circles li:hover {filter: blur(0);}
 
 .circles li:nth-child(1){
     left: 25%;
@@ -822,6 +842,17 @@ button:hover::after, button:focus::after {
 }
 .light__img {filter: invert(1);}
 .unvisible {display: none;}
+
+@keyframes show {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@keyframes show-hide {
+  0% {opacity: 0;}
+  50% {opacity: 1;}
+  100% {opacity: 0;}
+}
 
 @keyframes mouse-click {
   0% {
