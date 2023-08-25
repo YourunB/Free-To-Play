@@ -2,8 +2,6 @@
 const components = {
   bacAnime: BackAnime,
   header: Header,
-
-
   content: Content,
   footer: Footer,
 };
@@ -65,18 +63,44 @@ const mySPA = (function() {
     this.close = function (element) { element.classList.add("unvisible"); }
     this.open = function (element) { element.classList.remove("unvisible"); }
 
-    this.createCards = function (image, title, genre, date, platform) {
+    this.createCards = function (image, title, genre, date, platform, id, arrPos) {
       let box = document.getElementById("games-box");
       box.append(document.createElement("div"));
       box.getElementsByTagName("div")[box.getElementsByTagName("div").length - 1].classList.add("card");
       box.getElementsByTagName("div")[box.getElementsByTagName("div").length - 1].innerHTML = `
       <img class="card__img" src="${image}" alt="Game img">
       <h3 class="card__title"> ${title}</h3>
-      <div class="card__discription">
+      <div class="card__discription" data-id="${id}" data-pos="${arrPos}">
         <p><span data-language="en">Genre:</span><span data-language="ru" class="unvisible">Жанр:</span> ${genre}</p>
         <p><span data-language="en">Release date:</span><span data-language="ru" class="unvisible">Дата выхода:</span> ${date}</p>
         <p><span data-language="en">Platform:</span><span data-language="ru" class="unvisible">Платформа:</span> ${platform}</p>
         <img class="card__btn" alt="Star" title="To favorites" src="assets/images/svg/star.svg">
+      </div>
+      `;
+    }
+
+    this.showCardDescription = function () {
+      let app = document.getElementById("app");
+      app.append(document.createElement("div"));
+      app.getElementsByTagName("div")[app.getElementsByTagName("div").length - 1].id = "window-description";
+      let windowDescription = document.getElementById("window-description");
+      windowDescription.innerHTML = `
+      <di v class="overlay"></div>
+      <div class="card-show">
+        <div class="card-show__play">
+          <img class="card-show__background" src="https://www.freetogame.com/g/508/thumbnail.jpg" alt="Game img">
+          <img class="card-show__img" src="https://www.freetogame.com/g/508/thumbnail.jpg" alt="Game img">
+          <a class="card-show__play_link" href="#"><img class="card-show__play_icon" src="../Downloads/top_icon_124040 (1).svg" alt="Icon play"></a>
+        </div>
+        <h3 class="card-show__play_title">Genshin Impact asdasdas</h3>
+        <p><span data-language="en">Developer:</span><span data-language="ru" class="unvisible">Разработчик:</span> Blizzard Entertainment</p>
+        <p><span data-language="en">Publisher:</span><span data-language="ru" class="unvisible">Издатель:</span> Activision</p>
+        <p><span data-language="en">Genre:</span><span data-language="ru" class="unvisible">Жанр:</span> Strategy</p>
+        <p><span data-language="en">Platform:</span><span data-language="ru" class="unvisible">Платформа:</span> PC Windows BRowser</p>
+        <p><span data-language="en">Release date:</span><span data-language="ru" class="unvisible">Дата релиза:</span> "2022-02-11"</p>
+        <p><span data-language="en">Description:</span><span data-language="ru" class="unvisible">Описание:</span> "Smilegate’s free-to-play multiplayer ARPG is a massive adventure filled with lands waiting to be explored, people waiting to be met, and an ancient evil waiting to be destroyed."</p>
+        <img class="btns card-show__btn-close" alt="Close" title="Close" src="assets/images/svg/close.svg" id="btn-close-discription-main">
+        <img class="card__btn card-show__btn-to-favorite" alt="Star" title="To favorites" src="assets/images/svg/star.svg" id="btn-favorites-discription-main">
       </div>
       `;
     }
@@ -161,7 +185,7 @@ const mySPA = (function() {
       let length = countCards + 20;
       for (let i = countCards; i < length; i++) {
         if (countCards < maxCards) {
-          myModuleView.createCards(arrCards[i].thumbnail, arrCards[i].title, arrCards[i].genre, arrCards[i].release_date, arrCards[i].platform); 
+          myModuleView.createCards(arrCards[i].thumbnail, arrCards[i].title, arrCards[i].genre, arrCards[i].release_date, arrCards[i].platform, arrCards[i].id, i); 
           countCards = countCards + 1;
         } else return;
       }
@@ -199,6 +223,9 @@ const mySPA = (function() {
             this.audio("#song-music", "play");
             this.open(document.getElementById("btn-music-off"))
           }
+          
+          console.log(event.target.parentElement.classList.value)
+          console.log(event.target.classList.value)
         });
 
         window.addEventListener("input", () => {
