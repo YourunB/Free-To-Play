@@ -62,14 +62,8 @@ const mySPA = (function() {
 
     this.volume = function (vol) { document.querySelector("#song-music").volume = vol; }
 
-    this.close = function (element) {
-      if ('vibrate' in navigator) { myModuleView.vibration(); }
-      element.classList.add("unvisible");
-    }
-    this.open = function (element) {
-      if ('vibrate' in navigator) { myModuleView.vibration(); }
-      element.classList.remove("unvisible");
-    }
+    this.close = function (element) { element.classList.add("unvisible"); }
+    this.open = function (element) { element.classList.remove("unvisible"); }
   };
   /* -------- end view --------- */
   /* ------- begin model ------- */
@@ -100,11 +94,15 @@ const mySPA = (function() {
       myModuleView.showClick(x, y);
       setTimeout(() => {
         myModuleView.hideClick();
-      }, 250);
+      }, 200);
     }
 
-    this.close = function close (element) { myModuleView.close(element); }
+    this.close = function close (element) {
+      if ('vibrate' in navigator) myModuleView.vibration();
+      myModuleView.close(element);
+    }
     this.open = function open (element) {
+      if ('vibrate' in navigator) myModuleView.vibration();
       myModuleView.open(element);
       if (element.id === "window-loading") {
         setTimeout(() => {
