@@ -152,7 +152,6 @@ option {
   margin: auto;
   max-width: 1280px;
   width: 100%;
-  border: solid 1px white;
 }
 
 .load {
@@ -204,8 +203,9 @@ option {
   opacity: 1;
   transform: scale(1.2);
   box-shadow: 0 0 8px 4px rgba(255, 255, 255, 0.7);
-  rotate: 360deg;
 }
+
+.btns-rotate:hover {rotate: 360deg;}
 
 .btns__up {
   position: fixed;
@@ -213,7 +213,8 @@ option {
   bottom: 30px;
 }
 
-.about { 
+.about {
+  cursor: default;
   z-index: 10000;
   position: relative;
   position: fixed;
@@ -264,8 +265,9 @@ option {
 	transition: 1s;
   padding: 10px;
   backdrop-filter: blur(5px);
-  cursor: pointer;
+  cursor: default;
   transition: 1s;
+  animation: show 3s;
 }
 .card:hover {
   transform: scale(0.9);
@@ -280,6 +282,7 @@ option {
   width: 250px;
   border-radius: 3px;
   transition: 1s;
+  cursor: pointer;
 }
 .card__title {
   border-bottom: #A9121F 1px solid;
@@ -304,6 +307,82 @@ option {
   opacity: 1;
   transform: scale(1.3);
 }
+
+/*show card style*/
+
+.card-show {
+  z-index: 1010;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: default;
+  max-width: 600px;
+  min-width: 300px;
+  min-height: 340px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  transition: 1s;
+  padding: 10px;
+  margin: 10px;
+  transition: 1s;
+  animation: show 3s;
+  box-shadow: 0 0 8px 2px rgba(129, 129, 129, 0.3);
+  background-size: cover;
+  transition: 1s;
+}
+.card-show:hover {box-shadow: 0 0 8px 2px rgba(225, 4, 4, 0.3);}
+.card-show__background {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  filter: blur(5px);
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+.card-show__play {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card-show__img {
+  max-width: 320px;
+  width: 100%;
+  border-radius: 3px;
+  box-shadow: 3px 3px 4px 4px rgba(0, 0, 0, 0.5);
+  transition: 2s;
+}
+.card-show__img:hover {
+  box-shadow: 4px 4px 6px 4px rgba(0, 0, 0, 0.3);
+  transform: scale(1.02);
+}
+.card-show__play_icon {
+  width: 40px;
+  border-radius: 50%;
+  background: white;
+  transition: 1s;
+}
+.card-show__play_link {position: absolute;}
+.card-show__play_icon:hover {
+  transform: scale(1.3);
+  cursor: pointer;
+}
+.card-show__play_title {border-bottom: #A9121F 1px solid;}
+.card-show__btn-favorite {width: 25px;}
+.card-show__btn-close {
+  top: 10px;
+  right: 10px;
+  position: absolute;
+}
+.card-show__btn-to-favorite {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+/*end show style card*/
 
 .error {
   position: absolute;
@@ -497,6 +576,7 @@ option {
   left: 0;
   background: black;
   position: fixed;
+  filter: blur(5px);
   opacity: 0.5;
   z-index: 1000;
 }
