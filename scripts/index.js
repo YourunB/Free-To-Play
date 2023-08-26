@@ -108,6 +108,15 @@ const mySPA = (function() {
 
     this.deleteElementById = function (id) { document.getElementById(id).remove(); };
 
+    this.deleteCards = function () {
+      let cards = document.getElementsByClassName("card");
+      if (cards.length > 0) {
+        for (let i = cards.length -1; cards.length !== 0; i--) {
+          cards[i].remove();
+        }
+      }
+    }
+
   };
   /* -------- end view --------- */
   /* ------- begin model ------- */
@@ -177,6 +186,7 @@ const mySPA = (function() {
         	arrCards = data;
           console.log(arrCards)
           maxCards = data.length;
+          countCards = 0;
         } catch (error) {
         	console.error(error);
         }
@@ -223,6 +233,11 @@ const mySPA = (function() {
       }
     }
 
+    this.deleteCards = function () {
+      myModuleView.deleteCards();
+      this.createCards();
+    }
+
   }
 
   /* -------- end model -------- */
@@ -230,6 +245,10 @@ const mySPA = (function() {
   function ModuleController () {
       let myModuleContainer = null;
       let myModuleModel = null;
+
+      let categoryLink = "";
+      let platformLink ="";
+      let typeLink = "";
 
       this.init = function(container, model) {
         myModuleContainer = container;
@@ -267,10 +286,25 @@ const mySPA = (function() {
             window.scrollTo(0,0);
             this.audio("song-up", "play");
           }
+          if (event.target.id === "btn-sort-cancel") { //btn cancel
+            myModuleModel.getGames('https://free-to-play-games-database.p.rapidapi.com/api/games');
+          }
         });
 
         window.addEventListener("input", () => {
           if (event.target.id === "volume") this.volume(event.target.value);
+          if (event.target.name === "genre") {
+            categoryLink = "&category=" + event.target.nextSibling.textContent.toLowerCase(); 
+            this.sortGames(categoryLink, platformLink, typeLink);
+          }
+          if (event.target.name === "platform") {
+            platformLink = "&platform=" + event.target.nextSibling.textContent.toLowerCase(); 
+            this.sortGames(categoryLink, platformLink, typeLink);
+          }
+          if (event.target.name === "arrange") {
+            typeLink = "&sort-by=" + event.target.nextSibling.textContent.toLowerCase(); 
+            this.sortGames(categoryLink, platformLink, typeLink);
+          }
         });
 
         window.addEventListener("scroll", myModuleModel.throttle( () => {
@@ -307,6 +341,15 @@ const mySPA = (function() {
       this.close = function (element) { myModuleModel.close(element); }
 
       this.deleteElementById = function (id) { myModuleModel.deleteElementById(id); }
+
+      this.sortGames = function (category, platform, type) {
+        myModuleModel.getGames("https://free-to-play-games-database.p.rapidapi.com/api/games?"+ category + platform + type);
+        this.deleteCards();
+      }
+
+      this.deleteCards = function () {
+        myModuleModel.deleteCards();
+      }
       
   };
   /* ------ end controller ----- */
