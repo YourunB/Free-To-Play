@@ -63,15 +63,14 @@ option {
 .all {background-image: url('../assets/images/background/all.png');}
 .shooter {background-image: url('../assets/images/background/shooter.png');}
 .mmorpg {background-image: url('../assets/images/background/mmorpg.png');}
-.fighting {background-image: url('../assets/images/background/fighting.png');}
 .moba {background-image: url('../assets/images/background/moba.png');}
 .strategy {background-image: url('../assets/images/background/strategy.png');}
+.social {background-image: url('../assets/images/background/social.png');}
+.fighting {background-image: url('../assets/images/background/fighting.png');}
 .racing {background-image: url('../assets/images/background/racing.png');}
-.cards {background-image: url('../assets/images/background/cards.png');}
 .mmo {background-image: url('../assets/images/background/mmo.png');}
 .sports {background-image: url('../assets/images/background/sports.png');}
-.battle-royale {background-image: url('../assets/images/background/battle-royale.png');}
-.arpg {background-image: url('../assets/images/background/arpg.png');}
+.fantasy {background-image: url('../assets/images/background/fantasy.png');}
 
 .mouse-anime {
   z-index: 99999;
@@ -188,6 +187,15 @@ option {
   background: linear-gradient(90deg, rgba(255,251,0,1) 0%, rgba(5,189,26,1) 27%, rgba(5,151,225,1) 48%, rgba(234,0,255,1) 68%, rgba(255,45,45,1) 84%, rgba(199,255,0,1) 100%);
   animation: load-line 10s;
   border-radius: 2px;
+}
+
+.load-create {
+  width: 100px;
+  z-index: 1010;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .go-up {
