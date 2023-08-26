@@ -57,7 +57,7 @@ const MainPage = {
                   <label><input type="radio" name="arrange"><span>Release-date</span></label>
                 </div>
             </div>
-            <button class="button" id="btn-sort-cancel"><span data-language="en">Cancel</span><span data-language="ru" class="unvisible">Отмена</span></button>
+            <button class="button" id="btn-sort-cancel"><span data-language="en">Reset</span><span data-language="ru" class="unvisible">Сброс</span></button>
           </div>
         </div>
         <div class="search">
