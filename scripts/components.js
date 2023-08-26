@@ -29,7 +29,7 @@ const Header = {
           <div class="profile">
             <img class="btns btns-rotate" alt="Enter" title="Enter" src="assets/images/svg/enter.svg" id="btn-enter">
             <div class="profile__param">
-              <p><span data-language="en">Profile settings</span><span data-language="ru" class="unvisible">Настройки профиля</span></p>
+              <p><span data-language="en">My profile</span><span data-language="ru" class="unvisible">Мой профиль</span></p>
               <p><span data-language="en">My сollection</span><span data-language="ru" class="unvisible">Моя коллекция</span></p>
             </div>
           </div>
@@ -102,6 +102,14 @@ const Song = {
       <audio src="assets/sounds/fail.mp3" id="song-fail"></audio>
       <audio src="assets/sounds/up.mp3" id="song-up"></audio>
     </div>
+    `;
+  }
+};
+
+const GoUp = {
+  render: (customClass = "") => {
+    return `
+    <img id="btn-up" class="go-up ${customClass} btns unvisible" src="assets/images/svg/to-top.svg" title="Up" alt="Up">
     `;
   }
 };
