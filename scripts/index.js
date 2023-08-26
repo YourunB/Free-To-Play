@@ -7,6 +7,7 @@ const components = {
   click: Click,
   song: Song,
   goup: GoUp,
+  load: Load,
 };
 
 // Список поддердживаемых роутов (from pages.js)
@@ -117,6 +118,38 @@ const mySPA = (function() {
       }
     }
 
+    this.showCategoryGamesTitle = function (title) {
+      document.getElementById("games-title").textContent = title;
+    }
+
+    this.resetSortWindow = function () {
+      for (let i = 0; i <= document.getElementsByName("genre").length - 1; i++) {
+        if (document.getElementsByName("genre")[i].checked === true) document.getElementsByName("genre")[i].checked = false;
+      }
+      for (let i = 0; i <= document.getElementsByName("platform").length - 1; i++) {
+        if (document.getElementsByName("platform")[i].checked === true) document.getElementsByName("platform")[i].checked = false;
+      }
+      for (let i = 0; i <= document.getElementsByName("arrange").length - 1; i++) {
+        if (document.getElementsByName("arrange")[i].checked === true) document.getElementsByName("arrange")[i].checked = false;
+      }
+    }
+
+    this.changeBackground = function (category) {
+      if (document.body.classList.value != category) {
+        let nameClass = document.body.classList.value;
+        document.body.classList.remove(nameClass);
+        document.body.classList.add(category);
+      }
+    }
+
+    this.showLoad = function () {
+      document.getElementById("load-create").classList.remove("unvisible");
+    }
+
+    this.hideLoad = function () {
+      document.getElementById("load-create").classList.add("unvisible");
+    }
+
   };
   /* -------- end view --------- */
   /* ------- begin model ------- */
@@ -184,9 +217,9 @@ const mySPA = (function() {
         	const response = await fetch(url, options);
         	const data = await response.json();
         	arrCards = data;
-          console.log(arrCards)
           maxCards = data.length;
           countCards = 0;
+          console.log(arrCards);
         } catch (error) {
         	console.error(error);
         }
@@ -194,13 +227,20 @@ const mySPA = (function() {
     }
 
     this.createCards = function () {
-      let length = countCards + 20;
-      for (let i = countCards; i < length; i++) {
-        if (countCards < maxCards) {
-          myModuleView.createCards(arrCards[i].thumbnail, arrCards[i].title, arrCards[i].genre, arrCards[i].release_date, arrCards[i].platform, arrCards[i].id, i); 
-          countCards = countCards + 1;
-        } else return;
-      }
+      myModuleView.showLoad();
+      setTimeout(() => {
+        let length = countCards + 20;
+        for (let i = countCards; i < length; i++) {
+          if (countCards < maxCards) {
+            myModuleView.createCards(arrCards[i].thumbnail, arrCards[i].title, arrCards[i].genre, arrCards[i].release_date, arrCards[i].platform, arrCards[i].id, i); 
+            countCards = countCards + 1;
+          } else {
+            myModuleView.hideLoad();
+            return;
+          }
+        }
+        myModuleView.hideLoad();
+      }, 1000);
     }
 
     this.showCardDescription = function (id, pos) { 
@@ -236,6 +276,18 @@ const mySPA = (function() {
     this.deleteCards = function () {
       myModuleView.deleteCards();
       this.createCards();
+    }
+
+    this.showCategoryGamesTitle = function (title) {
+      myModuleView.showCategoryGamesTitle(title);
+    }
+
+    this.resetSortWindow = function () {
+      myModuleView.resetSortWindow();
+    }
+
+    this.changeBackground = function (category) {
+      myModuleView.changeBackground(category);
     }
 
   }
@@ -286,8 +338,13 @@ const mySPA = (function() {
             window.scrollTo(0,0);
             this.audio("song-up", "play");
           }
-          if (event.target.id === "btn-sort-cancel") { //btn cancel
+          if (event.target.id === "btn-sort-cancel") {
+            this.deleteCards();
             myModuleModel.getGames('https://free-to-play-games-database.p.rapidapi.com/api/games');
+            myModuleModel.createCards();
+            this.showCategoryGamesTitle("Free To Play Game");
+            this.resetSortWindow();
+            this.changeBackground("all");
           }
         });
 
@@ -296,13 +353,15 @@ const mySPA = (function() {
           if (event.target.name === "genre") {
             categoryLink = "&category=" + event.target.nextSibling.textContent.toLowerCase(); 
             this.sortGames(categoryLink, platformLink, typeLink);
+            this.showCategoryGamesTitle(event.target.nextSibling.textContent);
+            this.changeBackground(event.target.nextSibling.textContent.toLowerCase());
           }
           if (event.target.name === "platform") {
             platformLink = "&platform=" + event.target.nextSibling.textContent.toLowerCase(); 
             this.sortGames(categoryLink, platformLink, typeLink);
           }
           if (event.target.name === "arrange") {
-            typeLink = "&sort-by=" + event.target.nextSibling.textContent.toLowerCase(); 
+            typeLink = "&sort-by=" + event.target.nextSibling.textContent.toLowerCase();
             this.sortGames(categoryLink, platformLink, typeLink);
           }
         });
@@ -328,7 +387,7 @@ const mySPA = (function() {
         
         if (location.hash === "#main") {
           myModuleModel.getGames('https://free-to-play-games-database.p.rapidapi.com/api/games');
-          setTimeout(()=>{myModuleModel.createCards();}, 1000);
+          myModuleModel.createCards();
         }
       }
 
@@ -343,12 +402,24 @@ const mySPA = (function() {
       this.deleteElementById = function (id) { myModuleModel.deleteElementById(id); }
 
       this.sortGames = function (category, platform, type) {
-        myModuleModel.getGames("https://free-to-play-games-database.p.rapidapi.com/api/games?"+ category + platform + type);
         this.deleteCards();
+        myModuleModel.getGames("https://free-to-play-games-database.p.rapidapi.com/api/games?"+ category + platform + type);
       }
 
       this.deleteCards = function () {
         myModuleModel.deleteCards();
+      }
+
+      this.showCategoryGamesTitle = function (title) {
+        myModuleModel.showCategoryGamesTitle(title);
+      }
+
+      this.resetSortWindow = function () {
+        myModuleModel.resetSortWindow();
+      }
+
+      this.changeBackground = function (category) {
+        myModuleModel.changeBackground(category);
       }
       
   };
