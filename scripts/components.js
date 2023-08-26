@@ -113,3 +113,11 @@ const GoUp = {
     `;
   }
 };
+
+const Load = {
+  render: (customClass = "") => {
+    return `
+    <img id="load-create" class="load-create ${customClass} unvisible" src="assets/images/load.gif" alt="Load">
+    `;
+  }
+};
