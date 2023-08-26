@@ -6,6 +6,7 @@ const components = {
   footer: Footer,
   click: Click,
   song: Song,
+  goup: GoUp,
 };
 
 // Список поддердживаемых роутов (from pages.js)
@@ -207,6 +208,21 @@ const mySPA = (function() {
 
     this.deleteElementById = function (id) { myModuleView.deleteElementById(id); }
 
+    this.throttle = function (callee, timeout) {
+      let timer = null
+    
+      return function perform(...args) {
+        if (timer) return
+    
+        timer = setTimeout(() => {
+          callee(...args)
+    
+          clearTimeout(timer)
+          timer = null
+        }, timeout)
+      }
+    }
+
   }
 
   /* -------- end model -------- */
@@ -225,6 +241,7 @@ const mySPA = (function() {
           if (event.target.classList.value === "letter" || event.target.classList.value === "welcome__text" || event.target.classList.value === "welcome__img") {
             this.open(document.getElementById("window-loading"));
             this.audio("song-music", "play");
+            myModuleModel.getGames('https://free-to-play-games-database.p.rapidapi.com/api/games');
           }
           this.audio("song-click", "play");
           this.click(event);
@@ -246,11 +263,27 @@ const mySPA = (function() {
             this.deleteElementById("overlay-description");
             this.deleteElementById("window-description");
           }
+          if (event.target.id === "btn-up") {
+            window.scrollTo(0,0);
+            this.audio("song-up", "play");
+          }
         });
 
         window.addEventListener("input", () => {
           if (event.target.id === "volume") this.volume(event.target.value);
         });
+
+        window.addEventListener("scroll", myModuleModel.throttle( () => {
+          if (window.scrollY > 200) document.getElementById("btn-up").classList.remove("unvisible");
+          else document.getElementById("btn-up").classList.add("unvisible");
+        
+      
+          let pageSize = document.body.getBoundingClientRect().height;
+          let displaySize = window.screen.height;
+          let scrollPosition = window.scrollY;
+      
+          if (scrollPosition + displaySize > pageSize - 20) myModuleModel.createCards(); 
+        }, 250)); 
 
         this.updateState();
       }
@@ -274,6 +307,7 @@ const mySPA = (function() {
       this.close = function (element) { myModuleModel.close(element); }
 
       this.deleteElementById = function (id) { myModuleModel.deleteElementById(id); }
+      
   };
   /* ------ end controller ----- */
 
