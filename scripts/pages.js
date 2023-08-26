@@ -29,32 +29,32 @@ const MainPage = {
           <img class="btns btns-rotate" alt="Sort" title="Sort" src="assets/images/svg/sort.svg" id="btn-sort">
           <div class="sort__param">
             <div class="list-choice">
-              <div class="list-choice-title"><span data-language="en">Genre</span><span data-language="ru" class="unvisible">Жанр</span></div>
+              <div class="list-choice-title"><span data-language="en">Category</span><span data-language="ru" class="unvisible">Категория</span></div>
                 <div class="list-choice-objects">
                   <label><input type="radio" name="genre"><span>Shooter</span></label>
                   <label><input type="radio" name="genre"><span>MMORPG</span></label>
                   <label><input type="radio" name="genre"><span>MOBA</span></label>
                   <label><input type="radio" name="genre"><span>Strategy</span></label>
-                  <label><input type="radio" name="genre"><span>B.Royale</span></label>
-                  <label><input type="radio" name="genre"><span>ARPG</span></label>
+                  <label><input type="radio" name="genre"><span>Social</span></label>
                   <label><input type="radio" name="genre"><span>Fighting</span></label>
                   <label><input type="radio" name="genre"><span>MMO</span></label>
                   <label><input type="radio" name="genre"><span>Racing</span></label>
-                  <label><input type="radio" name="genre"><span>Sport</span></label>
+                  <label><input type="radio" name="genre"><span>Sports</span></label>
+                  <label><input type="radio" name="genre"><span>Fantasy</span></label>
                 </div>
             </div>
             <div class="list-choice">
               <div class="list-choice-title"><span data-language="en">Platform</span><span data-language="ru" class="unvisible">Платформа</span></div>
                 <div class="list-choice-objects">
-                  <label><input type="radio" name="platform"><span>PC (Windows)</span></label>
-                  <label><input type="radio" name="platform"><span>Web browser</span></label>
+                  <label><input type="radio" name="platform"><span>PC</span></label>
+                  <label><input type="radio" name="platform"><span>Browser</span></label>
                 </div>
             </div>
             <div class="list-choice">
               <div class="list-choice-title"><span data-language="en">Arrange</span><span data-language="ru" class="unvisible">Упорядочить</span></div>
                 <div class="list-choice-objects">
-                  <label><input type="radio" name="arrange"><span>Alphabet</span></label>
-                  <label><input type="radio" name="arrange"><span>Date</span></label>
+                  <label><input type="radio" name="arrange"><span>Alphabetical</span></label>
+                  <label><input type="radio" name="arrange"><span>Release-date</span></label>
                 </div>
             </div>
             <button class="button" id="btn-sort-cancel"><span data-language="en">Cancel</span><span data-language="ru" class="unvisible">Отмена</span></button>
