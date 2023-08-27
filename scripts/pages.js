@@ -63,7 +63,7 @@ const MainPage = {
         <div class="search">
           <img class="btns btns-rotate" alt="Search" title="Search" src="assets/images/svg/search.svg" id="btn-search">
           <div class="search__param">
-            <input>
+            <input type="text" maxlength="50" id="search-game">
           </div>
         </div>
       </div>
