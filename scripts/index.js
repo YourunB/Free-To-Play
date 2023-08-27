@@ -132,6 +132,7 @@ const mySPA = (function() {
       for (let i = 0; i <= document.getElementsByName("arrange").length - 1; i++) {
         if (document.getElementsByName("arrange")[i].checked === true) document.getElementsByName("arrange")[i].checked = false;
       }
+      document.getElementById("search-game").value = "";
     }
 
     this.changeBackground = function (category) {
@@ -157,8 +158,13 @@ const mySPA = (function() {
     let myModuleView = null;
 
     let arrCards = [];
+    let arrSearch = [];
     let maxCards = 0;
     let countCards = 0;
+
+    let arrCardsDouble = [];
+    let maxCardsDouble = 0;
+    let countCardsDouble = 0;
 
     this.init = function(view) {
       myModuleView = view;
@@ -275,7 +281,6 @@ const mySPA = (function() {
 
     this.deleteCards = function () {
       myModuleView.deleteCards();
-      this.createCards();
     }
 
     this.showCategoryGamesTitle = function (title) {
@@ -290,6 +295,35 @@ const mySPA = (function() {
       myModuleView.changeBackground(category);
     }
 
+    this.searchGame = function (str) {
+      arrCardsDouble = arrCards;
+      countCardsDouble = countCards;
+      maxCardsDouble = maxCards;
+
+      setTimeout(() => {
+      for (let i = 0; i < arrCards.length; i++) {
+        for (let key in arrCards[i]) {
+          if (key == "title" && arrCards[i][key].toLowerCase().indexOf(str.toLowerCase()) != -1) {
+            arrSearch.push(arrCards[i]);
+          }
+        }
+      }
+      this.deleteCards();
+      countCards = 0;
+      arrCards = arrSearch;
+      maxCards = arrSearch.length;
+      this.createCards();
+
+      setTimeout(() => {
+        arrSearch = [];
+        arrCards = arrCardsDouble;
+        countCards = countCardsDouble;
+        maxCards = maxCardsDouble;
+      }, 1000)
+
+    },1000)
+    }
+
   }
 
   /* -------- end model -------- */
@@ -301,6 +335,9 @@ const mySPA = (function() {
       let categoryLink = "";
       let platformLink ="";
       let typeLink = "";
+
+      let timer;// Timer identifier
+      const waitTime = 2000;
 
       this.init = function(container, model) {
         myModuleContainer = container;
@@ -364,6 +401,19 @@ const mySPA = (function() {
             typeLink = "&sort-by=" + event.target.nextSibling.textContent.toLowerCase();
             this.sortGames(categoryLink, platformLink, typeLink);
           }
+
+          //debounce for search
+          document.getElementById("search-game").addEventListener("keyup", (event) => {
+            const text = event.currentTarget.value;
+            
+            clearTimeout(timer);
+        
+            timer = setTimeout(() => {
+              //if (document.getElementById("search-game").value === "") return;
+              this.searchGame(text);
+            }, waitTime);
+          });
+
         });
 
         window.addEventListener("scroll", myModuleModel.throttle( () => {
@@ -402,8 +452,9 @@ const mySPA = (function() {
       this.deleteElementById = function (id) { myModuleModel.deleteElementById(id); }
 
       this.sortGames = function (category, platform, type) {
-        this.deleteCards();
         myModuleModel.getGames("https://free-to-play-games-database.p.rapidapi.com/api/games?"+ category + platform + type);
+        this.deleteCards();
+        myModuleModel.createCards();
       }
 
       this.deleteCards = function () {
@@ -420,6 +471,10 @@ const mySPA = (function() {
 
       this.changeBackground = function (category) {
         myModuleModel.changeBackground(category);
+      }
+
+      this.searchGame = function (str) {
+        myModuleModel.searchGame(str);
       }
       
   };
