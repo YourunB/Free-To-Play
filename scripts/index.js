@@ -69,14 +69,15 @@ const mySPA = (function() {
       let box = document.getElementById("games-box");
       box.append(document.createElement("div"));
       box.getElementsByTagName("div")[box.getElementsByTagName("div").length - 1].classList.add("card");
+      box.getElementsByTagName("div")[box.getElementsByTagName("div").length - 1].draggable = true;
       box.getElementsByTagName("div")[box.getElementsByTagName("div").length - 1].innerHTML = `
-      <img class="card__img" src="${image}" alt="Game img" data-id="${id}" data-pos="${arrPos}">
-      <h3 class="card__title"> ${title}</h3>
-      <div class="card__discription">
-        <p><span data-language="en">Genre:</span><span data-language="ru" class="unvisible">Жанр:</span> ${genre}</p>
-        <p><span data-language="en">Release date:</span><span data-language="ru" class="unvisible">Дата выхода:</span> ${date}</p>
-        <p><span data-language="en">Platform:</span><span data-language="ru" class="unvisible">Платформа:</span> ${platform}</p>
-        <img class="card__btn" alt="Star" title="To favorites" src="assets/images/svg/star.svg" data-id="${id}" data-pos="${arrPos}">
+      <img draggable="false" class="card__img" src="${image}" alt="Game img" data-id="${id}" data-pos="${arrPos}">
+      <h3 draggable="false" class="card__title"> ${title}</h3>
+      <div draggable="false" class="card__discription">
+        <p draggable="false"><span data-language="en">Genre:</span><span data-language="ru" class="unvisible">Жанр:</span> ${genre}</p>
+        <p draggable="false"><span data-language="en">Release date:</span><span data-language="ru" class="unvisible">Дата выхода:</span> ${date}</p>
+        <p draggable="false"><span data-language="en">Platform:</span><span data-language="ru" class="unvisible">Платформа:</span> ${platform}</p>
+        <img draggable="false" class="card__btn" alt="Star" title="To favorites" src="assets/images/svg/star.svg" data-id="${id}" data-pos="${arrPos}">
       </div>
       `;
     }
@@ -426,8 +427,39 @@ const mySPA = (function() {
           let scrollPosition = window.scrollY;
       
           if (scrollPosition + displaySize > pageSize - 20) myModuleModel.createCards(); 
-        }, 250)); 
+        }, 250));
 
+
+          window.addEventListener("dragstart", (event) => {
+            if (event.target.classList[0] == "card") {
+              event.target.classList.add("move-element");
+              this.open(document.getElementById("drop-favorite"));
+            }
+          });
+          window.addEventListener("dragend", (event) => {
+            event.target.classList.remove("move-element");
+            this.close(document.getElementById("drop-favorite"));
+          });
+          window.addEventListener("dragover", (event) => {
+            event.preventDefault();
+            const box = document.getElementById("games-box");
+            const moveElement = box.getElementsByClassName("move-element")[0];
+            const eventElement = event.target;
+            const checkMove = moveElement !== eventElement && eventElement.classList.contains("card");
+
+            document.body.onmouseup = function() {
+              if (moveElement !== eventElement && eventElement.id == "drop-favorite") {
+                console.log("Добавлено", moveElement.children[0].dataset.id); // тут будет метод добавления игры по id в БД
+                return;
+              }
+            }
+
+            if (!checkMove) return;
+            const nextElement = (eventElement === moveElement.nextElementSibling) ? eventElement.nextElementSibling : eventElement;
+            box.insertBefore(moveElement, nextElement);
+          });
+
+          
         this.updateState();
       }
 
