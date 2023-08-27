@@ -71,7 +71,9 @@ const MainPage = {
       <main class="container area">
         <div class="container__games ${className}">
           <h2 class="container__games_title" id="games-title">Free To Play Game</h2>
-          <div class="container__games_content" id="games-box"></div>
+          <div class="container__games_content" id="games-box">
+            <div class="drop-zone unvisible" id="drop-favorite"></div>
+          </div>
         </div>
       </main>
     `;
