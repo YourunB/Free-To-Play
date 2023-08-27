@@ -86,6 +86,7 @@ const ErrorPage = {
   render: (className = "container", ...rest) => {
     return `
       <section class="${className} error">
+        <img id="reload-page" class="error__img" src="assets/images/svg/internet.svg" alt="Earth">
         <h1><span data-language="en">Error 404</span><span data-language="ru" class="unvisible">Ошибка 404</span></h1>
         <p><a href="#main"><span data-language="en">The page was not found, try to return to the main page.</span><span data-language="ru" class="unvisible">Страница не найдена, попробуйте вернуться на главную страницу.</span></a></p>
       </section>
