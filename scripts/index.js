@@ -8,6 +8,7 @@ const components = {
   song: Song,
   goup: GoUp,
   load: Load,
+  lossConnection: LossConnection,
 };
 
 // Список поддердживаемых роутов (from pages.js)
@@ -104,6 +105,7 @@ const mySPA = (function() {
         <p><span data-language="en">Description:</span><span data-language="ru" class="unvisible">Описание:</span> ${description}</p>
         <img class="btns card-show__btn-close" alt="Close" title="Close" src="assets/images/svg/close.svg" id="close-window-description">
         <img data-id="${id}" class="card__btn card-show__btn-to-favorite" alt="Star" title="To favorites" src="assets/images/svg/star.svg" id="btn-favorites-discription-main">
+        <img data-id="${id}" class="detail btns" alt="Detail" title="Detail" src="assets/images/svg/detail.svg" id="detail">
       </div>
       `;
     }
@@ -150,6 +152,14 @@ const mySPA = (function() {
 
     this.hideLoad = function () {
       document.getElementById("load-create").classList.add("unvisible");
+    }
+
+    this.showLossConnection = function () {
+      document.getElementById("loss-connection").classList.remove("unvisible");
+    }
+
+    this.windowRefresh = function () {
+      window.location.reload();
     }
 
   };
@@ -214,7 +224,7 @@ const mySPA = (function() {
       const options = {
       	method: 'GET',
       	headers: {
-      		'X-RapidAPI-Key': 'a103204f4fmsh27c54e4cba38877p121bd4jsn8f32775b6bb9',
+      		'X-RapidAPI-Key': 'f9d6719b45msh2c8aad6c5d685ffp1c59ebjsn90e5e228a426',
       		'X-RapidAPI-Host': 'free-to-play-games-database.p.rapidapi.com'
       	}
       };
@@ -228,7 +238,34 @@ const mySPA = (function() {
           countCards = 0;
           console.log(arrCards);
         } catch (error) {
-        	console.error(error);
+          if (error != "") {
+            myModuleView.showLossConnection();
+            myModuleView.audioPlay("song-fail");
+          }
+        }
+      }
+    }
+
+    this.getIdGameInfo = function (id) {
+      const url = "https://free-to-play-games-database.p.rapidapi.com/api/game?id=" + id;
+      const options = {
+      	method: 'GET',
+      	headers: {
+      		'X-RapidAPI-Key': 'f9d6719b45msh2c8aad6c5d685ffp1c59ebjsn90e5e228a426',
+      		'X-RapidAPI-Host': 'free-to-play-games-database.p.rapidapi.com'
+      	}
+      };
+      fetchAsync();
+      async function fetchAsync() { 
+        try {
+        	const response = await fetch(url, options);
+        	const data = await response.json();
+          console.log(data);
+        } catch (error) {
+          if (error != "") {
+            myModuleView.showLossConnection();
+            myModuleView.audioPlay("song-fail");
+          }
         }
       }
     }
@@ -302,27 +339,31 @@ const mySPA = (function() {
       maxCardsDouble = maxCards;
 
       setTimeout(() => {
-      for (let i = 0; i < arrCards.length; i++) {
-        for (let key in arrCards[i]) {
-          if (key == "title" && arrCards[i][key].toLowerCase().indexOf(str.toLowerCase()) != -1) {
-            arrSearch.push(arrCards[i]);
+        for (let i = 0; i < arrCards.length; i++) {
+          for (let key in arrCards[i]) {
+            if (key == "title" && arrCards[i][key].toLowerCase().indexOf(str.toLowerCase()) != -1) {
+              arrSearch.push(arrCards[i]);
+            }
           }
         }
-      }
-      this.deleteCards();
-      countCards = 0;
-      arrCards = arrSearch;
-      maxCards = arrSearch.length;
-      this.createCards();
+        this.deleteCards();
+        countCards = 0;
+        arrCards = arrSearch;
+        maxCards = arrSearch.length;
+        this.createCards();
 
-      setTimeout(() => {
-        arrSearch = [];
-        arrCards = arrCardsDouble;
-        countCards = countCardsDouble;
-        maxCards = maxCardsDouble;
+        setTimeout(() => {
+          arrSearch = [];
+          arrCards = arrCardsDouble;
+          countCards = countCardsDouble;
+          maxCards = maxCardsDouble;
+        }, 1000)
+        
       }, 1000)
+    }
 
-    },1000)
+    this.windowRefresh = function () {
+      myModuleView.windowRefresh();
     }
 
   }
@@ -340,17 +381,20 @@ const mySPA = (function() {
       let timer;// Timer identifier
       const waitTime = 2000;
 
+      let complete = null;
+
       this.init = function(container, model) {
         myModuleContainer = container;
         myModuleModel = model;
 
         //window start page
         window.addEventListener("hashchange", this.updateState);
+        
         window.addEventListener("click", () => {
           if (event.target.classList.value === "letter" || event.target.classList.value === "welcome__text" || event.target.classList.value === "welcome__img") {
             this.open(document.getElementById("window-loading"));
             this.audio("song-music", "play");
-            myModuleModel.getGames('https://free-to-play-games-database.p.rapidapi.com/api/games');
+            //myModuleModel.getGames('https://free-to-play-games-database.p.rapidapi.com/api/games');
           }
           this.audio("song-click", "play");
           this.click(event);
@@ -383,6 +427,10 @@ const mySPA = (function() {
             this.showCategoryGamesTitle("Free To Play Game");
             this.resetSortWindow();
             this.changeBackground("all");
+          }
+          if (event.target.id === "reload-page") myModuleModel.windowRefresh();
+          if (event.target.id === "detail") {
+            myModuleModel.getIdGameInfo(event.target.dataset.id);
           }
         });
 
@@ -447,7 +495,7 @@ const mySPA = (function() {
             const eventElement = event.target;
             const checkMove = moveElement !== eventElement && eventElement.classList.contains("card");
 
-            document.body.onmouseup = function() {
+            document.body.onmouseup = () => {
               if (moveElement !== eventElement && eventElement.id == "drop-favorite") {
                 console.log("Добавлено", moveElement.children[0].dataset.id); // тут будет метод добавления игры по id в БД
                 return;
