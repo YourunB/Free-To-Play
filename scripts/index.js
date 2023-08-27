@@ -8,6 +8,7 @@ const components = {
   song: Song,
   goup: GoUp,
   load: Load,
+  lossConnection: LossConnection,
 };
 
 // Список поддердживаемых роутов (from pages.js)
@@ -69,14 +70,15 @@ const mySPA = (function() {
       let box = document.getElementById("games-box");
       box.append(document.createElement("div"));
       box.getElementsByTagName("div")[box.getElementsByTagName("div").length - 1].classList.add("card");
+      box.getElementsByTagName("div")[box.getElementsByTagName("div").length - 1].draggable = true;
       box.getElementsByTagName("div")[box.getElementsByTagName("div").length - 1].innerHTML = `
-      <img class="card__img" src="${image}" alt="Game img" data-id="${id}" data-pos="${arrPos}">
-      <h3 class="card__title"> ${title}</h3>
-      <div class="card__discription">
-        <p><span data-language="en">Genre:</span><span data-language="ru" class="unvisible">Жанр:</span> ${genre}</p>
-        <p><span data-language="en">Release date:</span><span data-language="ru" class="unvisible">Дата выхода:</span> ${date}</p>
-        <p><span data-language="en">Platform:</span><span data-language="ru" class="unvisible">Платформа:</span> ${platform}</p>
-        <img class="card__btn" alt="Star" title="To favorites" src="assets/images/svg/star.svg" data-id="${id}" data-pos="${arrPos}">
+      <img draggable="false" class="card__img" src="${image}" alt="Game img" data-id="${id}" data-pos="${arrPos}">
+      <h3 draggable="false" class="card__title"> ${title}</h3>
+      <div draggable="false" class="card__discription">
+        <p draggable="false"><span data-language="en">Genre:</span><span data-language="ru" class="unvisible">Жанр:</span> ${genre}</p>
+        <p draggable="false"><span data-language="en">Release date:</span><span data-language="ru" class="unvisible">Дата выхода:</span> ${date}</p>
+        <p draggable="false"><span data-language="en">Platform:</span><span data-language="ru" class="unvisible">Платформа:</span> ${platform}</p>
+        <img draggable="false" class="card__btn" alt="Star" title="To favorites" src="assets/images/svg/star.svg" data-id="${id}" data-pos="${arrPos}">
       </div>
       `;
     }
@@ -103,6 +105,7 @@ const mySPA = (function() {
         <p><span data-language="en">Description:</span><span data-language="ru" class="unvisible">Описание:</span> ${description}</p>
         <img class="btns card-show__btn-close" alt="Close" title="Close" src="assets/images/svg/close.svg" id="close-window-description">
         <img data-id="${id}" class="card__btn card-show__btn-to-favorite" alt="Star" title="To favorites" src="assets/images/svg/star.svg" id="btn-favorites-discription-main">
+        <img data-id="${id}" class="detail btns" alt="Detail" title="Detail" src="assets/images/svg/detail.svg" id="detail">
       </div>
       `;
     }
@@ -149,6 +152,14 @@ const mySPA = (function() {
 
     this.hideLoad = function () {
       document.getElementById("load-create").classList.add("unvisible");
+    }
+
+    this.showLossConnection = function () {
+      document.getElementById("loss-connection").classList.remove("unvisible");
+    }
+
+    this.windowRefresh = function () {
+      window.location.reload();
     }
 
   };
@@ -213,7 +224,7 @@ const mySPA = (function() {
       const options = {
       	method: 'GET',
       	headers: {
-      		'X-RapidAPI-Key': 'a103204f4fmsh27c54e4cba38877p121bd4jsn8f32775b6bb9',
+      		'X-RapidAPI-Key': 'f9d6719b45msh2c8aad6c5d685ffp1c59ebjsn90e5e228a426',
       		'X-RapidAPI-Host': 'free-to-play-games-database.p.rapidapi.com'
       	}
       };
@@ -227,7 +238,34 @@ const mySPA = (function() {
           countCards = 0;
           console.log(arrCards);
         } catch (error) {
-        	console.error(error);
+          if (error != "") {
+            myModuleView.showLossConnection();
+            myModuleView.audioPlay("song-fail");
+          }
+        }
+      }
+    }
+
+    this.getIdGameInfo = function (id) {
+      const url = "https://free-to-play-games-database.p.rapidapi.com/api/game?id=" + id;
+      const options = {
+      	method: 'GET',
+      	headers: {
+      		'X-RapidAPI-Key': 'f9d6719b45msh2c8aad6c5d685ffp1c59ebjsn90e5e228a426',
+      		'X-RapidAPI-Host': 'free-to-play-games-database.p.rapidapi.com'
+      	}
+      };
+      fetchAsync();
+      async function fetchAsync() { 
+        try {
+        	const response = await fetch(url, options);
+        	const data = await response.json();
+          console.log(data);
+        } catch (error) {
+          if (error != "") {
+            myModuleView.showLossConnection();
+            myModuleView.audioPlay("song-fail");
+          }
         }
       }
     }
@@ -301,27 +339,31 @@ const mySPA = (function() {
       maxCardsDouble = maxCards;
 
       setTimeout(() => {
-      for (let i = 0; i < arrCards.length; i++) {
-        for (let key in arrCards[i]) {
-          if (key == "title" && arrCards[i][key].toLowerCase().indexOf(str.toLowerCase()) != -1) {
-            arrSearch.push(arrCards[i]);
+        for (let i = 0; i < arrCards.length; i++) {
+          for (let key in arrCards[i]) {
+            if (key == "title" && arrCards[i][key].toLowerCase().indexOf(str.toLowerCase()) != -1) {
+              arrSearch.push(arrCards[i]);
+            }
           }
         }
-      }
-      this.deleteCards();
-      countCards = 0;
-      arrCards = arrSearch;
-      maxCards = arrSearch.length;
-      this.createCards();
+        this.deleteCards();
+        countCards = 0;
+        arrCards = arrSearch;
+        maxCards = arrSearch.length;
+        this.createCards();
 
-      setTimeout(() => {
-        arrSearch = [];
-        arrCards = arrCardsDouble;
-        countCards = countCardsDouble;
-        maxCards = maxCardsDouble;
+        setTimeout(() => {
+          arrSearch = [];
+          arrCards = arrCardsDouble;
+          countCards = countCardsDouble;
+          maxCards = maxCardsDouble;
+        }, 1000)
+        
       }, 1000)
+    }
 
-    },1000)
+    this.windowRefresh = function () {
+      myModuleView.windowRefresh();
     }
 
   }
@@ -339,17 +381,20 @@ const mySPA = (function() {
       let timer;// Timer identifier
       const waitTime = 2000;
 
+      let complete = null;
+
       this.init = function(container, model) {
         myModuleContainer = container;
         myModuleModel = model;
 
         //window start page
         window.addEventListener("hashchange", this.updateState);
+        
         window.addEventListener("click", () => {
           if (event.target.classList.value === "letter" || event.target.classList.value === "welcome__text" || event.target.classList.value === "welcome__img") {
             this.open(document.getElementById("window-loading"));
             this.audio("song-music", "play");
-            myModuleModel.getGames('https://free-to-play-games-database.p.rapidapi.com/api/games');
+            //myModuleModel.getGames('https://free-to-play-games-database.p.rapidapi.com/api/games');
           }
           this.audio("song-click", "play");
           this.click(event);
@@ -382,6 +427,10 @@ const mySPA = (function() {
             this.showCategoryGamesTitle("Free To Play Game");
             this.resetSortWindow();
             this.changeBackground("all");
+          }
+          if (event.target.id === "reload-page") myModuleModel.windowRefresh();
+          if (event.target.id === "detail") {
+            myModuleModel.getIdGameInfo(event.target.dataset.id);
           }
         });
 
@@ -426,8 +475,39 @@ const mySPA = (function() {
           let scrollPosition = window.scrollY;
       
           if (scrollPosition + displaySize > pageSize - 20) myModuleModel.createCards(); 
-        }, 250)); 
+        }, 250));
 
+
+          window.addEventListener("dragstart", (event) => {
+            if (event.target.classList[0] == "card") {
+              event.target.classList.add("move-element");
+              this.open(document.getElementById("drop-favorite"));
+            }
+          });
+          window.addEventListener("dragend", (event) => {
+            event.target.classList.remove("move-element");
+            this.close(document.getElementById("drop-favorite"));
+          });
+          window.addEventListener("dragover", (event) => {
+            event.preventDefault();
+            const box = document.getElementById("games-box");
+            const moveElement = box.getElementsByClassName("move-element")[0];
+            const eventElement = event.target;
+            const checkMove = moveElement !== eventElement && eventElement.classList.contains("card");
+
+            document.body.onmouseup = () => {
+              if (moveElement !== eventElement && eventElement.id == "drop-favorite") {
+                console.log("Добавлено", moveElement.children[0].dataset.id); // тут будет метод добавления игры по id в БД
+                return;
+              }
+            }
+
+            if (!checkMove) return;
+            const nextElement = (eventElement === moveElement.nextElementSibling) ? eventElement.nextElementSibling : eventElement;
+            box.insertBefore(moveElement, nextElement);
+          });
+
+          
         this.updateState();
       }
 

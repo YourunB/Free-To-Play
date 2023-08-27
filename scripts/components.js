@@ -121,3 +121,16 @@ const Load = {
     `;
   }
 };
+
+const LossConnection = {
+  render: (customClass = "") => {
+    return `
+    <div class="${customClass} loss-connection unvisible" id="loss-connection">
+      <div class="loss-connection__box">
+        <img id="reload-page" class="loss-connection__box_img" src="assets/images/svg/internet.svg" alt="Earth">
+        <h3 class="loss-connection__box_message"><span data-language="en">Sorry, connection problems. Reload the page.</span><span data-language="ru" class="unvisible">Извините, проблемы с соединением. Перезагрузите страницу.</span></h3>
+      </div>
+    </div>
+    `;
+  }
+};
