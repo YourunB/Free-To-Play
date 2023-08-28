@@ -464,7 +464,7 @@ const mySPA = (function() {
             this.deleteElementById("full-description");
           }
           if (event.target.id === "btn-up") {
-            window.scrollTo(0,0);
+            window.scroll({top: 0, behavior: "smooth"});
             this.audio("song-up", "play");
           }
           if (event.target.id === "btn-sort-cancel") {
