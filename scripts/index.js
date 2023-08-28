@@ -104,7 +104,7 @@ const mySPA = (function() {
         <p><span data-language="en">Release date:</span><span data-language="ru" class="unvisible">Дата релиза:</span> ${date}</p>
         <p><span data-language="en">Description:</span><span data-language="ru" class="unvisible">Описание:</span> ${description}</p>
         <img class="btns card-show__btn-close" alt="Close" title="Close" src="assets/images/svg/close.svg" id="close-window-description">
-        <img data-id="${id}" class="card__btn card-show__btn-to-favorite" alt="Star" title="To favorites" src="assets/images/svg/star.svg" id="btn-favorites-discription-main">
+        <img data-id="${id}" class="card__btn card-show__btn-to-favorite" alt="Star" title="To favorites" src="assets/images/svg/star.svg" id="btn-favorites-description-main">
         <img data-id="${id}" class="detail btns" alt="Detail" title="Detail" src="assets/images/svg/detail.svg" id="detail">
       </div>
       `;
@@ -214,7 +214,7 @@ const mySPA = (function() {
       if (element.id === "window-loading") {
         setTimeout(() => {
           myModuleView.close(element);
-          window.open("#main","_self")
+          window.open("#main","_self");
         }, 10000)
       }
     }
@@ -246,7 +246,7 @@ const mySPA = (function() {
       }
     }
 
-    this.getIdGameInfo = function (id) {
+    this.getIdGameInfo = function (id, ev) {
       const url = "https://free-to-play-games-database.p.rapidapi.com/api/game?id=" + id;
       const options = {
       	method: 'GET',
@@ -261,6 +261,47 @@ const mySPA = (function() {
         	const response = await fetch(url, options);
         	const data = await response.json();
           console.log(data);
+          if (ev === "detail") {
+
+            myModuleView.showLoad();
+            setTimeout(() => {
+              let app = document.getElementById("app");
+              app.append(document.createElement("div"));
+              app.getElementsByTagName("div")[app.getElementsByTagName("div").length - 1].id = "full-description";
+              let fullDescription = document.getElementById("full-description");
+              fullDescription.classList.add("full-description");
+              fullDescription.innerHTML = `
+                <img class="full-description__background" src="${data.screenshots[0].image}" alt="Game image">
+                <h2 class="full-description__title">${data.title}</h2>
+                <img class="full-description__image" src="${data.thumbnail}" alt="Game image">
+                <p><span class="red" data-language="en">Genre:</span><span data-language="ru" class="unvisible red">Жанр:</span> ${data.genre}</p>
+                <p><span class="red" data-language="en">Description:</span><span data-language="ru" class="unvisible red">Описание:</span> ${data.description}</p>
+                <p><span class="red" data-language="en">Status:</span><span data-language="ru" class="unvisible red">Статус:</span> ${data.status}</p>
+                <p><span class="red" data-language="en">Platform:</span><span data-language="ru" class="unvisible red">Платформа:</span> ${data.platform}</p>
+                <p><span class="red" data-language="en">Developer:</span><span data-language="ru" class="unvisible red">Разработчик:</span> ${data.developer}</p>
+                <p><span class="red" data-language="en">Publisher:</span><span data-language="ru" class="unvisible red">Издатель:</span> ${data.publisher}</p>
+                <p><span class="red" data-language="en">Game link:</span><span data-language="ru" class="unvisible red">Ссылка на игру:</span><a class="full-description__link" href="${data.game_url}" target="_blank"> ${data.game_url}</a></p>
+                <div class="full-description__requirements">
+                  <span class="yellow" data-language="en">Minimum system requirements:</span><span data-language="ru" class="unvisible red">Минимальные системные требования:</span>
+                  <ul>
+                    <li><span class="red">GPU:</span> ${data['minimum_system_requirements'].graphics}</li>
+                    <li><span class="red">CPU:</span> ${data['minimum_system_requirements'].processor}</li>
+                    <li><span class="red">RAM:</span> ${data['minimum_system_requirements'].memory}</li>
+                    <li><span class="red">SYS:</span> ${data['minimum_system_requirements'].os}</li>
+                  </ul>
+                </div>
+                <div class="full-description__screenshots">
+                  <a data-fancybox="gallery" href="${data.screenshots[0].image}"><img class="full-description__screenshots_image" src="${data.screenshots[0].image}" alt="Game screenshot"></a>
+                  <a data-fancybox="gallery" href="${data.screenshots[1].image}"><img class="full-description__screenshots_image" src="${data.screenshots[1].image}" alt="Game screenshot"></a>
+                  <a data-fancybox="gallery" href="${data.screenshots[2].image}"><img class="full-description__screenshots_image" src="${data.screenshots[2].image}" alt="Game screenshot"></a>
+                </div>
+                <img class="btns card-show__btn-close" alt="Close" title="Close" src="assets/images/svg/close.svg" id="close-full-description">
+                <img data-id="${id}" class="card__btn card-show__btn-to-favorite" alt="Star" title="To favorites" src="assets/images/svg/star.svg" id="btn-favorites-full-description">
+              `;
+              myModuleView.hideLoad();
+            }, 1000);
+          }
+          
         } catch (error) {
           if (error != "") {
             myModuleView.showLossConnection();
@@ -411,10 +452,16 @@ const mySPA = (function() {
           }
           if (event.target.classList == "card__img") {
             myModuleModel.showCardDescription(event.target.dataset.id, event.target.dataset.pos);
+            this.scrollOff();
           }
           if (event.target.id === "overlay-description" || event.target.id === "close-window-description") {
             this.deleteElementById("overlay-description");
             this.deleteElementById("window-description");
+            this.scrollOn();
+          }
+
+          if (event.target.id === "close-full-description") {
+            this.deleteElementById("full-description");
           }
           if (event.target.id === "btn-up") {
             window.scrollTo(0,0);
@@ -430,7 +477,7 @@ const mySPA = (function() {
           }
           if (event.target.id === "reload-page") myModuleModel.windowRefresh();
           if (event.target.id === "detail") {
-            myModuleModel.getIdGameInfo(event.target.dataset.id);
+            myModuleModel.getIdGameInfo(event.target.dataset.id, event.target.id);
           }
         });
 
@@ -556,7 +603,9 @@ const mySPA = (function() {
       this.searchGame = function (str) {
         myModuleModel.searchGame(str);
       }
-      
+
+      this.scrollOff = function () { document.body.classList.add("scroll-off"); }
+      this.scrollOn = function () { document.body.classList.remove("scroll-off"); }
   };
   /* ------ end controller ----- */
 
