@@ -326,6 +326,13 @@ option {
 
 .btns-rotate:hover {rotate: 360deg;}
 
+.btns-home {
+  position: fixed;
+  left: 30px;
+  top: 30px;
+  z-index: 1010;
+}
+
 .btns__up {
   position: fixed;
   right: 30px;
@@ -656,8 +663,7 @@ option {
   box-sizing: border-box;
   padding: 30px 10px;
   right: 0;
-  width: 200px;
-  height: 200px;
+  width: 150px;
   backdrop-filter: blur(5px);
   font-size: 20px ;
   transition: 2s;
@@ -1082,6 +1088,10 @@ iframe:hover {
   transform: scale(1.1);
 }
 
+.my-profile__pass {
+  margin-bottom: 80px;
+}
+
 /*sort list select*/
 
 .list-choice{
@@ -1431,6 +1441,12 @@ content: '';
 @keyframes rotate {
   from {rotate: 0deg;}
   to {rotate: 360deg;}
+}
+
+@media (max-width: 1400px) {
+  .my-profile {
+    padding-top: 50px;
+  }
 }
 
 @media (max-width: 1024px) {
