@@ -29,8 +29,8 @@ const Header = {
           <div class="profile">
             <img class="btns btns-rotate" alt="Enter" title="Enter" src="assets/images/svg/enter.svg" id="btn-enter">
             <div class="profile__param">
-              <p class="unvisible" id="my-profile"><a href="#profile" target="_blank" title="My profile"><span data-language="en">My profile</span><span data-language="ru" class="unvisible">Мой профиль</span></a></p>
-              <p class="unvisible" id="my-collection"><a href="#collection" target="_blank" title="My collection"><span data-language="en">My сollection</span><span data-language="ru" class="unvisible">Моя коллекция</span></a></p>
+              <p class="unvisible" id="my-profile"><a href="#profile" title="My profile"><span data-language="en">My profile</span><span data-language="ru" class="unvisible">Мой профиль</span></a></p>
+              <p class="unvisible" id="my-collection"><a href="#collection" title="My collection"><span data-language="en">My сollection</span><span data-language="ru" class="unvisible">Моя коллекция</span></a></p>
               <p class="unvisible" id="my-profile-exit"><span data-language="en">Log-Out</span><span data-language="ru" class="unvisible">Выйти из профиля</span></p>
               <p id="my-profile-enter"><span data-language="en">Log-In</span><span data-language="ru" class="unvisible">Учетная запись</span></p>
             </div>

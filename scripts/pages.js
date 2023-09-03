@@ -174,7 +174,7 @@ const ProfilePage = {
             </div>
           </div>
           <div class="my-profile__collection">
-            <a href="#collection" target="_blank" title="My collection"><img class="my-profile__collection_image" src="assets/images/svg/collection.svg" alt="Collection"></a>
+            <a href="#collection" title="My collection"><img class="my-profile__collection_image" src="assets/images/svg/collection.svg" alt="Collection"></a>
           </div>
           <div class="my-profile__video">
             <iframe src="https://www.youtube.com/embed/x7GKeGsm-_s?si=Vi8CST4hfphmXWko" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
