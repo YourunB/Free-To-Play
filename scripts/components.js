@@ -29,8 +29,8 @@ const Header = {
           <div class="profile">
             <img class="btns btns-rotate" alt="Enter" title="Enter" src="assets/images/svg/enter.svg" id="btn-enter">
             <div class="profile__param">
-              <p><span data-language="en">My profile</span><span data-language="ru" class="unvisible">Мой профиль</span></p>
-              <p><span data-language="en">My сollection</span><span data-language="ru" class="unvisible">Моя коллекция</span></p>
+              <p id="my-profile"><span data-language="en">My profile</span><span data-language="ru" class="unvisible">Мой профиль</span></p>
+              <p id="my-collection"><span data-language="en">My сollection</span><span data-language="ru" class="unvisible">Моя коллекция</span></p>
             </div>
           </div>
         </div>
@@ -64,6 +64,8 @@ const BackAnime = {
   render: (customClass = "") => {
     return `
     <ul class="circles ${customClass}">
+    <li></li>
+    <li></li>
     <li></li>
     <li></li>
     <li></li>
