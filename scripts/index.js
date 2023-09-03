@@ -15,6 +15,8 @@ const components = {
 const routes = {
   welcome: WelcomePage,
   main: MainPage,
+  profile: ProfilePage,
+  collection: CollectionPage,
 
   default: WelcomePage,
   error: ErrorPage,
@@ -45,8 +47,8 @@ const mySPA = (function() {
       window.document.title = routesObj[routeName].title;
       contentContainer.innerHTML = routesObj[routeName].render(`${routeName}-page`);
 
-      if (location.hash !== "#main") document.getElementById("header").classList.add("unvisible");
-      else document.getElementById("header").classList.remove("unvisible");
+      if (location.hash === "#main" || location.hash === "#profile" || location.hash === "#collection") document.getElementById("header").classList.remove("unvisible");
+      else document.getElementById("header").classList.add("unvisible");
     }
 
     this.showClick = function (x, y) {
@@ -63,8 +65,35 @@ const mySPA = (function() {
 
     this.volume = function (vol) { document.getElementById("song-music").volume = vol; }
 
-    this.close = function (element) { element.classList.add("unvisible"); }
-    this.open = function (element) { element.classList.remove("unvisible"); }
+    this.close = function (element) {
+      if (element === "signUp") {
+        document.getElementById("window-registration").classList.add("unvisible");
+        this.clearInput(document.getElementById("window-registration"));
+        return;
+      }
+      if (element === "signIn") {
+        document.getElementById("window-login").classList.add("unvisible");
+        this.clearInput(document.getElementById("window-registration"));
+        return;
+      }
+      element.classList.add("unvisible");
+    }
+
+    this.open = function (element) {
+      if (element === "signIn") {
+        document.getElementById("window-login").classList.remove("unvisible");
+        return;
+      }
+      if (element === "signUp") {
+        document.getElementById("window-registration").classList.remove("unvisible");
+        return;
+      }
+      if (element === "logOut") {
+        document.getElementById("window-login").classList.remove("unvisible");
+        return;
+      }
+      element.classList.remove("unvisible");
+    }
 
     this.createCards = function (image, title, genre, date, platform, id, arrPos) {
       let box = document.getElementById("games-box");
@@ -162,6 +191,10 @@ const mySPA = (function() {
       window.location.reload();
     }
 
+    this.clearInput = function (parent) {
+
+    }
+
   };
   /* -------- end view --------- */
   /* ------- begin model ------- */
@@ -172,6 +205,10 @@ const mySPA = (function() {
     let arrSearch = [];
     let maxCards = 0;
     let countCards = 0;
+
+    let userLogin = false;
+    let userTheme = 'dark';
+    let userLang = 'en';
 
     let arrCardsDouble = [];
     let maxCardsDouble = 0;
@@ -209,6 +246,11 @@ const mySPA = (function() {
       myModuleView.close(element);
     }
     this.open = function open (element) {
+      if (element === "logIn/logOut") {
+        if (userLogin === false) myModuleView.open("logOut");
+        if (userLogin === true) myModuleView.open("logIn");
+        return;
+      }
       if ('vibrate' in navigator) myModuleView.vibration();
       myModuleView.open(element);
       if (element.id === "window-loading") {
@@ -407,6 +449,97 @@ const mySPA = (function() {
       myModuleView.windowRefresh();
     }
 
+    this.addUser = function (username, useremail) {
+      myAppDB
+        .ref("users/" + `user_${username.replace(/\s/g, "").toLowerCase()}`)
+        .set({
+          username: `${username}`,
+          email: `${useremail}`,
+        })
+        .then(function () {
+          console.log("Пользователь добавлен в коллецию users");
+        })
+        .catch(function (error) {
+          console.error("Ошибка добавления пользователя: ", error);
+        });
+    };
+
+    this.signIn = function (userEmail, userPass) {
+      if (userEmail && userPass) {
+        auth
+          .signInWithEmailAndPassword(userEmail, userPass)
+          .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+              alert('Hello');
+              userLogin = true;
+              myModuleView.close("signIn");
+          })
+          .catch(function (error) {
+            console.log("Error: " + error.message);
+           alert("Неверный email или пароль. Введите корректные данные.");
+          });
+      } else {
+        alert("Заполните все поля!");
+      }
+    };
+
+    this.logout = function () {
+      firebase.auth().signOut().then(() => {
+        //myAppView.hideForm();
+        console.log("Пшёл вон! =)");
+      });
+    };
+
+    this.signUp = function (userEmail, userPass) {
+      if (userEmail && userPass) {
+        auth
+          .createUserWithEmailAndPassword(userEmail, userPass)
+          .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            alert('Зарегистрирован новый пользователь');
+            myModuleView.close('signUp');
+            myModuleView.open('signIn');
+          })
+          .catch((error) => {
+            console.log("Error: " + error.message);
+            alert("Введите корректные данные.");
+            // ..
+          });
+      } else {
+        alert("Заполните все поля!");
+      }
+    };
+    /*
+    this.signInGoogle = function () {
+      if (userLogin === false) {
+        auth
+          .signInWithPopup(auth, provider)
+          .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            // IdP data available using getAdditionalUserInfo(result)
+            // ...
+          }).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+          });
+      } else {
+        alert("Вы уже залогинены!");
+      }
+    };
+*/
+
   }
 
   /* -------- end model -------- */
@@ -431,7 +564,7 @@ const mySPA = (function() {
         //window start page
         window.addEventListener("hashchange", this.updateState);
         
-        window.addEventListener("click", () => {
+        myModuleContainer.addEventListener("click", () => {
           if (event.target.classList.value === "letter" || event.target.classList.value === "welcome__text" || event.target.classList.value === "welcome__img") {
             this.open(document.getElementById("window-loading"));
             this.audio("song-music", "play");
@@ -479,9 +612,41 @@ const mySPA = (function() {
           if (event.target.id === "detail") {
             myModuleModel.getIdGameInfo(event.target.dataset.id, event.target.id);
           }
+          if (event.target.id === "btn-window-enters-close") this.close(document.getElementById("window-enters"));
+          if (event.target.id === "btn-window-login-close") this.close(document.getElementById("window-login"));
+          if (event.target.id === "btn-window-registration-close") this.close(document.getElementById("window-registration"));
+          if (event.target.id === "btn-window-choice-sign-up") {
+            this.close(document.getElementById("window-enters"));
+            this.open(document.getElementById("window-registration"));
+          }
+          if (event.target.id === "btn-window-choice-sign-in") {
+            this.close(document.getElementById("window-enters"));
+            this.open(document.getElementById("window-login"));
+          } 
+          if (event.target.id === "go-to-signup" || event.target.textContent === "SignUp" || event.target.textContent === "Регистрация") {
+            this.close(document.getElementById("window-login"));
+            this.open(document.getElementById("window-registration"));
+          }
+          if (event.target.id === "go-to-login" || event.target.textContent === "LogIn" || event.target.textContent === "Войти") {
+            this.close(document.getElementById("window-registration"));
+            this.open(document.getElementById("window-login"));
+          }
+          if (event.target.id === "btn-window-registration-save") {
+            event.preventDefault();
+            myModuleModel.addUser(document.getElementById("input-registration-name").value, document.getElementById("input-registration-mail").value);
+          }
+          if (event.target.id === "btn-window-login") {//signIn
+            myModuleModel.signIn(document.getElementById("input-login-mail").value, document.getElementById("input-login-pass").value);
+          }
+          if (event.target.id === "btn-window-registration-save") {//signUp
+            myModuleModel.signUp(document.getElementById("input-registration-mail").value, document.getElementById("input-registration-pass").value);
+          }
+          if (event.target.id === "my-profile" || event.target.textContent === "My profile" || event.target.textContent === "Мой профиль") {//open profile or signIn/signUp
+            this.open("logIn/logOut");
+          }
         });
 
-        window.addEventListener("input", () => {
+        myModuleContainer.addEventListener("input", () => {
           if (event.target.id === "volume") this.volume(event.target.value);
           if (event.target.name === "genre") {
             categoryLink = "&category=" + event.target.nextSibling.textContent.toLowerCase(); 
@@ -521,21 +686,21 @@ const mySPA = (function() {
           let displaySize = window.screen.height;
           let scrollPosition = window.scrollY;
       
-          if (scrollPosition + displaySize > pageSize - 20) myModuleModel.createCards(); 
+          if (scrollPosition + displaySize > pageSize - 20 && location.hash === "#main") myModuleModel.createCards(); 
         }, 250));
 
 
-          window.addEventListener("dragstart", (event) => {
+          myModuleContainer.addEventListener("dragstart", (event) => {
             if (event.target.classList[0] == "card") {
               event.target.classList.add("move-element");
               this.open(document.getElementById("drop-favorite"));
             }
           });
-          window.addEventListener("dragend", (event) => {
+          myModuleContainer.addEventListener("dragend", (event) => {
             event.target.classList.remove("move-element");
             this.close(document.getElementById("drop-favorite"));
           });
-          window.addEventListener("dragover", (event) => {
+          myModuleContainer.addEventListener("dragover", (event) => {
             event.preventDefault();
             const box = document.getElementById("games-box");
             const moveElement = box.getElementsByClassName("move-element")[0];
