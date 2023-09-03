@@ -195,6 +195,20 @@ const mySPA = (function() {
 
     }
 
+    this.elementsLogin = function () {
+      document.getElementById("my-profile").classList.remove("unvisible");
+      document.getElementById("my-collection").classList.remove("unvisible");
+      document.getElementById("my-profile-exit").classList.remove("unvisible");
+      document.getElementById("my-profile-enter").classList.add("unvisible");
+    }
+
+    this.elementsLogout = function () {
+      document.getElementById("my-profile").classList.add("unvisible");
+      document.getElementById("my-collection").classList.add("unvisible");
+      document.getElementById("my-profile-exit").classList.add("unvisible");
+      document.getElementById("my-profile-enter").classList.remove("unvisible");
+    }
+
   };
   /* -------- end view --------- */
   /* ------- begin model ------- */
@@ -206,7 +220,6 @@ const mySPA = (function() {
     let maxCards = 0;
     let countCards = 0;
 
-    let userLogin = false;
     let userTheme = 'dark';
     let userLang = 'en';
 
@@ -220,6 +233,7 @@ const mySPA = (function() {
 
     this.updateState = function(pageName) {
       myModuleView.renderContent(pageName);
+      this.checkUser();
     }
 
     this.audio = function (sound, choice) {
@@ -246,11 +260,6 @@ const mySPA = (function() {
       myModuleView.close(element);
     }
     this.open = function open (element) {
-      if (element === "logIn/logOut") {
-        if (userLogin === false) myModuleView.open("logOut");
-        if (userLogin === true) myModuleView.open("logIn");
-        return;
-      }
       if ('vibrate' in navigator) myModuleView.vibration();
       myModuleView.open(element);
       if (element.id === "window-loading") {
@@ -471,9 +480,10 @@ const mySPA = (function() {
           .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
+              console.log(user.multiFactor.user.email)
               alert('Hello');
-              userLogin = true;
               myModuleView.close("signIn");
+              this.checkUser();
           })
           .catch(function (error) {
             console.log("Error: " + error.message);
@@ -482,13 +492,6 @@ const mySPA = (function() {
       } else {
         alert("Заполните все поля!");
       }
-    };
-
-    this.logout = function () {
-      firebase.auth().signOut().then(() => {
-        //myAppView.hideForm();
-        console.log("Пшёл вон! =)");
-      });
     };
 
     this.signUp = function (userEmail, userPass) {
@@ -511,34 +514,43 @@ const mySPA = (function() {
         alert("Заполните все поля!");
       }
     };
-    /*
-    this.signInGoogle = function () {
-      if (userLogin === false) {
-        auth
-          .signInWithPopup(auth, provider)
-          .then((result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            // The signed-in user info.
-            const user = result.user;
-            // IdP data available using getAdditionalUserInfo(result)
-            // ...
-          }).catch((error) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // The email of the user's account used.
-            const email = error.customData.email;
-            // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            // ...
-          });
+
+    this.logout = function () {
+      firebase.auth().signOut().then(() => {
+        this.checkUser();
+        alert("Вы вышли из аккаунта");
+      });
+    };
+
+    this.changePassword = function (userPass) {
+      if (userPass) {
+        const user = firebase.auth().currentUser;
+        const newPassword = userPass;
+        user.updatePassword(newPassword).then(() => {
+          alert("Пароль изменен");
+        
+            console.log('Update SuccessFul');
+        }).catch((error) => {
+          console.log("Error: " + error.message);
+        });
       } else {
-        alert("Вы уже залогинены!");
+        alert("Заполните все поля!");
       }
     };
-*/
+
+    this.checkUser = function () {
+      const user = firebase.auth().currentUser;
+      if (user !== null) {
+        myModuleView.elementsLogin();
+        user.providerData.forEach((profile) => {
+          console.log("Sign-in provider: " + profile.providerId);
+          console.log("Provider-specific UID: " + profile.uid);
+          console.log("Email: " + profile.email);
+          //console.log("  Name: " + profile.displayName);
+          //console.log("  Photo URL: " + profile.photoURL);
+        });
+      } else myModuleView.elementsLogout();
+    }
 
   }
 
@@ -641,9 +653,15 @@ const mySPA = (function() {
           if (event.target.id === "btn-window-registration-save") {//signUp
             myModuleModel.signUp(document.getElementById("input-registration-mail").value, document.getElementById("input-registration-pass").value);
           }
-          if (event.target.id === "my-profile" || event.target.textContent === "My profile" || event.target.textContent === "Мой профиль") {//open profile or signIn/signUp
-            this.open("logIn/logOut");
+          if (event.target.id === "my-profile-enter" || event.target.textContent === "Log-In" || event.target.textContent === "Учетная запись") {
+            this.open(document.getElementById("window-enters"));
           }
+          if (event.target.id === "my-profile-exit" || event.target.textContent === "Log-Out" || event.target.textContent === "Выйти из профиля") {
+            myModuleModel.logout();
+          }
+          if (event.target.id === "my-profile-pass-save") myModuleModel.changePassword(document.getElementById("profile-pass").value);
+          if (event.currentTarget === "app") myModuleModel.checkUser();
+          console.log(event.currentTarget)
         });
 
         myModuleContainer.addEventListener("input", () => {
@@ -731,6 +749,8 @@ const mySPA = (function() {
           myModuleModel.getGames('https://free-to-play-games-database.p.rapidapi.com/api/games');
           myModuleModel.createCards();
         }
+
+        myModuleModel.checkUser();
       }
 
       this.audio = function (sound, choice) { myModuleModel.audio(sound, choice); };
