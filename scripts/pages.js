@@ -99,7 +99,6 @@ const MainPage = {
         </div>
         <div class="box-button">
         <p class="registration__warning unvisible" id="login-warning"><span data-language="en">Input error</span><span data-language="ru" class="unvisible">Ошибка ввода</span><img class="registration__warning_img" alt="Warning" src="assets/images/svg/warning.svg"></p>
-          <img class="btns" src="assets/images/svg/google.svg" alt="Google" title="Registration with Google" id="btn-window-login-google">
           <button class="button button-custom" id="btn-window-login"><span data-language="en">LogIn</span><span data-language="ru" class="unvisible">Войти</span></button>
         </div>
         <h2 id="go-to-signup" class="registration__change"><span data-language="en">SignUp</span><span data-language="ru" class="unvisible">Регистрация</span></h2>
@@ -149,6 +148,7 @@ const ProfilePage = {
   title: "Profile",
   render: (className = "container", ...rest) => {
     return `
+      <a href="#main"><img class="btns btns-home" alt="Home" title="Home" src="assets/images/svg/home.svg" id="btn-profile-home"></a>
       <main class="container area">
         <div class="my-profile ${className}">
           <h2><span data-language="en">Profile page</span><span data-language="ru" class="unvisible">Страница профиля</span></h2>
@@ -168,21 +168,13 @@ const ProfilePage = {
               <label for="profile-discord"><span data-language="en">Your discord:</span><span data-language="ru" class="unvisible">"Аккаунт discord":</span></label>
               <input type="text" maxlength="30" id="profile-discord">
             </div>
-            <div class="my-profile__inputs_box">
-              <label for="profile-mail"><span data-language="en">Your email:</span><span data-language="ru" class="unvisible">"Электронная почта":</span></label>
-              <input type="email" maxlength="30" id="profile-mail">
-            </div>
-            <div class="my-profile__inputs_box">
-              <label for="profile-pass"><span data-language="en">Your email:</span><span data-language="ru" class="unvisible">"Электронная почта":</span></label>
-              <input type="password" maxlength="30" id="profile-pass">
-            </div>
             <div class="my-profile__save">
             <button class="button button-cancel" id="my-profile-cancel"><span data-language="en">Cancel</span><span data-language="ru" class="unvisible">Отмена</span></button>  
             <button class="button button-custom" id="my-profile-save"><span data-language="en">Save</span><span data-language="ru" class="unvisible">Сохранить</span></button>
             </div>
           </div>
           <div class="my-profile__collection">
-            <a href="file:///G:/FTP/index.html#collection" target="_blank" title="My collection"><img class="my-profile__collection_image" src="assets/images/svg/collection.svg" alt="Collection"></a>
+            <a href="#collection" target="_blank" title="My collection"><img class="my-profile__collection_image" src="assets/images/svg/collection.svg" alt="Collection"></a>
           </div>
           <div class="my-profile__video">
             <iframe src="https://www.youtube.com/embed/x7GKeGsm-_s?si=Vi8CST4hfphmXWko" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -190,6 +182,17 @@ const ProfilePage = {
           <div class="my-profile__social">
             <a href="https://www.twitch.tv/search?term=free%20to%20play%20game" target="_blank" title="Go to YouTube"><img class="my-profile__social_image" src="assets/images/svg/twitch.svg" alt="Twitch"></a>
             <a href="https://www.youtube.com/results?search_query=free+to+play+game" target="_blank" title="Go to Twitch"><img class="my-profile__social_image" src="assets/images/svg/youtube.svg" alt="YouTube"></a>
+          </div>
+          <div class="my-profile__pass">
+            <h2><span data-language="en">User password:</span><span data-language="ru" class="unvisible">"Пароль пользователя"</span></h2>
+            <div class="my-profile__inputs_box">
+              <label for="profile-pass"><span data-language="en">Change password:</span><span data-language="ru" class="unvisible">"Изменить пароль":</span></label>
+              <input type="password" maxlength="30" id="profile-pass">
+            </div>
+            <div class="my-profile__save">
+              <button class="button button-cancel" id="my-profile-pass-cancel"><span data-language="en">Cancel</span><span data-language="ru" class="unvisible">Отмена</span></button>  
+              <button class="button button-custom" id="my-profile-pass-save"><span data-language="en">Apply</span><span data-language="ru" class="unvisible">Изменить</span></button>
+            </div>
           </div>
         </div>
       </main>
@@ -202,6 +205,7 @@ const CollectionPage = {
   title: "Collection",
   render: (className = "container", ...rest) => {
     return `
+      <a href="#main"><img class="btns btns-home" alt="Home" title="Home" src="assets/images/svg/home.svg" id="btn-collection-home"></a>
       <main class="container area">
         <div class="collection ${className}">
           <h2><span data-language="en">My collection</span><span data-language="ru" class="unvisible">Моя коллекция</span></h2>
