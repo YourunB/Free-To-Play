@@ -101,7 +101,7 @@ const mySPA = (function() {
       box.getElementsByTagName("div")[box.getElementsByTagName("div").length - 1].classList.add("card");
       box.getElementsByTagName("div")[box.getElementsByTagName("div").length - 1].draggable = true;
       box.getElementsByTagName("div")[box.getElementsByTagName("div").length - 1].innerHTML = `
-      <img draggable="false" class="card__img" src="${image}" alt="Game img" data-id="${id}" data-pos="${arrPos}">
+      <img draggable="false" class="card__img" src="${image}" alt="Game img" data-id="${id}" data-title="${title}" data-image="${image}" data-pos="${arrPos}">
       <h3 draggable="false" class="card__title"> ${title}</h3>
       <div draggable="false" class="card__discription">
         <p draggable="false"><span data-language="en">Genre:</span><span data-language="ru" class="unvisible">Жанр:</span> ${genre}</p>
@@ -305,6 +305,35 @@ const mySPA = (function() {
       }
     }
 
+    this.themeDark = function () {
+      document.body.classList.remove("light");
+      if (location.hash === '') {
+        document.getElementById("window-loading").classList.remove("light");
+        document.getElementById("window-loading-image").classList.remove("light__img");
+        document.getElementById("window-loading-line").classList.remove("light__img");
+      }
+    }
+    this.themeLigth = function () {
+      document.body.classList.add("light");
+      if (location.hash === '') {
+        document.getElementById("window-loading").classList.add("light");
+        document.getElementById("window-loading-image").classList.add("light__img");
+        document.getElementById("window-loading-line").classList.add("light__img");
+      }
+    }
+    this.languageRus = function () {
+      for (let i = 0; i < document.getElementsByTagName("span").length; i++) {
+        if (document.getElementsByTagName("span")[i].dataset.language === "ru") document.getElementsByTagName("span")[i].classList.remove("unvisible");
+        if (document.getElementsByTagName("span")[i].dataset.language === "en") document.getElementsByTagName("span")[i].classList.add("unvisible");
+      }
+    }
+    this.languageEng = function () {
+      for (let i = 0; i < document.getElementsByTagName("span").length; i++) {
+        if (document.getElementsByTagName("span")[i].dataset.language === "ru") document.getElementsByTagName("span")[i].classList.add("unvisible");
+        if (document.getElementsByTagName("span")[i].dataset.language === "en") document.getElementsByTagName("span")[i].classList.remove("unvisible");
+      }
+    }
+
   };
   /* -------- end view --------- */
   /* ------- begin model ------- */
@@ -471,6 +500,7 @@ const mySPA = (function() {
           }
         }
         myModuleView.hideLoad();
+        setTimeout(()=>{this.checkLanguage();},0);
       }, 1000);
     }
 
@@ -574,11 +604,12 @@ const mySPA = (function() {
           .signInWithEmailAndPassword(userEmail, userPass)
           .then((userCredential) => {
             // Signed in
+            localStorage.setItem('login', true);
             const user = userCredential.user;
-              console.log(user.multiFactor.user.email)
-              alert('Hello');
-              myModuleView.close("signIn");
-              this.checkUser();
+            console.log(user.multiFactor.user.email)
+            alert('Hello');
+            myModuleView.close("signIn");
+            this.checkUser();
           })
           .catch(function (error) {
             console.log("Error: " + error.message);
@@ -612,8 +643,9 @@ const mySPA = (function() {
 
     this.logout = function () {
       firebase.auth().signOut().then(() => {
-        this.checkUser();
+        delete localStorage.login;
         alert("Вы вышли из аккаунта");
+        this.checkUser();
       });
     };
 
@@ -643,18 +675,44 @@ const mySPA = (function() {
         alert("Заполните все поля!");
       }
     };
-
+/*
     this.checkUser = function () {
-      const user = firebase.auth().getCurrentUser;
+      const user = firebase.auth().currentUser;
       if (user !== null) {
         console.log("User IN");
         myModuleView.elementsLogin();
       } else {
         myModuleView.elementsLogout();
-        console.log("USer OUT");
+        console.log("User OUT");
       }
     }
-    
+*/  
+    this.checkUser = function () {
+      if (localStorage.login === "true") {
+        console.log("User IN");
+        myModuleView.elementsLogin();
+      } else {
+        myModuleView.elementsLogout();
+        console.log("User OUT");
+      }
+    }
+
+    this.checkTheme = function () {
+      if (localStorage.theme === "light") {
+        myModuleView.themeLigth();
+      } else {
+        myModuleView.themeDark();
+      }
+    }
+
+    this.checkLanguage = function () {
+      if (localStorage.lang === "ru") {
+        myModuleView.languageRus();
+      } else {
+        myModuleView.languageEng();
+      }
+    }
+
     this.addGameToCollection = function (gameId, gameTitle, gameImage) {
       const user = firebase.auth().currentUser;
       if (user !== null) {
@@ -717,6 +775,21 @@ const mySPA = (function() {
           console.log("Error: " + error.code);
         });
     };
+
+    this.showLoad = function() { myModuleView.showLoad(); }
+    this.hideLoad = function() { myModuleView.hideLoad(); }
+
+    this.changeTheme = function() {
+      if (localStorage.theme !== "light") localStorage.setItem("theme", "light");
+      else delete localStorage.theme;
+      this.checkTheme();
+    }
+
+    this.changeLanguage = function () {
+      if (localStorage.lang !== "ru") localStorage.setItem("lang", "ru");
+      else delete localStorage.lang;
+      this.checkLanguage();
+    }
 
   }
 
@@ -838,8 +911,10 @@ const mySPA = (function() {
           if (event.target.classList.value === "btns collection__box_card_btn") {
             myModuleModel.deleteCardGameCollection(event.target.dataset.id);
           }
+          if (event.target.id === "theme") { myModuleModel.changeTheme(); }
+          if (event.target.id === "language") { myModuleModel.changeLanguage(); }
           if (event.currentTarget === "app") myModuleModel.checkUser();
-          console.log(event.target.classList.value)
+          console.log(event.target)
         });
 
         myModuleContainer.addEventListener("input", () => {
@@ -894,7 +969,9 @@ const mySPA = (function() {
           });
           myModuleContainer.addEventListener("dragend", (event) => {
             event.target.classList.remove("move-element");
-            this.close(document.getElementById("drop-favorite"));
+            setTimeout(() => {
+              this.close(document.getElementById("drop-favorite"));
+            }, 250); 
           });
           myModuleContainer.addEventListener("dragover", (event) => {
             event.preventDefault();
@@ -903,9 +980,10 @@ const mySPA = (function() {
             const eventElement = event.target;
             const checkMove = moveElement !== eventElement && eventElement.classList.contains("card");
 
-            document.body.onmouseup = () => {
+            document.getElementById("drop-favorite").onmouseleave = () => {
               if (moveElement !== eventElement && eventElement.id == "drop-favorite") {
-                console.log("Добавлено", moveElement.children[0].dataset.id); // тут будет метод добавления игры по id в БД
+                //alert("Добавлено", moveElement.children[0].dataset.id,moveElement.children[0].dataset.title, moveElement.children[0].dataset.image); // тут будет метод добавления игры по id в БД
+                myModuleModel.addGameToCollection(moveElement.children[0].dataset.id, moveElement.children[0].dataset.title, moveElement.children[0].dataset.image);
                 return;
               }
             }
@@ -929,10 +1007,16 @@ const mySPA = (function() {
         }
 
         if (location.hash === "#collection") {
-          myModuleModel.getGamesUserCollection();
+          myModuleModel.showLoad();
+          setTimeout(()=>{
+            myModuleModel.getGamesUserCollection();
+            myModuleModel.hideLoad();
+          }, 2500);
         }
 
         myModuleModel.checkUser();
+        myModuleModel.checkTheme();
+        myModuleModel.checkLanguage();
       }
 
       this.audio = function (sound, choice) { myModuleModel.audio(sound, choice); };
@@ -949,6 +1033,7 @@ const mySPA = (function() {
         myModuleModel.getGames("https://free-to-play-games-database.p.rapidapi.com/api/games?"+ category + platform + type);
         this.deleteCards();
         myModuleModel.createCards();
+        myModuleModel.changeLanguage();
       }
 
       this.deleteCards = function () {
