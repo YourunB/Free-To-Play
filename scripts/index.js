@@ -73,7 +73,7 @@ const mySPA = (function() {
       }
       if (element === "signIn") {
         document.getElementById("window-login").classList.add("unvisible");
-        this.clearInput(document.getElementById("window-registration"));
+        this.clearInput(document.getElementById("window-login"));
         return;
       }
       element.classList.add("unvisible");
@@ -192,7 +192,10 @@ const mySPA = (function() {
     }
 
     this.clearInput = function (parent) {
-
+      const inputs = parent.getElementsByTagName("input");
+      for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].value !== "") inputs[i].value = "";
+      }
     }
 
     this.elementsLogin = function () {
@@ -344,9 +347,6 @@ const mySPA = (function() {
     let arrSearch = [];
     let maxCards = 0;
     let countCards = 0;
-
-    let userTheme = 'dark';
-    let userLang = 'en';
 
     let arrCardsDouble = [];
     let maxCardsDouble = 0;
@@ -789,6 +789,10 @@ const mySPA = (function() {
       this.checkLanguage();
     }
 
+    this.clearInput = function (parent) {
+      myModuleView.clearInput(parent);
+    }
+
   }
 
   /* -------- end model -------- */
@@ -875,19 +879,23 @@ const mySPA = (function() {
           if (event.target.id === "go-to-signup" || event.target.textContent === "SignUp" || event.target.textContent === "Регистрация") {
             this.close(document.getElementById("window-login"));
             this.open(document.getElementById("window-registration"));
+            myModuleModel.clearInput(document.getElementById("window-login"));
           }
           if (event.target.id === "go-to-login" || event.target.textContent === "LogIn" || event.target.textContent === "Войти") {
             this.close(document.getElementById("window-registration"));
             this.open(document.getElementById("window-login"));
+            myModuleModel.clearInput(document.getElementById("window-registration"));
           }
           /*if (event.target.id === "btn-window-registration-save") {
             event.preventDefault();
             myModuleModel.addUser(document.getElementById("input-registration-mail").value, document.getElementById("input-registration-pass").value);
           }*/
           if (event.target.id === "btn-window-login") {//signIn
+            event.preventDefault();
             myModuleModel.signIn(document.getElementById("input-login-mail").value, document.getElementById("input-login-pass").value);
           }
           if (event.target.id === "btn-window-registration-save") {//signUp
+            event.preventDefault();
             myModuleModel.signUp(document.getElementById("input-registration-mail").value, document.getElementById("input-registration-pass").value);
           }
           if (event.target.id === "my-profile-enter" || event.target.textContent === "Log-In" || event.target.textContent === "Учетная запись") {
