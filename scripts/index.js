@@ -412,7 +412,7 @@ const mySPA = (function() {
         	arrCards = data;
           maxCards = data.length;
           countCards = 0;
-          console.log(arrCards);
+          //console.log(arrCards);
         } catch (error) {
           if (error != "") {
             myModuleView.showLossConnection();
@@ -500,7 +500,7 @@ const mySPA = (function() {
           }
         }
         myModuleView.hideLoad();
-        setTimeout(()=>{this.checkLanguage();},0);
+        setTimeout(() => { this.checkLanguage(); }, 0);
       }, 1000);
     }
 
@@ -582,7 +582,7 @@ const mySPA = (function() {
     this.windowRefresh = function () {
       myModuleView.windowRefresh();
     }
-
+/*
     this.addUser = function (username, useremail) {
       myAppDB
         .ref("users/" + `user_${username.replace(/\s/g, "").toLowerCase()}`)
@@ -597,7 +597,7 @@ const mySPA = (function() {
           console.error("Ошибка добавления пользователя: ", error);
         });
     };
-
+*/
     this.signIn = function (userEmail, userPass) {
       if (userEmail && userPass) {
         auth
@@ -634,7 +634,6 @@ const mySPA = (function() {
           .catch((error) => {
             console.log("Error: " + error.message);
             alert("Введите корректные данные.");
-            // ..
           });
       } else {
         alert("Заполните все поля!");
@@ -762,9 +761,33 @@ const mySPA = (function() {
         });
     };
 
-    this.getUsersList = function () {
+    this.updateUserInfo = function (name, age, discord) {
+      const user = firebase.auth().currentUser;
+      if (user !== null) {
+        myAppDB
+          .ref("users/" + [user.multiFactor.user.uid])
+          .update({
+            email: user.multiFactor.user.email,
+            name: name,
+            age: age,
+            discord: discord,
+          })
+          .then(function () {
+           alert("Информаци о пользователе сохранена");
+          })
+          .catch(function (error) {
+            console.error("Ошибка: ", error);
+          });
+        } else {
+          alert("Сначала залогиньтесь");
+        }
+    };
+
+    this.getUserInfo = function () {
+      const user = firebase.auth().currentUser;
+      if (user !== null) {
       myAppDB
-        .ref("users/")
+        .ref("users/" + [user.multiFactor.user.uid])
         .once("value")
         .then(function (snapshot) {
           console.log(snapshot.val());
@@ -772,6 +795,9 @@ const mySPA = (function() {
         .catch(function (error) {
           console.log("Error: " + error.code);
         });
+      } else {
+        alert("Сначала залогиньтесь");
+      }
     };
 
     this.showLoad = function() { myModuleView.showLoad(); }
@@ -902,6 +928,7 @@ const mySPA = (function() {
             this.open(document.getElementById("window-enters"));
           }
           if (event.target.id === "my-profile-exit" || event.target.textContent === "Log-Out" || event.target.textContent === "Выйти из профиля") {
+            if (location.hash === "#collection" || location.hash === "#profile") window.open("#main","_self");
             myModuleModel.logout();
           }
           if (event.target.id === "my-profile-pass-save") myModuleModel.changePassword(document.getElementById("profile-pass").value);
@@ -921,6 +948,15 @@ const mySPA = (function() {
           if (event.target.id === "language") { myModuleModel.changeLanguage(); }
           if (event.currentTarget === "app") myModuleModel.checkUser();
           if (event.target.id === "go-home") document.getElementById("lock").classList.add("unvisible");
+
+          if (event.target.id === "my-profile-save") {
+            const profileName = document.getElementById("profile-name").value;
+            const profileAge = document.getElementById("profile-age").value;
+            const profileDiscord = document.getElementById("profile-discord").value;
+            if (profileName !== "" && profileAge !== "" && profileDiscord !== "") {
+              myModuleModel.updateUserInfo(profileName, profileAge, profileDiscord);
+            }
+          }
           console.log(event.target)
         });
 
@@ -1015,6 +1051,9 @@ const mySPA = (function() {
 
         if (location.hash === "#profile" && localStorage.login !== "true") {
           document.getElementById("lock").classList.remove("unvisible");
+        }
+        if (location.hash === "#profile" && localStorage.login === "true") {
+          myModuleModel.getUserInfo();
         }
         if (location.hash === "#collection" && localStorage.login !== "true") {
           document.getElementById("lock").classList.remove("unvisible");
