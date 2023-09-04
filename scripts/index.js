@@ -9,6 +9,7 @@ const components = {
   goup: GoUp,
   load: Load,
   lossConnection: LossConnection,
+  lockDisplay: LockDisplay,
 };
 
 // Список поддердживаемых роутов (from pages.js)
@@ -17,7 +18,6 @@ const routes = {
   main: MainPage,
   profile: ProfilePage,
   collection: CollectionPage,
-
   default: WelcomePage,
   error: ErrorPage,
 };
@@ -689,11 +689,9 @@ const mySPA = (function() {
 */  
     this.checkUser = function () {
       if (localStorage.login === "true") {
-        console.log("User IN");
         myModuleView.elementsLogin();
       } else {
         myModuleView.elementsLogout();
-        console.log("User OUT");
       }
     }
 
@@ -914,6 +912,7 @@ const mySPA = (function() {
           if (event.target.id === "theme") { myModuleModel.changeTheme(); }
           if (event.target.id === "language") { myModuleModel.changeLanguage(); }
           if (event.currentTarget === "app") myModuleModel.checkUser();
+          if (event.target.id === "go-home") document.getElementById("lock").classList.add("unvisible");
           console.log(event.target)
         });
 
@@ -1006,7 +1005,13 @@ const mySPA = (function() {
           myModuleModel.createCards();
         }
 
-        if (location.hash === "#collection") {
+        if (location.hash === "#profile" && localStorage.login !== "true") {
+          document.getElementById("lock").classList.remove("unvisible");
+        }
+        if (location.hash === "#collection" && localStorage.login !== "true") {
+          document.getElementById("lock").classList.remove("unvisible");
+        }
+        if (location.hash === "#collection" && localStorage.login === "true") {
           myModuleModel.showLoad();
           setTimeout(()=>{
             myModuleModel.getGamesUserCollection();

@@ -391,6 +391,7 @@ option {
   padding: 10px;
   box-sizing: border-box;
   transition: 1s;
+  animation: show 3s;
 }
 .collection__box_card h3 {
   border-bottom: #A9121F solid 1px;
@@ -561,6 +562,48 @@ option {
 
 /*end show style card*/
 
+.lock {
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  background-color: #A9121F;
+  background-image: url('../assets/images/background/trevor.png');
+  background-position: left bottom;
+  background-repeat: no-repeat;
+  background-size: 50vh;
+  background-attachment: fixed;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.lock__image {
+  text-align: center;
+  transition: 1s;
+}
+
+.lock__image:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  filter: invert(1);
+}
+
+.lock h3 {
+  text-align: center;
+  width: 100%;
+  font-size: 25px;
+  border-bottom: 2px solid black;
+}
+
+.lock__image_img {
+  width: 70%;
+}
+
 .error {
   position: absolute;
   top: 50%;
@@ -596,7 +639,12 @@ option {
   min-height: 100vh;
   height: 100%;
   z-index: 9999;
-  background: #A9121F;
+  background-color: #A9121F;
+  background-image: url('../assets/images/background/trevor.png');
+  background-position: left bottom;
+  background-repeat: no-repeat;
+  background-size: 50vh;
+  background-attachment: fixed;
   transition: 1s;
   display: flex;
   justify-content: center;
@@ -703,7 +751,7 @@ option {
   box-sizing: border-box;
   padding: 30px 10px;
   right: 0;
-  width: 150px;
+  width: 200px;
   backdrop-filter: blur(5px);
   font-size: 20px ;
   transition: 2s;

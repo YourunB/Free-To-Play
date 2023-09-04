@@ -77,7 +77,7 @@ const MainPage = {
         </div>
       </main>
 
-      <div class="entrance" id="window-enters">
+      <div class="entrance unvisible" id="window-enters">
         <img class="btns entrance-btn" src="assets/images/svg/close.svg" alt="Close" title="Close" id="btn-window-enters-close">
         <h2><span data-language="en">Do you already have an account?</span><span data-language="ru" class="unvisible">У Вас есть аккаунт?</span></h2>
         <div class="box-button">
@@ -161,7 +161,7 @@ const ProfilePage = {
               <input type="number" maxlength="3" id="profile-age">
             </div>
             <div class="my-profile__inputs_box">
-              <label for="profile-discord"><span data-language="en">Your discord:</span><span data-language="ru" class="unvisible">"Аккаунт discord":</span></label>
+              <label for="profile-discord"><span data-language="en">Your discord:</span><span data-language="ru" class="unvisible">Аккаунт discord:</span></label>
               <input type="text" maxlength="30" id="profile-discord">
             </div>
             <div class="my-profile__save">
@@ -180,9 +180,9 @@ const ProfilePage = {
             <a href="https://www.youtube.com/results?search_query=free+to+play+game" target="_blank" title="Go to Twitch"><img class="my-profile__social_image" src="assets/images/svg/youtube.svg" alt="YouTube"></a>
           </div>
           <div class="my-profile__pass">
-            <h2><span data-language="en">User password:</span><span data-language="ru" class="unvisible">"Пароль пользователя"</span></h2>
+            <h2><span data-language="en">User password:</span><span data-language="ru" class="unvisible">Пароль пользователя</span></h2>
             <div class="my-profile__inputs_box">
-              <label for="profile-pass"><span data-language="en">Change password:</span><span data-language="ru" class="unvisible">"Изменить пароль":</span></label>
+              <label for="profile-pass"><span data-language="en">Change password:</span><span data-language="ru" class="unvisible">Изменить пароль:</span></label>
               <input type="password" maxlength="30" id="profile-pass">
             </div>
             <div class="my-profile__save">
