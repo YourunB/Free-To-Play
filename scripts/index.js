@@ -645,17 +645,10 @@ const mySPA = (function() {
     };
 
     this.checkUser = function () {
-      const user = firebase.auth().currentUser;
+      const user = firebase.auth().getCurrentUser;
       if (user !== null) {
         console.log("User IN");
         myModuleView.elementsLogin();
-        /*user.providerData.forEach((profile) => {
-          console.log("Sign-in provider: " + profile.providerId);
-          console.log("Provider-specific UID: " + profile.uid);
-          console.log("Email: " + profile.email);
-          console.log("  Name: " + profile.displayName);
-          console.log("  Photo URL: " + profile.photoURL);
-        });*/
       } else {
         myModuleView.elementsLogout();
         console.log("USer OUT");
