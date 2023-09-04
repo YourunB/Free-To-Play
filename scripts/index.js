@@ -337,6 +337,12 @@ const mySPA = (function() {
       }
     }
 
+    this.showUserInfo = function (userName = "", userAge = "", userDiscord = "") {
+      document.getElementById("profile-name").value = userName;
+      document.getElementById("profile-age").value = userAge;
+      document.getElementById("profile-discord").value = userDiscord;
+    }
+
   };
   /* -------- end view --------- */
   /* ------- begin model ------- */
@@ -791,6 +797,7 @@ const mySPA = (function() {
         .once("value")
         .then(function (snapshot) {
           console.log(snapshot.val());
+          myModuleView.showUserInfo(snapshot.val().name, snapshot.val().age, snapshot.val().discord);
         })
         .catch(function (error) {
           console.log("Error: " + error.code);
