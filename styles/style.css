@@ -375,6 +375,46 @@ option {
   text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
 }
 
+.collection__box {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.collection__box_card {
+  position: relative;
+  width: 280px;
+  height: 270px;
+  border-radius: 5px;
+  text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
+  transition: 1s;
+}
+.collection__box_card h3 {
+  border-bottom: #A9121F solid 1px;
+}
+.collection__box_card_image {
+  width: 250px;
+  border-radius: 3px;
+  transition: 1s;
+  cursor: pointer;
+}
+.collection__box_card_btn {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+.collection__box_card:hover {
+  transform: scale(0.9);
+  box-shadow: 0 0 2px 2px rgba(225, 4, 4, 0.5);
+}
+.collection__box_card:hover .collection__box_card_image {
+  transform: scale(1.15);
+  box-shadow: 0 0 4px 4px rgba(128, 128, 128, 0.5);
+}
+
 .container__games_content {
   display: flex;
   flex-wrap: wrap;

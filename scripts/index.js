@@ -107,7 +107,7 @@ const mySPA = (function() {
         <p draggable="false"><span data-language="en">Genre:</span><span data-language="ru" class="unvisible">Жанр:</span> ${genre}</p>
         <p draggable="false"><span data-language="en">Release date:</span><span data-language="ru" class="unvisible">Дата выхода:</span> ${date}</p>
         <p draggable="false"><span data-language="en">Platform:</span><span data-language="ru" class="unvisible">Платформа:</span> ${platform}</p>
-        <img draggable="false" class="card__btn" alt="Star" title="To favorites" src="assets/images/svg/star.svg" data-id="${id}" data-pos="${arrPos}">
+        <img draggable="false" class="card__btn" alt="Star" title="To favorites" src="assets/images/svg/star.svg" data-id="${id}" data-title="${title}" data-image="${image}">
       </div>
       `;
     }
@@ -133,7 +133,7 @@ const mySPA = (function() {
         <p><span data-language="en">Release date:</span><span data-language="ru" class="unvisible">Дата релиза:</span> ${date}</p>
         <p><span data-language="en">Description:</span><span data-language="ru" class="unvisible">Описание:</span> ${description}</p>
         <img class="btns card-show__btn-close" alt="Close" title="Close" src="assets/images/svg/close.svg" id="close-window-description">
-        <img data-id="${id}" class="card__btn card-show__btn-to-favorite" alt="Star" title="To favorites" src="assets/images/svg/star.svg" id="btn-favorites-description-main">
+        <img data-id="${id}" data-title="${title}" data-image="${image}" class="card__btn card-show__btn-to-favorite" alt="Star" title="To favorites" src="assets/images/svg/star.svg" id="btn-favorites-description-main">
         <img data-id="${id}" class="detail btns" alt="Detail" title="Detail" src="assets/images/svg/detail.svg" id="detail">
       </div>
       `;
@@ -207,6 +207,24 @@ const mySPA = (function() {
       document.getElementById("my-collection").classList.add("unvisible");
       document.getElementById("my-profile-exit").classList.add("unvisible");
       document.getElementById("my-profile-enter").classList.remove("unvisible");
+    }
+
+    this.createCardsGamesUserCollection = function (obj) {
+      if (obj) {
+        let arr = [];
+        const collectionBox = document.getElementById("collection-box");
+        for (let key in obj) {
+          console.log(key, obj[key].split("|"));
+          arr = obj[key].split("|");
+          collectionBox.append(document.createElement("div"));
+          collectionBox.getElementsByTagName("div")[collectionBox.getElementsByTagName("div").length - 1].classList.add("collection__box_card");
+          collectionBox.getElementsByTagName("div")[collectionBox.getElementsByTagName("div").length - 1].innerHTML = `
+          <img class="collection__box_card_image" src="${arr[1]}" data-id="${key}" alt="Game">
+          <h3>${arr[0]}</h3>
+          <img data-id="${key}" class="btns collection__box_card_btn" src="assets/images/svg/remove.svg" alt="Delete game">
+          `;
+        }
+      }
     }
 
   };
@@ -347,7 +365,7 @@ const mySPA = (function() {
                   <a data-fancybox="gallery" href="${data.screenshots[2].image}"><img class="full-description__screenshots_image" src="${data.screenshots[2].image}" alt="Game screenshot"></a>
                 </div>
                 <img class="btns card-show__btn-close" alt="Close" title="Close" src="assets/images/svg/close.svg" id="close-full-description">
-                <img data-id="${id}" class="card__btn card-show__btn-to-favorite" alt="Star" title="To favorites" src="assets/images/svg/star.svg" id="btn-favorites-full-description">
+                <img data-id="${id}" data-title="${title}" data-image="${image}" class="card__btn card-show__btn-to-favorite" alt="Star" title="To favorites" src="assets/images/svg/star.svg" id="btn-favorites-full-description">
               `;
               myModuleView.hideLoad();
             }, 1000);
@@ -522,14 +540,25 @@ const mySPA = (function() {
       });
     };
 
+    this.deleteUser = function () {
+      let user = firebase.auth().currentUser;
+      user.delete().then(function() {
+        window.open("#main","_self");
+        this.checkUser();
+        alert("Пользователь удален");
+      }).catch(function(error) {
+        alert("Не удалось удалить пользователя")
+        console.log("Error: " + error.message);
+      });
+    }
+
     this.changePassword = function (userPass) {
       if (userPass) {
         const user = firebase.auth().currentUser;
         const newPassword = userPass;
         user.updatePassword(newPassword).then(() => {
           alert("Пароль изменен");
-        
-            console.log('Update SuccessFul');
+          console.log('Update SuccessFul');
         }).catch((error) => {
           console.log("Error: " + error.message);
         });
@@ -551,6 +580,55 @@ const mySPA = (function() {
         });
       } else myModuleView.elementsLogout();
     }
+    
+    this.addGameToCollection = function (gameId, gameTitle, gameImage) {
+      const user = firebase.auth().currentUser;
+      //console.log(user)
+      if (user !== null) {
+        myAppDB
+          .ref("users/" + [user.multiFactor.user.uid] + "/games/")
+          .update({
+            /*email: user.multiFactor.user.email,
+            games: { */
+            [gameId] : gameTitle + "|" + gameImage, /*} 
+            image: gameImage,*/
+          })
+          .then(function () {
+           alert("Игра добавлена в коллекцию");
+          })
+          .catch(function (error) {
+            console.error("Ошибка добавления: ", error);
+          });
+        } else {
+          alert("Сначала залогиньтесь");
+        }
+    };
+
+    this.getGamesUserCollection = function () {
+      const user = firebase.auth().currentUser;
+      myAppDB
+        .ref("users/" + [user.multiFactor.user.uid] + "/games/")
+        .once("value")
+        .then(function (snapshot) {
+          const obj = snapshot.val();
+          myModuleView.createCardsGamesUserCollection(obj);
+        })
+        .catch(function (error) {
+          console.log("Error: " + error.code);
+        });
+    };
+
+    this.getUsersList = function () {
+      myAppDB
+        .ref("users/")
+        .once("value")
+        .then(function (snapshot) {
+          console.log(snapshot.val());
+        })
+        .catch(function (error) {
+          console.log("Error: " + error.code);
+        });
+    };
 
   }
 
@@ -643,10 +721,10 @@ const mySPA = (function() {
             this.close(document.getElementById("window-registration"));
             this.open(document.getElementById("window-login"));
           }
-          if (event.target.id === "btn-window-registration-save") {
+          /*if (event.target.id === "btn-window-registration-save") {
             event.preventDefault();
-            myModuleModel.addUser(document.getElementById("input-registration-name").value, document.getElementById("input-registration-mail").value);
-          }
+            myModuleModel.addUser(document.getElementById("input-registration-mail").value, document.getElementById("input-registration-pass").value);
+          }*/
           if (event.target.id === "btn-window-login") {//signIn
             myModuleModel.signIn(document.getElementById("input-login-mail").value, document.getElementById("input-login-pass").value);
           }
@@ -660,8 +738,14 @@ const mySPA = (function() {
             myModuleModel.logout();
           }
           if (event.target.id === "my-profile-pass-save") myModuleModel.changePassword(document.getElementById("profile-pass").value);
+          if (event.target.id === "my-profile-delete" || event.target.textContent === "Delete profile" || event.target.textContent === "Удалить профиль") {
+            myModuleModel.deleteUser();
+          }
+          if (event.target.classList.value === "card__btn") {//add game to collection
+            myModuleModel.addGameToCollection(event.target.dataset.id, event.target.dataset.title, event.target.dataset.image);
+          }
           if (event.currentTarget === "app") myModuleModel.checkUser();
-          console.log(event.currentTarget)
+          console.log(event.target.classList.value)
         });
 
         myModuleContainer.addEventListener("input", () => {
@@ -748,6 +832,10 @@ const mySPA = (function() {
         if (location.hash === "#main") {
           myModuleModel.getGames('https://free-to-play-games-database.p.rapidapi.com/api/games');
           myModuleModel.createCards();
+        }
+
+        if (location.hash === "#collection") {
+          myModuleModel.getGamesUserCollection();
         }
 
         myModuleModel.checkUser();
