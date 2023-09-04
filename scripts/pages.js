@@ -108,10 +108,6 @@ const MainPage = {
         <img class="btns registration-btn" src="assets/images/svg/close.svg" alt="Close" title="Close" id="btn-window-registration-close">
         <h2><span data-language="en">User Registration</span><span data-language="ru" class="unvisible">Регистрация пользователя</span></h2>
         <div class="registration__box">
-          <label for="input-registration-name"><span data-language="en">Your Name:</span><span data-language="ru" class="unvisible">Имя:</span></label>
-          <input type="text" maxlength="30" id="input-registration-name">
-        </div>
-        <div class="registration__box">
           <label for="input-registration-mail"><span data-language="en">Email:</span><span data-language="ru" class="unvisible">Эл. почта:</span></label>
           <input type="email" maxlength="30" id="input-registration-mail">
         </div>
@@ -153,7 +149,7 @@ const ProfilePage = {
         <div class="my-profile ${className}">
           <h2><span data-language="en">Profile page</span><span data-language="ru" class="unvisible">Страница профиля</span></h2>
           <div class="my-profile__delete">
-            <button class="button button-del" id="my-profile-save"><span data-language="en">Delete profile</span><span data-language="ru" class="unvisible">Удалить профиль</span></button>
+            <button class="button button-del" id="my-profile-delete"><span data-language="en">Delete profile</span><span data-language="ru" class="unvisible">Удалить профиль</span></button>
           </div>
           <div class="my-profile__inputs">
             <div class="my-profile__inputs_box">
@@ -209,7 +205,7 @@ const CollectionPage = {
       <main class="container area">
         <div class="collection ${className}">
           <h2><span data-language="en">My collection</span><span data-language="ru" class="unvisible">Моя коллекция</span></h2>
-          <div class="collection__box"></div>
+          <div id="collection-box" class="collection__box"></div>
         </div>
       </main>
     `;
