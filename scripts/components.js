@@ -138,3 +138,17 @@ const LossConnection = {
     `;
   }
 };
+
+const LockDisplay = {
+  render: (customClass = "") => {
+    return `
+    <div id="lock" class="lock ${customClass} unvisible">
+      <div class="lock__image">
+        <a href="#main" title="Go to main"><img id="go-home" class="lock__image_img" src="assets/images/svg/home.svg" alt="Home"></a>
+      </div>
+      <h3><span data-language="en">Error</span><span data-language="ru" class="unvisible">Ошибка</span></h3>
+      <p><span data-language="en">You need to LogIn. Go back to the main page.</span><span data-language="ru" class="unvisible">Необходимо залогиниться. Вернитесь на главную страницу.</span></p>
+    </div>
+    `;
+  }
+};
