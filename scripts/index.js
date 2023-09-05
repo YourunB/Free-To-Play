@@ -640,10 +640,10 @@ const mySPA = (function() {
           })
           .catch(function (error) {
             console.log("Error: " + error.message);
-            myModuleView.showMessage("Fill in all the fields!", "Неверный email или пароль!");
+            myModuleView.showMessage("Error input!", "Ошибка ввода!");
           });
       } else {
-        myModuleView.showMessage("Invalid email or password!", "Заполните все поля!");
+        myModuleView.showMessage("Invalid email or password!", "Неверный пароль или адрес почты!");
       }
     };
 
@@ -695,6 +695,7 @@ const mySPA = (function() {
           myModuleView.showMessage("Password changed", "Пароль изменен");
         }).catch((error) => {
           console.log("Error: " + error.message);
+          myModuleView.showMessage("Log in again before retrying this request", "Войдите в систему еще раз, требуется-недавний-вход");
         });
       } else {
         myModuleView.showMessage("Fill in all the fields!", "Заполните все поля!");
@@ -919,8 +920,14 @@ const mySPA = (function() {
             myModuleModel.getIdGameInfo(event.target.dataset.id, event.target.id);
           }
           if (event.target.id === "btn-window-enters-close") this.close(document.getElementById("window-enters"));
-          if (event.target.id === "btn-window-login-close") this.close(document.getElementById("window-login"));
-          if (event.target.id === "btn-window-registration-close") this.close(document.getElementById("window-registration"));
+          if (event.target.id === "btn-window-login-close") {
+            this.close(document.getElementById("window-login"));
+            myModuleModel.clearInput(document.getElementById("window-login"));
+          }
+          if (event.target.id === "btn-window-registration-close") {
+            this.close(document.getElementById("window-registration"));
+            myModuleModel.clearInput(document.getElementById("window-registration"));
+          }
           if (event.target.id === "btn-window-choice-sign-up") {
             this.close(document.getElementById("window-enters"));
             this.open(document.getElementById("window-registration"));
@@ -939,10 +946,6 @@ const mySPA = (function() {
             this.open(document.getElementById("window-login"));
             myModuleModel.clearInput(document.getElementById("window-registration"));
           }
-          /*if (event.target.id === "btn-window-registration-save") {
-            event.preventDefault();
-            myModuleModel.addUser(document.getElementById("input-registration-mail").value, document.getElementById("input-registration-pass").value);
-          }*/
           if (event.target.id === "btn-window-login") {//signIn
             event.preventDefault();
             myModuleModel.signIn(document.getElementById("input-login-mail").value, document.getElementById("input-login-pass").value);
@@ -997,7 +1000,67 @@ const mySPA = (function() {
               myModuleModel.updateUserInfo(profileName, profileAge, profileDiscord);
             }
           }
-          console.log(event.target)
+          if (event.target.id === "my-profile-cancel" || event.target.id === "my-profile-cancel-e" || event.target.id === "my-profile-cancel-r") {
+            myModuleModel.getUserInfo();
+          }
+          if (event.target.id === "my-profile-pass-cancel" || event.target.id === "my-profile-pass-cancel-r" || event.target.id === "my-profile-pass-cancel-e") {
+            myModuleModel.clearInput(document.getElementById("my-profile-box-pass"));
+          }
+        });
+
+        $(document).keyup((event) => {
+          if (event.key === "Escape") { 
+
+            if (location.hash === "#main") {
+              if (document.getElementById("window-enters").classList !== "unvisible" ) {
+                this.close(document.getElementById("window-enters"));
+              }
+              if (document.getElementById("window-enters").classList !== "unvisible" ) {
+                this.close(document.getElementById("window-enters"));
+              }
+              if (document.getElementById("window-login").classList !== "unvisible" ) {
+                this.close(document.getElementById("window-login"));
+                myModuleModel.clearInput(document.getElementById("window-login"));
+              }
+              if (document.getElementById("window-registration").classList !== "unvisible" ) {
+                this.close(document.getElementById("window-registration"));
+                myModuleModel.clearInput(document.getElementById("window-registration"));
+              }
+              if (document.getElementById("full-description") !== null) {
+                this.deleteElementById("full-description");
+                return;
+              }
+              if (document.getElementById("window-description") !== null) {
+                this.deleteElementById("overlay-description");
+                this.deleteElementById("window-description");
+                this.scrollOn();
+                return;
+              }
+            }
+
+            if (location.hash === "#collection") {
+              if (document.getElementById("full-description") !== null) {
+                this.deleteElementById("full-description");
+              }
+            }
+          }
+        });
+
+        $(document).keyup((event) => {
+          if (event.key === "Enter") { 
+
+            if (location.hash === "#main") {
+              if (document.getElementById("window-login").classList !== "unvisible") {
+                event.preventDefault();
+                myModuleModel.signIn(document.getElementById("input-login-mail").value, document.getElementById("input-login-pass").value);
+              }
+              if (document.getElementById("window-registration").classList !== "unvisible") {
+                event.preventDefault();
+                myModuleModel.signUp(document.getElementById("input-registration-mail").value, document.getElementById("input-registration-pass").value);
+              }
+            }
+
+          }
         });
 
         myModuleContainer.addEventListener("input", () => {
@@ -1017,17 +1080,19 @@ const mySPA = (function() {
             this.sortGames(categoryLink, platformLink, typeLink);
           }
 
-          //debounce for search
-          document.getElementById("search-game").addEventListener("keyup", (event) => {
-            const text = event.currentTarget.value;
+          if (location.hash === "#main") {
+            //debounce for search
+            document.getElementById("search-game").addEventListener("keyup", (event) => {
+              const text = event.currentTarget.value;
+
+              clearTimeout(timer);
             
-            clearTimeout(timer);
-        
-            timer = setTimeout(() => {
-              //if (document.getElementById("search-game").value === "") return;
-              this.searchGame(text);
-            }, waitTime);
-          });
+              timer = setTimeout(() => {
+                //if (document.getElementById("search-game").value === "") return;
+                this.searchGame(text);
+              }, waitTime);
+            });
+          }
 
         });
 
