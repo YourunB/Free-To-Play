@@ -956,6 +956,14 @@ const mySPA = (function() {
           }
           if (event.target.id === "my-profile-enter" || event.target.textContent === "Log-In" || event.target.textContent === "Учетная запись") {
             this.open(document.getElementById("window-enters"));
+            if (document.getElementById("window-registration").classList !== "unvisible") {
+              this.close(document.getElementById("window-registration"));
+              myModuleModel.clearInput(document.getElementById("window-registration"));
+            }
+            if (document.getElementById("window-login").classList !== "unvisible") {
+              this.close(document.getElementById("window-login"));
+              myModuleModel.clearInput(document.getElementById("window-login"));
+            }
           }
           if (event.target.id === "my-profile-exit" || event.target.textContent === "Log-Out" || event.target.textContent === "Выйти из профиля") {
             if (location.hash === "#collection" || location.hash === "#profile") window.open("#main","_self");
