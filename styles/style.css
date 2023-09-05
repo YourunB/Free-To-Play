@@ -1587,6 +1587,9 @@ content: '';
   .my-profile {
     padding-top: 50px;
   }
+  .collection {
+    padding-top: 50px;
+  }
 }
 
 @media (max-width: 1024px) {
