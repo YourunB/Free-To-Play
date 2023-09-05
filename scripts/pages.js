@@ -173,7 +173,7 @@ const ProfilePage = {
               <input type="text" maxlength="30" id="profile-discord">
             </div>
             <div class="my-profile__save">
-            <button class="button button-cancel" id="my-profile-cancel"><span data-language="en">Cancel</span><span data-language="ru" class="unvisible">Отмена</span></button>  
+            <button class="button button-cancel" id="my-profile-cancel"><span id="my-profile-cancel-e" data-language="en">Cancel</span><span id="my-profile-cancel-r" data-language="ru" class="unvisible">Отмена</span></button>  
             <button class="button button-custom" id="my-profile-save"><span data-language="en">Save</span><span data-language="ru" class="unvisible">Сохранить</span></button>
             </div>
           </div>
@@ -189,12 +189,12 @@ const ProfilePage = {
           </div>
           <div class="my-profile__pass">
             <h2><span data-language="en">User password:</span><span data-language="ru" class="unvisible">Пароль пользователя</span></h2>
-            <div class="my-profile__inputs_box">
+            <div class="my-profile__inputs_box" id="my-profile-box-pass">
               <label for="profile-pass"><span data-language="en">Change password:</span><span data-language="ru" class="unvisible">Изменить пароль:</span></label>
               <input type="password" maxlength="30" id="profile-pass">
             </div>
             <div class="my-profile__save">
-              <button class="button button-cancel" id="my-profile-pass-cancel"><span data-language="en">Cancel</span><span data-language="ru" class="unvisible">Отмена</span></button>  
+              <button class="button button-cancel" id="my-profile-pass-cancel"><span id="my-profile-pass-cancel-e" data-language="en">Cancel</span><span id="my-profile-pass-cancel-r" data-language="ru" class="unvisible">Отмена</span></button>  
               <button class="button button-custom" id="my-profile-pass-save"><span data-language="en">Apply</span><span data-language="ru" class="unvisible">Изменить</span></button>
             </div>
           </div>
