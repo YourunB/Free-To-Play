@@ -633,8 +633,8 @@ const mySPA = (function() {
             // Signed in
             localStorage.setItem('login', true);
             const user = userCredential.user;
-            console.log(user.multiFactor.user.email)
-            myModuleView.showMessage("Добро пожаловать", "Welcome");
+            //console.log(user.multiFactor.user.email)
+            myModuleView.showMessage("Welcome", "Добро пожаловать");
             myModuleView.close("signIn");
             this.checkUser();
           })
@@ -678,14 +678,25 @@ const mySPA = (function() {
     this.deleteUser = function () {
       let user = firebase.auth().currentUser;
       user.delete().then(function() {
+        delete localStorage.login;
         window.open("#main","_self");
-        this.checkUser();
         myModuleView.showMessage("User deleted", "Пользователь удален");
       }).catch(function(error) {
         myModuleView.showMessage("Failed to delete user", "Не удалось удалить пользователя");
         console.log("Error: " + error.message);
       });
+      this.checkUser();
     }
+
+    this.deleteUserInfo = function () {
+      let user = firebase.auth().currentUser;
+      myAppDB
+        .ref("users/" + [user.multiFactor.user.uid])
+        .remove()
+        .catch(function (error) {
+          console.error("Error delete user info: ", error);
+        });
+    };
 
     this.changePassword = function (userPass) {
       if (userPass) {
@@ -817,8 +828,9 @@ const mySPA = (function() {
         .ref("users/" + [user.multiFactor.user.uid])
         .once("value")
         .then(function (snapshot) {
-          console.log(snapshot.val());
-          myModuleView.showUserInfo(snapshot.val().name, snapshot.val().age, snapshot.val().discord);
+          if (snapshot.val() !== null) {
+            myModuleView.showUserInfo(snapshot.val().name, snapshot.val().age, snapshot.val().discord);
+          }
         })
         .catch(function (error) {
           console.log("Error: " + error.code);
@@ -845,6 +857,10 @@ const mySPA = (function() {
 
     this.clearInput = function (parent) {
       myModuleView.clearInput(parent);
+    }
+
+    this.showMessage = function (eng, rus ) {
+      myModuleView.showMessage(eng, rus);
     }
 
   }
@@ -984,7 +1000,7 @@ const mySPA = (function() {
           }
           if (event.target.id === "btn-confirm-yes" || event.target.textContent === "Yes" || event.target.textContent === "Да") {
             myModuleModel.deleteUser();
-            window.open("#main","_self");
+            myModuleModel.deleteUserInfo();
           }
           if (event.target.classList.value === "card__btn" || event.target.classList.value === "card__btn card-show__btn-to-favorite") {//add game to collection
             myModuleModel.addGameToCollection(event.target.dataset.id, event.target.dataset.title, event.target.dataset.image);
@@ -1006,7 +1022,7 @@ const mySPA = (function() {
             const profileDiscord = document.getElementById("profile-discord").value;
             if (profileName !== "" && profileAge !== "" && profileDiscord !== "") {
               myModuleModel.updateUserInfo(profileName, profileAge, profileDiscord);
-            }
+            } else myModuleModel.showMessage("Fill in all the fields. Enter the correct data", "Заполните все поля. Вводите корректные данные");
           }
           if (event.target.id === "my-profile-cancel" || event.target.id === "my-profile-cancel-e" || event.target.id === "my-profile-cancel-r") {
             myModuleModel.getUserInfo();
@@ -1046,6 +1062,13 @@ const mySPA = (function() {
               }
             }
 
+            if (location.hash === "#profile") {
+              if (document.getElementById("window-confirm").classList !== "unvisible") {
+                this.close(document.getElementById("overlay-confirm"));
+                this.close(document.getElementById("window-confirm"));
+              }
+            }
+
             if (location.hash === "#collection") {
               if (document.getElementById("full-description") !== null) {
                 this.deleteElementById("full-description");
@@ -1058,16 +1081,21 @@ const mySPA = (function() {
           if (event.key === "Enter") { 
 
             if (location.hash === "#main") {
-              if (document.getElementById("window-login").classList !== "unvisible") {
+              if (document.getElementById("window-login").classList !== "unvisible" && document.getElementById("window-registration").classList === "unvisible") {
                 event.preventDefault();
                 myModuleModel.signIn(document.getElementById("input-login-mail").value, document.getElementById("input-login-pass").value);
               }
-              if (document.getElementById("window-registration").classList !== "unvisible") {
+              if (document.getElementById("window-registration").classList !== "unvisible" && document.getElementById("window-login").classList === "unvisible") {
                 event.preventDefault();
                 myModuleModel.signUp(document.getElementById("input-registration-mail").value, document.getElementById("input-registration-pass").value);
               }
             }
 
+            if (location.hash === "#profile") {
+              if (document.getElementById("window-confirm").classList !== "unvisible") {
+                myModuleModel.deleteUser();
+              }
+            }
           }
         });
 
