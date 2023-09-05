@@ -1,3 +1,59 @@
+@font-face {
+  font-family: 'icomoon';
+  src: url('../assets/fonts/icomoon.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-images:before {
+  content: "\e90e";
+}
+.icon-user:before {
+  content: "\e971";
+}
+.icon-key:before {
+  content: "\e98d";
+}
+.icon-key2:before {
+  content: "\e98e";
+}
+.icon-enter:before {
+  content: "\ea13";
+}
+.icon-exit:before {
+  content: "\ea14";
+}
+.icon-volume-medium:before {
+  content: "\ea27";
+}
+.icon-mail:before {
+  content: "\ea83";
+}
+.icon-flickr4:before {
+  content: "\eaa6";
+}
+
+.iconmoon {
+  color: #A9121F;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -511,6 +567,10 @@ option {
   transform: translate(-50%, -50%);
 }
 
+.window-confirm__title {
+  color: white;
+}
+
 .window-confirm__btns {
   display: flex;
   justify-content: center;
@@ -791,7 +851,7 @@ option {
   box-sizing: border-box;
   padding: 30px 10px;
   right: 0;
-  width: 200px;
+  width: 210px;
   backdrop-filter: blur(5px);
   font-size: 20px ;
   transition: 2s;
@@ -1484,21 +1544,6 @@ content: '';
 
 /*end change style gallery*/
 
-@keyframes ring {
-  0% {
-    width: 30px;
-    height: 30px;
-    opacity: 1;
-  }
-  100% {
-    width: 170px;
-    height: 170px;
-    opacity: 0;
-  }
-}
-
-/*end buttons*/
-
 .footer-link {
   transition: 0.5s;
   font-family:Arial, Helvetica, sans-serif;
@@ -1516,6 +1561,19 @@ content: '';
 }
 .light__img {filter: invert(1);}
 .unvisible {display: none;}
+
+@keyframes ring {
+  0% {
+    width: 30px;
+    height: 30px;
+    opacity: 1;
+  }
+  100% {
+    width: 170px;
+    height: 170px;
+    opacity: 0;
+  }
+}
 
 @keyframes fadeOut {
   0% { 
