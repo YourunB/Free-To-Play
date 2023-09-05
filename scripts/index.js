@@ -215,11 +215,14 @@ const mySPA = (function() {
       document.getElementById("search-game").value = "";
     }
 
-    this.changeBackground = function (category) {
-      if (document.body.classList.value != category) {
-        let nameClass = document.body.classList.value;
-        document.body.classList.remove(nameClass);
-        document.body.classList.add(category);
+    this.changeBackground = function (category, theme) {
+      if (document.body.classList.value !== category) {
+        document.body.classList.remove(...document.body.classList);
+        if (theme === false) document.body.classList.add(category);
+        else {
+          document.body.classList.add(category);
+          document.body.classList.add("light");
+        }
       }
     }
 
@@ -265,7 +268,7 @@ const mySPA = (function() {
         let arr = [];
         const collectionBox = document.getElementById("collection-box");
         for (let key in obj) {
-          console.log(key, obj[key].split("|"));
+          //console.log(key, obj[key].split("|"));
           arr = obj[key].split("|");
           collectionBox.append(document.createElement("div"));
           collectionBox.getElementsByTagName("div")[collectionBox.getElementsByTagName("div").length - 1].classList.add("collection__box_card");
@@ -574,7 +577,8 @@ const mySPA = (function() {
     }
 
     this.changeBackground = function (category) {
-      myModuleView.changeBackground(category);
+      if (localStorage.theme === "light") myModuleView.changeBackground(category, true);
+      else myModuleView.changeBackground(category, false);
     }
 
     this.searchGame = function (str) {
@@ -1225,7 +1229,6 @@ const mySPA = (function() {
         myModuleModel.getGames("https://free-to-play-games-database.p.rapidapi.com/api/games?"+ category + platform + type);
         this.deleteCards();
         myModuleModel.createCards();
-        myModuleModel.changeLanguage();
       }
 
       this.deleteCards = function () {
