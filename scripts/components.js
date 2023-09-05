@@ -86,26 +86,28 @@ const BackAnime = {
 const Footer = {
   render: (customClass = "") => {
     return `
-    <footer class="footer ${customClass}"><a href="https://github.com/YourunB" target="_blank" class="footer-link">&copy; <span data-language="en">2023 Application created for educational purposes.</span><span data-language="ru" class="unvisible">2023 Приложение, созданное в учебных целях.</span></a></footer>
+      <footer class="footer ${customClass}"><a href="https://github.com/YourunB" target="_blank" class="footer-link">&copy; <span data-language="en">2023 Application created for educational purposes.</span><span data-language="ru" class="unvisible">2023 Приложение, созданное в учебных целях.</span></a></footer>
     `;
   }
 };
 
 const Click = {
   render: (customClass = "") => {
-    return ` <div class="mouse-anime unvisible ${customClass}" id="mouse-click"></div>`;
+    return `
+      <div class="mouse-anime unvisible ${customClass}" id="mouse-click"></div>
+    `;
   }
 };
 
 const Song = {
   render: (customClass = "") => {
     return `
-    <div class="${customClass}">
-      <audio src="assets/sounds/music.mp3" id="song-music" loop></audio>
-      <audio src="assets/sounds/click.mp3" id="song-click"></audio>
-      <audio src="assets/sounds/fail.mp3" id="song-fail"></audio>
-      <audio src="assets/sounds/up.mp3" id="song-up"></audio>
-    </div>
+      <div class="${customClass}">
+        <audio src="assets/sounds/music.mp3" id="song-music" loop></audio>
+        <audio src="assets/sounds/click.mp3" id="song-click"></audio>
+        <audio src="assets/sounds/fail.mp3" id="song-fail"></audio>
+        <audio src="assets/sounds/up.mp3" id="song-up"></audio>
+      </div>
     `;
   }
 };
@@ -113,7 +115,7 @@ const Song = {
 const GoUp = {
   render: (customClass = "") => {
     return `
-    <img id="btn-up" class="go-up ${customClass} btns unvisible" src="assets/images/svg/to-top.svg" title="Up" alt="Up">
+      <img id="btn-up" class="go-up ${customClass} btns unvisible" src="assets/images/svg/to-top.svg" title="Up" alt="Up">
     `;
   }
 };
@@ -121,7 +123,7 @@ const GoUp = {
 const Load = {
   render: (customClass = "") => {
     return `
-    <img id="load-create" class="load-create ${customClass} unvisible" src="assets/images/load.gif" alt="Load">
+      <img id="load-create" class="load-create ${customClass} unvisible" src="assets/images/load.gif" alt="Load">
     `;
   }
 };
@@ -129,12 +131,12 @@ const Load = {
 const LossConnection = {
   render: (customClass = "") => {
     return `
-    <div class="${customClass} loss-connection unvisible" id="loss-connection">
-      <div class="loss-connection__box">
-        <img id="reload-page" class="loss-connection__box_img" src="assets/images/svg/internet.svg" alt="Earth">
-        <h3 class="loss-connection__box_message"><span data-language="en">Sorry, connection problems. Reload the page.</span><span data-language="ru" class="unvisible">Извините, проблемы с соединением. Перезагрузите страницу.</span></h3>
+      <div class="${customClass} loss-connection unvisible" id="loss-connection">
+        <div class="loss-connection__box">
+          <img id="reload-page" class="loss-connection__box_img" src="assets/images/svg/internet.svg" alt="Earth">
+          <h3 class="loss-connection__box_message"><span data-language="en">Sorry, connection problems. Reload the page.</span><span data-language="ru" class="unvisible">Извините, проблемы с соединением. Перезагрузите страницу.</span></h3>
+        </div>
       </div>
-    </div>
     `;
   }
 };
@@ -142,13 +144,23 @@ const LossConnection = {
 const LockDisplay = {
   render: (customClass = "") => {
     return `
-    <div id="lock" class="lock ${customClass} unvisible">
-      <div class="lock__image">
-        <a href="#main" title="Go to main"><img id="go-home" class="lock__image_img" src="assets/images/svg/home.svg" alt="Home"></a>
+      <div id="lock" class="lock ${customClass} unvisible">
+        <div class="lock__image">
+          <a href="#main" title="Go to main"><img id="go-home" class="lock__image_img" src="assets/images/svg/home.svg" alt="Home"></a>
+        </div>
+        <h3><span data-language="en">Error</span><span data-language="ru" class="unvisible">Ошибка</span></h3>
+        <p><span data-language="en">You need to LogIn. Go back to the main page.</span><span data-language="ru" class="unvisible">Необходимо залогиниться. Вернитесь на главную страницу.</span></p>
       </div>
-      <h3><span data-language="en">Error</span><span data-language="ru" class="unvisible">Ошибка</span></h3>
-      <p><span data-language="en">You need to LogIn. Go back to the main page.</span><span data-language="ru" class="unvisible">Необходимо залогиниться. Вернитесь на главную страницу.</span></p>
-    </div>
+    `;
+  }
+};
+
+const Message = {
+  render: (customClass = "") => {
+    return `
+      <div class="message ${customClass} unvisible" id="message">
+        <h3><span data-language="en" id="message-eng"></span><span data-language="ru" class="unvisible" id="message-rus"></span></h3>
+      </div>
     `;
   }
 };
