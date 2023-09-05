@@ -10,6 +10,7 @@ const components = {
   load: Load,
   lossConnection: LossConnection,
   lockDisplay: LockDisplay,
+  message: Message,
 };
 
 // Список поддердживаемых роутов (from pages.js)
@@ -355,6 +356,14 @@ const mySPA = (function() {
       document.getElementById("profile-discord").value = userDiscord;
     }
 
+    this.showMessage = function (eng = "", rus = "") {
+      document.getElementById("message").classList.remove("unvisible");
+      document.getElementById("message-eng").textContent = eng;
+      document.getElementById("message-rus").textContent = rus;
+      setTimeout(() => {
+        document.getElementById("message").classList.add("unvisible");
+      }, 3000);
+    }
   };
   /* -------- end view --------- */
   /* ------- begin model ------- */
@@ -625,16 +634,16 @@ const mySPA = (function() {
             localStorage.setItem('login', true);
             const user = userCredential.user;
             console.log(user.multiFactor.user.email)
-            alert('Hello');
+            myModuleView.showMessage("Добро пожаловать", "Welcome");
             myModuleView.close("signIn");
             this.checkUser();
           })
           .catch(function (error) {
             console.log("Error: " + error.message);
-           alert("Неверный email или пароль. Введите корректные данные.");
+            myModuleView.showMessage("Fill in all the fields!", "Неверный email или пароль!");
           });
       } else {
-        alert("Заполните все поля!");
+        myModuleView.showMessage("Invalid email or password!", "Заполните все поля!");
       }
     };
 
@@ -645,23 +654,23 @@ const mySPA = (function() {
           .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            alert('Зарегистрирован новый пользователь');
+            myModuleView.showMessage("A new user has been registered", "Зарегистрирован новый пользователь");
             myModuleView.close('signUp');
             myModuleView.open('signIn');
           })
           .catch((error) => {
             console.log("Error: " + error.message);
-            alert("Введите корректные данные.");
+            myModuleView.showMessage("Enter the correct data!", "Введите корректные данные!");
           });
       } else {
-        alert("Заполните все поля!");
+        myModuleView.showMessage("Fill in all the fields!", "Заполните все поля!");
       }
     };
 
     this.logout = function () {
       firebase.auth().signOut().then(() => {
         delete localStorage.login;
-        alert("Вы вышли из аккаунта");
+        myModuleView.showMessage("You have logged out", "Вы вышли из аккаунта");
         this.checkUser();
       });
     };
@@ -671,9 +680,9 @@ const mySPA = (function() {
       user.delete().then(function() {
         window.open("#main","_self");
         this.checkUser();
-        alert("Пользователь удален");
+        myModuleView.showMessage("User deleted", "Пользователь удален");
       }).catch(function(error) {
-        alert("Не удалось удалить пользователя")
+        myModuleView.showMessage("Failed to delete user", "Не удалось удалить пользователя");
         console.log("Error: " + error.message);
       });
     }
@@ -683,13 +692,12 @@ const mySPA = (function() {
         const user = firebase.auth().currentUser;
         const newPassword = userPass;
         user.updatePassword(newPassword).then(() => {
-          alert("Пароль изменен");
-          console.log('Update SuccessFul');
+          myModuleView.showMessage("Password changed", "Пароль изменен");
         }).catch((error) => {
           console.log("Error: " + error.message);
         });
       } else {
-        alert("Заполните все поля!");
+        myModuleView.showMessage("Fill in all the fields!", "Заполните все поля!");
       }
     };
 /*
@@ -740,13 +748,13 @@ const mySPA = (function() {
             image: gameImage,*/
           })
           .then(function () {
-           alert("Игра добавлена в коллекцию");
+           myModuleView.showMessage("The game has been added to the collection", "Игра добавлена в коллекцию");
           })
           .catch(function (error) {
             console.error("Ошибка добавления: ", error);
           });
         } else {
-          alert("Сначала залогиньтесь");
+          myModuleView.showMessage("Log in first", "Сначала залогиньтесь");
         }
     };
 
@@ -772,7 +780,7 @@ const mySPA = (function() {
         .remove()
         .then(function () {
           myModuleView.deleteCardGameCollection(gameId);
-          alert("Игра удалена");
+          myModuleView.showMessage("Game deleted", "Игра удалена");
         })
         .catch(function (error) {
           console.error("Ошибка удаления: ", error);
@@ -791,13 +799,13 @@ const mySPA = (function() {
             discord: discord,
           })
           .then(function () {
-           alert("Информаци о пользователе сохранена");
+           myModuleView.showMessage("User information is saved", "Информация о пользователе сохранена");
           })
           .catch(function (error) {
             console.error("Ошибка: ", error);
           });
         } else {
-          alert("Сначала залогиньтесь");
+          myModuleView.showMessage("Log in first", "Сначала залогиньтесь");
         }
     };
 
@@ -815,7 +823,7 @@ const mySPA = (function() {
           console.log("Error: " + error.code);
         });
       } else {
-        alert("Сначала залогиньтесь");
+        myModuleView.showMessage("Log in first", "Сначала залогиньтесь");
       }
     };
 
