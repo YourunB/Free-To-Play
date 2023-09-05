@@ -78,6 +78,27 @@ option {
 .sports {background-image: url('../assets/images/background/sports.png');}
 .fantasy {background-image: url('../assets/images/background/fantasy.png');}
 
+.message {
+  min-width: 300px;
+  min-height: 150px;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 2px #A9121F;
+  box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 5px;
+  padding: 30px;
+  z-index: 1300;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  box-sizing: border-box;
+  animation: fadeOut 3s linear;
+}
+
 .red {
   color: #A9121F;
   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
@@ -1495,6 +1516,18 @@ content: '';
 }
 .light__img {filter: invert(1);}
 .unvisible {display: none;}
+
+@keyframes fadeOut {
+  0% { 
+    opacity: 0.4; 
+    transform: translate(-50%, -40%);}
+  50% { 
+    opacity: 1; 
+    transform: translate(-50%, -50%);}
+  100% { 
+    opacity: 0.4; 
+    transform: translate(-50%, -60%);}
+}
 
 @keyframes show {
   0% {opacity: 0;}
