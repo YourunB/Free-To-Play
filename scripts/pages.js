@@ -144,6 +144,14 @@ const ProfilePage = {
   title: "Profile",
   render: (className = "container", ...rest) => {
     return `
+      <div class="overlay unvisible" id="overlay-confirm"></div>
+      <div class="window-confirm unvisible" id="window-confirm">
+        <h2><span data-language="en">Are you sure?</span><span data-language="ru" class="unvisible">Вы уверены?</span></h2>
+        <div class="window-confirm__btns">
+          <button class="button button-cancel" id="btn-confirm-no"><span data-language="en">No</span><span data-language="ru" class="unvisible">Нет</span></button>
+          <button class="button button-custom" id="btn-confirm-yes"><span data-language="en">Yes</span><span data-language="ru" class="unvisible">Да</span></button>
+        </div>
+      </div>
       <a href="#main"><img class="btns btns-home" alt="Home" title="Home" src="assets/images/svg/home.svg" id="btn-profile-home"></a>
       <main class="container area">
         <div class="my-profile ${className}">

@@ -139,6 +139,18 @@ const mySPA = (function() {
       `;
     }
 
+    window.addEventListener("hashchange", () => {
+      if (location.hash !== "#main" && document.getElementById("full-description") !== null) {
+        this.deleteElementById("full-description");
+      }
+      if (location.hash !== "#main" && document.getElementById("window-description") !== null) {
+        this.deleteElementById("window-description");
+      }
+      if (location.hash !== "#collection" && document.getElementById("full-description") !== null) {
+        this.deleteElementById("full-description");
+      }
+    });
+
     this.deleteElementById = function (id) { document.getElementById(id).remove(); };
 
     this.deleteCards = function () {
@@ -148,6 +160,41 @@ const mySPA = (function() {
           cards[i].remove();
         }
       }
+    }
+
+    this.createFullDescriptionCollectionGame = function (data) {
+      let app = document.getElementById("app");
+      app.append(document.createElement("div"));
+      app.getElementsByTagName("div")[app.getElementsByTagName("div").length - 1].id = "full-description";
+      let fullDescription = document.getElementById("full-description");
+      fullDescription.classList.add("full-description");
+      fullDescription.innerHTML = `
+        <img class="full-description__background" src="${data.screenshots[0].image}" alt="Game image">
+        <h2 class="full-description__title">${data.title}</h2>
+        <img class="full-description__image" src="${data.thumbnail}" alt="Game image">
+        <p><span class="red" data-language="en">Genre:</span><span data-language="ru" class="unvisible red">Жанр:</span> ${data.genre}</p>
+        <p><span class="red" data-language="en">Description:</span><span data-language="ru" class="unvisible red">Описание:</span> ${data.description}</p>
+        <p><span class="red" data-language="en">Status:</span><span data-language="ru" class="unvisible red">Статус:</span> ${data.status}</p>
+        <p><span class="red" data-language="en">Platform:</span><span data-language="ru" class="unvisible red">Платформа:</span> ${data.platform}</p>
+        <p><span class="red" data-language="en">Developer:</span><span data-language="ru" class="unvisible red">Разработчик:</span> ${data.developer}</p>
+        <p><span class="red" data-language="en">Publisher:</span><span data-language="ru" class="unvisible red">Издатель:</span> ${data.publisher}</p>
+        <p><span class="red" data-language="en">Game link:</span><span data-language="ru" class="unvisible red">Ссылка на игру:</span><a class="full-description__link" href="${data.game_url}" target="_blank"> ${data.game_url}</a></p>
+        <div class="full-description__requirements">
+          <span class="yellow" data-language="en">Minimum system requirements:</span><span data-language="ru" class="unvisible red">Минимальные системные требования:</span>
+          <ul>
+            <li><span class="red">GPU:</span> ${(data['minimum_system_requirements']) ? data['minimum_system_requirements'].graphics: "none"}</li>
+            <li><span class="red">CPU:</span> ${(data['minimum_system_requirements']) ? data['minimum_system_requirements'].processor : "none"}</li>
+            <li><span class="red">RAM:</span> ${(data['minimum_system_requirements']) ? data['minimum_system_requirements'].memory : "none"}</li>
+            <li><span class="red">SYS:</span> ${(data['minimum_system_requirements']) ? data['minimum_system_requirements'].os : "none"}</li>
+          </ul>
+        </div>
+        <div class="full-description__screenshots">
+          <a data-fancybox="gallery" href="${data.screenshots[0].image}"><img class="full-description__screenshots_image" src="${data.screenshots[0].image}" alt="Game screenshot"></a>
+          <a data-fancybox="gallery" href="${data.screenshots[1].image}"><img class="full-description__screenshots_image" src="${data.screenshots[1].image}" alt="Game screenshot"></a>
+          <a data-fancybox="gallery" href="${data.screenshots[2].image}"><img class="full-description__screenshots_image" src="${data.screenshots[2].image}" alt="Game screenshot"></a>
+        </div>
+        <img class="btns card-show__btn-close" alt="Close" title="Close" src="assets/images/svg/close.svg" id="close-full-description">
+      `;
     }
 
     this.showCategoryGamesTitle = function (title) {
@@ -229,41 +276,6 @@ const mySPA = (function() {
           `;
         }
       }
-    }
-
-    this.createFullDescriptionCollectionGame = function (data) {
-      let app = document.getElementById("app");
-      app.append(document.createElement("div"));
-      app.getElementsByTagName("div")[app.getElementsByTagName("div").length - 1].id = "full-description";
-      let fullDescription = document.getElementById("full-description");
-      fullDescription.classList.add("full-description");
-      fullDescription.innerHTML = `
-        <img class="full-description__background" src="${data.screenshots[0].image}" alt="Game image">
-        <h2 class="full-description__title">${data.title}</h2>
-        <img class="full-description__image" src="${data.thumbnail}" alt="Game image">
-        <p><span class="red" data-language="en">Genre:</span><span data-language="ru" class="unvisible red">Жанр:</span> ${data.genre}</p>
-        <p><span class="red" data-language="en">Description:</span><span data-language="ru" class="unvisible red">Описание:</span> ${data.description}</p>
-        <p><span class="red" data-language="en">Status:</span><span data-language="ru" class="unvisible red">Статус:</span> ${data.status}</p>
-        <p><span class="red" data-language="en">Platform:</span><span data-language="ru" class="unvisible red">Платформа:</span> ${data.platform}</p>
-        <p><span class="red" data-language="en">Developer:</span><span data-language="ru" class="unvisible red">Разработчик:</span> ${data.developer}</p>
-        <p><span class="red" data-language="en">Publisher:</span><span data-language="ru" class="unvisible red">Издатель:</span> ${data.publisher}</p>
-        <p><span class="red" data-language="en">Game link:</span><span data-language="ru" class="unvisible red">Ссылка на игру:</span><a class="full-description__link" href="${data.game_url}" target="_blank"> ${data.game_url}</a></p>
-        <div class="full-description__requirements">
-          <span class="yellow" data-language="en">Minimum system requirements:</span><span data-language="ru" class="unvisible red">Минимальные системные требования:</span>
-          <ul>
-            <li><span class="red">GPU:</span> ${(data['minimum_system_requirements']) ? data['minimum_system_requirements'].graphics: "none"}</li>
-            <li><span class="red">CPU:</span> ${(data['minimum_system_requirements']) ? data['minimum_system_requirements'].processor : "none"}</li>
-            <li><span class="red">RAM:</span> ${(data['minimum_system_requirements']) ? data['minimum_system_requirements'].memory : "none"}</li>
-            <li><span class="red">SYS:</span> ${(data['minimum_system_requirements']) ? data['minimum_system_requirements'].os : "none"}</li>
-          </ul>
-        </div>
-        <div class="full-description__screenshots">
-          <a data-fancybox="gallery" href="${data.screenshots[0].image}"><img class="full-description__screenshots_image" src="${data.screenshots[0].image}" alt="Game screenshot"></a>
-          <a data-fancybox="gallery" href="${data.screenshots[1].image}"><img class="full-description__screenshots_image" src="${data.screenshots[1].image}" alt="Game screenshot"></a>
-          <a data-fancybox="gallery" href="${data.screenshots[2].image}"><img class="full-description__screenshots_image" src="${data.screenshots[2].image}" alt="Game screenshot"></a>
-        </div>
-        <img class="btns card-show__btn-close" alt="Close" title="Close" src="assets/images/svg/close.svg" id="close-full-description">
-      `;
     }
 
     this.createFullDescriptionGame = function (data) {
@@ -940,7 +952,20 @@ const mySPA = (function() {
           }
           if (event.target.id === "my-profile-pass-save") myModuleModel.changePassword(document.getElementById("profile-pass").value);
           if (event.target.id === "my-profile-delete" || event.target.textContent === "Delete profile" || event.target.textContent === "Удалить профиль") {
+            this.open(document.getElementById("overlay-confirm"));
+            this.open(document.getElementById("window-confirm"));
+          }
+          if (event.target.id === "btn-confirm-no" || event.target.textContent === "No" || event.target.textContent === "Нет") {
+            this.close(document.getElementById("overlay-confirm"));
+            this.close(document.getElementById("window-confirm"));
+          }
+          if (event.target.id === "overlay-confirm") {
+            this.close(document.getElementById("overlay-confirm"));
+            this.close(document.getElementById("window-confirm"));
+          }
+          if (event.target.id === "btn-confirm-yes" || event.target.textContent === "Yes" || event.target.textContent === "Да") {
             myModuleModel.deleteUser();
+            window.open("#main","_self");
           }
           if (event.target.classList.value === "card__btn" || event.target.classList.value === "card__btn card-show__btn-to-favorite") {//add game to collection
             myModuleModel.addGameToCollection(event.target.dataset.id, event.target.dataset.title, event.target.dataset.image);
@@ -1042,7 +1067,6 @@ const mySPA = (function() {
             const nextElement = (eventElement === moveElement.nextElementSibling) ? eventElement.nextElementSibling : eventElement;
             box.insertBefore(moveElement, nextElement);
           });
-
           
         this.updateState();
       }
