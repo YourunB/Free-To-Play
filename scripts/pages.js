@@ -90,11 +90,11 @@ const MainPage = {
         <img class="btns registration-btn" src="assets/images/svg/close.svg" alt="Close" title="Close" id="btn-window-login-close">
         <h2><span data-language="en">User LogIn</span><span data-language="ru" class="unvisible">Вход пользователя</span></h2>
         <div class="registration__box">
-          <label for="input-login-mail"><span data-language="en">Email:</span><span data-language="ru" class="unvisible">Эл. почта:</span></label>
+          <label for="input-login-mail"><span data-language="en">Email:</span><span data-language="ru" class="unvisible">Эл. почта:</span> <i class="icon-mail iconmoon"></i></label>
           <input type="email" maxlength="30" id="input-login-mail">
         </div>
         <div class="registration__box">
-          <label for="input-login-pass"><span data-language="en">Enter password:</span><span data-language="ru" class="unvisible">Введите пароль:</span></label>
+          <label for="input-login-pass"><span data-language="en">Enter password:</span><span data-language="ru" class="unvisible">Введите пароль:</span> <i class="icon-key2 iconmoon"></i></label>
           <input type="password" maxlength="30" id="input-login-pass">
         </div>
         <div class="box-button">
@@ -108,11 +108,11 @@ const MainPage = {
         <img class="btns registration-btn" src="assets/images/svg/close.svg" alt="Close" title="Close" id="btn-window-registration-close">
         <h2><span data-language="en">User Registration</span><span data-language="ru" class="unvisible">Регистрация пользователя</span></h2>
         <div class="registration__box">
-          <label for="input-registration-mail"><span data-language="en">Email:</span><span data-language="ru" class="unvisible">Эл. почта:</span></label>
+          <label for="input-registration-mail"><span data-language="en">Email:</span><span data-language="ru" class="unvisible">Эл. почта:</span> <i class="icon-mail iconmoon"></i></label>
           <input type="email" maxlength="30" id="input-registration-mail">
         </div>
         <div class="registration__box">
-          <label for="input-registration-pass"><span data-language="en">Choose Password:</span><span data-language="ru" class="unvisible">Пароль:</span></label>
+          <label for="input-registration-pass"><span data-language="en">Choose Password:</span><span data-language="ru" class="unvisible">Введите пароль:</span> <i class="icon-key2 iconmoon"></i></label>
           <input type="password" maxlength="30" id="input-registration-pass">
         </div>
         <p class="registration__warning unvisible" id="signup-warning"><span data-language="en">Input error</span><span data-language="ru" class="unvisible">Ошибка ввода</span><img class="registration__warning_img" alt="Warning" src="assets/images/svg/warning.svg"></p>
@@ -146,7 +146,7 @@ const ProfilePage = {
     return `
       <div class="overlay unvisible" id="overlay-confirm"></div>
       <div class="window-confirm unvisible" id="window-confirm">
-        <h2><span data-language="en">Are you sure?</span><span data-language="ru" class="unvisible">Вы уверены?</span></h2>
+        <h2 class="window-confirm__title"><span data-language="en">Are you sure?</span><span data-language="ru" class="unvisible">Вы уверены?</span></h2>
         <div class="window-confirm__btns">
           <button class="button button-cancel" id="btn-confirm-no"><span data-language="en">No</span><span data-language="ru" class="unvisible">Нет</span></button>
           <button class="button button-custom" id="btn-confirm-yes"><span data-language="en">Yes</span><span data-language="ru" class="unvisible">Да</span></button>
@@ -155,7 +155,7 @@ const ProfilePage = {
       <a href="#main"><img class="btns btns-home" alt="Home" title="Home" src="assets/images/svg/home.svg" id="btn-profile-home"></a>
       <main class="container area">
         <div class="my-profile ${className}">
-          <h2><span data-language="en">Profile page</span><span data-language="ru" class="unvisible">Страница профиля</span></h2>
+          <h2><span data-language="en">Profile page</span><span data-language="ru" class="unvisible">Страница профиля</span> <i class="icon-user iconmoon"></i></h2>
           <div class="my-profile__delete">
             <button class="button button-del" id="my-profile-delete"><span data-language="en">Delete profile</span><span data-language="ru" class="unvisible">Удалить профиль</span></button>
           </div>
@@ -169,7 +169,7 @@ const ProfilePage = {
               <input type="number" maxlength="3" id="profile-age">
             </div>
             <div class="my-profile__inputs_box">
-              <label for="profile-discord"><span data-language="en">Your discord:</span><span data-language="ru" class="unvisible">Аккаунт discord:</span></label>
+              <label for="profile-discord"><span data-language="en">Your discord:</span><span data-language="ru" class="unvisible">Аккаунт discord:</span> <i class="icon-flickr4 iconmoon"></i></label>
               <input type="text" maxlength="30" id="profile-discord">
             </div>
             <div class="my-profile__save">
@@ -212,7 +212,7 @@ const CollectionPage = {
       <a href="#main"><img class="btns btns-home" alt="Home" title="Home" src="assets/images/svg/home.svg" id="btn-collection-home"></a>
       <main class="container area">
         <div class="collection ${className}">
-          <h2><span data-language="en">My collection</span><span data-language="ru" class="unvisible">Моя коллекция</span></h2>
+          <h2><span data-language="en">My collection</span><span data-language="ru" class="unvisible">Моя коллекция</span> <i class="icon-images iconmoon"></i></h2>
           <div id="collection-box" class="collection__box"></div>
         </div>
       </main>
