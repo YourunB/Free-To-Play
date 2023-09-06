@@ -59,8 +59,14 @@ const mySPA = (function() {
     }
     this.hideClick = function () { document.getElementById("mouse-click").classList.add("unvisible"); }
 
-    this.audioPlay = function (sound) { document.getElementById(sound).play(); }
-    this.audioPause = function (sound) { document.getElementById(sound).pause(); }
+    this.audioPlay = function (sound) {
+      if (sound.indexOf("song") === -1) sound = "song-" + sound;
+      document.getElementById(sound).play();
+    }
+    this.audioPause = function (sound) {
+      if (sound.indexOf("song") === -1) sound = "song-" + sound;
+      document.getElementById(sound).pause();
+    }
 
     this.vibration = function () { navigator.vibrate(250); }
 
@@ -449,7 +455,7 @@ const mySPA = (function() {
         } catch (error) {
           if (error != "") {
             myModuleView.showLossConnection();
-            myModuleView.audioPlay("song-fail");
+            myModuleView.audioPlay("fail");
           }
         }
       }
@@ -482,7 +488,7 @@ const mySPA = (function() {
         } catch (error) {
           if (error != "") {
             myModuleView.showLossConnection();
-            myModuleView.audioPlay("song-fail");
+            myModuleView.audioPlay("fail");
           }
         }
       }
@@ -513,7 +519,7 @@ const mySPA = (function() {
         } catch (error) {
           if (error != "") {
             myModuleView.showLossConnection();
-            myModuleView.audioPlay("song-fail");
+            myModuleView.audioPlay("fail");
           }
         }
       }
@@ -522,7 +528,7 @@ const mySPA = (function() {
     this.createCards = function () {
       myModuleView.showLoad();
       setTimeout(() => {
-        console.log(arrCards)
+        //console.log(arrCards)
         let length = countCards + 20;
         for (let i = countCards; i < length; i++) {
           if (countCards < maxCards) {
@@ -630,9 +636,11 @@ const mySPA = (function() {
           })
           .catch(function (error) {
             console.log("Error: " + error.message);
+            myModuleView.audioPlay("fail");
             myModuleView.showMessage("Error input!", "Ошибка ввода!");
           });
       } else {
+        myModuleView.audioPlay("fail");
         myModuleView.showMessage("Invalid email or password!", "Неверный пароль или адрес почты!");
       }
     };
@@ -650,9 +658,11 @@ const mySPA = (function() {
           })
           .catch((error) => {
             console.log("Error: " + error.message);
+            myModuleView.audioPlay("fail");
             myModuleView.showMessage("Enter the correct data!", "Введите корректные данные!");
           });
       } else {
+        myModuleView.audioPlay("fail");
         myModuleView.showMessage("Fill in all the fields!", "Заполните все поля!");
       }
     };
@@ -672,6 +682,7 @@ const mySPA = (function() {
         window.open("#main","_self");
         myModuleView.showMessage("User deleted", "Пользователь удален");
       }).catch(function(error) {
+        myModuleView.audioPlay("fail");
         myModuleView.showMessage("Failed to delete user", "Не удалось удалить пользователя");
         console.log("Error: " + error.message);
       });
@@ -696,9 +707,11 @@ const mySPA = (function() {
           myModuleView.showMessage("Password changed", "Пароль изменен");
         }).catch((error) => {
           console.log("Error: " + error.message);
+          myModuleView.audioPlay("fail");
           myModuleView.showMessage("Log in again before retrying this request", "Войдите в систему еще раз, требуется-недавний-вход");
         });
       } else {
+        myModuleView.audioPlay("fail");
         myModuleView.showMessage("Fill in all the fields!", "Заполните все поля!");
       }
     };
@@ -756,6 +769,7 @@ const mySPA = (function() {
             console.error("Ошибка добавления: ", error);
           });
         } else {
+          myModuleView.audioPlay("fail");
           myModuleView.showMessage("Log in first", "Сначала залогиньтесь");
         }
     };
@@ -804,9 +818,10 @@ const mySPA = (function() {
            myModuleView.showMessage("User information is saved", "Информация о пользователе сохранена");
           })
           .catch(function (error) {
-            console.error("Ошибка: ", error);
+            console.error("Error: ", error);
           });
         } else {
+          myModuleView.audioPlay("fail");
           myModuleView.showMessage("Log in first", "Сначала залогиньтесь");
         }
     };
@@ -826,6 +841,7 @@ const mySPA = (function() {
           console.log("Error: " + error.code);
         });
       } else {
+        myModuleView.audioPlay("fail");
         myModuleView.showMessage("Log in first", "Сначала залогиньтесь");
       }
     };
@@ -851,6 +867,10 @@ const mySPA = (function() {
 
     this.showMessage = function (eng, rus ) {
       myModuleView.showMessage(eng, rus);
+    }
+
+    this.audioPlay = function(sound) {
+      myModuleView.audioPlay(sound);
     }
 
   }
@@ -958,7 +978,14 @@ const mySPA = (function() {
           }
           if (event.target.id === "btn-window-registration-save") {//signUp
             event.preventDefault();
-            myModuleModel.signUp(document.getElementById("input-registration-mail").value, document.getElementById("input-registration-pass").value);
+            let mail = document.getElementById("input-registration-mail");
+            let pass = document.getElementById("input-registration-pass");
+            if (mail.value !== "" && pass.value !== "" && mail.validity.valid === true && pass.validity.valid === true && mail.value.trim() && pass.value.trim()) {
+              myModuleModel.signUp(document.getElementById("input-registration-mail").value, document.getElementById("input-registration-pass").value);
+            } else {
+              myModuleModel.audioPlay("song-fail");
+              myModuleModel.showMessage("Fill in all the fields. Enter the correct data", "Заполните все поля. Вводите корректные данные");
+            }
           }
           if (event.target.id === "my-profile-enter" || event.target.textContent === "Log-In" || event.target.textContent === "Учетная запись") {
             this.open(document.getElementById("window-enters"));
@@ -1007,12 +1034,15 @@ const mySPA = (function() {
           if (event.target.id === "go-home") document.getElementById("lock").classList.add("unvisible");
 
           if (event.target.id === "my-profile-save") {
-            const profileName = document.getElementById("profile-name").value;
-            const profileAge = document.getElementById("profile-age").value;
-            const profileDiscord = document.getElementById("profile-discord").value;
-            if (profileName !== "" && profileAge !== "" && profileDiscord !== "") {
-              myModuleModel.updateUserInfo(profileName, profileAge, profileDiscord);
-            } else myModuleModel.showMessage("Fill in all the fields. Enter the correct data", "Заполните все поля. Вводите корректные данные");
+            const profileName = document.getElementById("profile-name");
+            const profileAge = document.getElementById("profile-age");
+            const profileDiscord = document.getElementById("profile-discord");
+            if (profileName.value !== "" && profileAge.value > 5 && profileAge.value < 110 && profileDiscord.value !== "" && profileName.value.trim()  && profileAge.value.trim()  && profileDiscord.value.trim() && profileName.validity.valid === true && profileDiscord.validity.valid === true) {
+              myModuleModel.updateUserInfo(profileName.value, profileAge.value, profileDiscord.value);
+            } else {
+              myModuleModel.audioPlay("song-fail");
+              myModuleModel.showMessage("Fill in all the fields. Enter the correct data", "Заполните все поля. Вводите корректные данные");
+            }
           }
           if (event.target.id === "my-profile-cancel" || event.target.id === "my-profile-cancel-e" || event.target.id === "my-profile-cancel-r") {
             myModuleModel.getUserInfo();
@@ -1077,7 +1107,14 @@ const mySPA = (function() {
               }
               if (document.getElementById("window-registration").classList !== "unvisible" && document.getElementById("window-login").classList === "unvisible") {
                 event.preventDefault();
-                myModuleModel.signUp(document.getElementById("input-registration-mail").value, document.getElementById("input-registration-pass").value);
+                let mail = document.getElementById("input-registration-mail");
+                let pass = document.getElementById("input-registration-pass");
+                if (mail.value !== "" && pass.value !== "" && mail.validity.valid === true && pass.validity.valid === true && mail.value.trim() && pass.value.trim()) {
+                  myModuleModel.signUp(document.getElementById("input-registration-mail").value, document.getElementById("input-registration-pass").value);
+                } else {
+                  myModuleModel.audioPlay("song-fail");
+                  myModuleModel.showMessage("Fill in all the fields. Enter the correct data", "Заполните все поля. Вводите корректные данные");
+                }
               }
             }
 
