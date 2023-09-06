@@ -11,6 +11,8 @@ const components = {
   lossConnection: LossConnection,
   lockDisplay: LockDisplay,
   message: Message,
+  chat: Chat,
+  btnChat: BtnChat,
 };
 
 // Список поддердживаемых роутов (from pages.js)
@@ -373,9 +375,21 @@ const mySPA = (function() {
         document.getElementById("message").classList.add("unvisible");
       }, 3000);
     }
+
+    this.showChat = function () {
+      document.getElementById("chat").classList.remove("chat-hide");
+      document.getElementById("chat-open").classList.add("unvisible");
+    }
+    this.hideChat = function () {
+      document.getElementById("chat").classList.add("chat-hide");
+      document.getElementById("chat-open").classList.remove("unvisible");
+    }
+
   };
+
   /* -------- end view --------- */
   /* ------- begin model ------- */
+
   function ModuleModel () {
     let myModuleView = null;
 
@@ -872,6 +886,18 @@ const mySPA = (function() {
     this.audioPlay = function(sound) {
       myModuleView.audioPlay(sound);
     }
+    
+    this.showChat = function () { myModuleView.showChat(); }
+    this.hideChat = function () { myModuleView.hideChat(); }
+
+    this.sendMessage = function (text) {
+      const msg = {
+        name: name,
+        text: text
+      };
+
+      msgRef.push(msg);
+    }
 
   }
 
@@ -890,12 +916,35 @@ const mySPA = (function() {
 
       let complete = null;
 
+      let msgScreen = null;
+      let msgForm = null;
+      let msgInput = null;
+      let msgBtn = null;
+      let name = null;
+
       this.init = function(container, model) {
         myModuleContainer = container;
         myModuleModel = model;
 
+        msgScreen = document.getElementById("messages");
+        msgForm = document.getElementById("messageForm");
+        msgInput = document.getElementById("msg-input");
+        msgBtn = document.getElementById("msg-btn");
+        name = "Gamer";
+
         //window start page
         window.addEventListener("hashchange", this.updateState);
+
+        msgForm.addEventListener('submit', () => {
+          const text = msgInput.value;
+          if (!text.trim()) {
+            myModuleModel.audioPlay("song-fail");
+            myModuleModel.showMessage("Enter a message", "Введите сообщение");
+            return;
+          }
+          myModuleModel.sendMessage(text);
+          msgInput.value = "";
+        });
         
         myModuleContainer.addEventListener("click", () => {
           if (event.target.classList.value === "letter" || event.target.classList.value === "welcome__text" || event.target.classList.value === "welcome__img") {
@@ -1050,6 +1099,8 @@ const mySPA = (function() {
           if (event.target.id === "my-profile-pass-cancel" || event.target.id === "my-profile-pass-cancel-r" || event.target.id === "my-profile-pass-cancel-e") {
             myModuleModel.clearInput(document.getElementById("my-profile-box-pass"));
           }
+          if (event.target.id === "chat-open") myModuleModel.showChat();
+          if (event.target.id === "chat-close") myModuleModel.hideChat();
         });
 
         $(document).keyup((event) => {
@@ -1279,6 +1330,7 @@ const mySPA = (function() {
 
       this.scrollOff = function () { document.body.classList.add("scroll-off"); }
       this.scrollOn = function () { document.body.classList.remove("scroll-off"); }
+
   };
   /* ------ end controller ----- */
 

@@ -10,7 +10,7 @@ const Header = {
             <img class="btns btns-rotate" alt="Settings" title="Setting" src="assets/images/svg/settings.svg" id="btn-settings">
             <div class="settings__param">
               <div>
-                <p class="settings__param_volume"><span data-language="en">Music volume</span><span data-language="ru" class="unvisible">Громкость музыки</span></p>
+                <p class="settings__param_volume"><span data-language="en">Music volume</span><span data-language="ru" class="unvisible">Громкость музыки <i class="icon-volume-medium iconmoon"></i></span></p>
                 <input type="range" min="1" max="100" value="100" id="volume">
               </div>
               <label class="toggle">
@@ -29,10 +29,10 @@ const Header = {
           <div class="profile">
             <img class="btns btns-rotate" alt="Enter" title="Enter" src="assets/images/svg/enter.svg" id="btn-enter">
             <div class="profile__param">
-              <p class="unvisible" id="my-profile"><a href="#profile" title="My profile"><span data-language="en">My profile</span><span data-language="ru" class="unvisible">Мой профиль</span></a></p>
-              <p class="unvisible" id="my-collection"><a href="#collection" title="My collection"><span data-language="en">My сollection</span><span data-language="ru" class="unvisible">Моя коллекция</span></a></p>
-              <p class="unvisible" id="my-profile-exit"><span data-language="en">Log-Out</span><span data-language="ru" class="unvisible">Выйти из профиля</span></p>
-              <p id="my-profile-enter"><span data-language="en">Log-In</span><span data-language="ru" class="unvisible">Учетная запись</span></p>
+              <p class="unvisible" id="my-profile"><a href="#profile" title="My profile"><span data-language="en">My profile</span><span data-language="ru" class="unvisible">Мой профиль</span></a> <i class="icon-key iconmoon"></i></p>
+              <p class="unvisible" id="my-collection"><a href="#collection" title="My collection"><span data-language="en">My сollection</span><span data-language="ru" class="unvisible">Моя коллекция</span></a> <i class="icon-images iconmoon"></i></p>
+              <p class="unvisible" id="my-profile-exit"><span data-language="en">Log-Out</span><span data-language="ru" class="unvisible">Выйти из профиля</span> <i class="icon-exit iconmoon"></i></p>
+              <p id="my-profile-enter"><span data-language="en">Log-In</span><span data-language="ru" class="unvisible">Учетная запись</span> <i class="icon-enter iconmoon"></i></p>
             </div>
           </div>
         </div>
@@ -160,6 +160,42 @@ const Message = {
     return `
       <div class="message ${customClass} unvisible" id="message">
         <h3><span data-language="en" id="message-eng"></span><span data-language="ru" class="unvisible" id="message-rus"></span></h3>
+      </div>
+    `;
+  }
+};
+
+const BtnChat = {
+  render: (customClass = "") => {
+    return `
+      <img id="chat-open" class="${customClass} btns btn-chat-show" src="assets/images/svg/chat.svg" title="Chat" alt="Chat">
+    `;
+  }
+};
+
+const Chat = {
+  render: (customClass = "") => {
+    return `
+      <div class = "chat ${customClass} chat-hide" id="chat">
+        <img class="btns chat__close" alt="Close" title="Close" src="assets/images/svg/close.svg" id="chat-close">
+        <div class = "chat__window" id = "chat-window">
+          <ul id = "messages" class="chat__window_messages">
+            <li class="msg">
+              <span class = "msg-span">
+                <i class = "name">Host: </i>Hello and welcome to the chat!
+              </span>
+            </li>
+            <li class="msg my">
+              <span class = "msg-span">
+                <i class = "name">Me: </i>My message is on the right
+              </span>
+            </li>
+          </ul>
+          <form id = "messageForm" autocomplete="off" class="chat__window_form">
+            <input type = "text" id = "msg-input" placeholder="Enter a message">
+            <button class="chat__window_form_btn" id = "msg-btn" type = "submit"><i class="icon-mail iconmoon"></i></button>
+          </form>
+        </div>
       </div>
     `;
   }
