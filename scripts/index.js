@@ -170,7 +170,7 @@ const mySPA = (function() {
       let fullDescription = document.getElementById("full-description");
       fullDescription.classList.add("full-description");
       fullDescription.innerHTML = `
-        <img class="full-description__background" src="${data.screenshots[0].image}" alt="Game image">
+        <img class="full-description__background" src="${(data.screenshots[0]) ? data.screenshots[0].image : "assets/images/background/noimage.jpg"}" alt="Game image">
         <h2 class="full-description__title">${data.title}</h2>
         <img class="full-description__image" src="${data.thumbnail}" alt="Game image">
         <p><span class="red" data-language="en">Genre:</span><span data-language="ru" class="unvisible red">Жанр:</span> ${data.genre}</p>
@@ -190,9 +190,9 @@ const mySPA = (function() {
           </ul>
         </div>
         <div class="full-description__screenshots">
-          <a data-fancybox="gallery" href="${data.screenshots[0].image}"><img class="full-description__screenshots_image" src="${data.screenshots[0].image}" alt="Game screenshot"></a>
-          <a data-fancybox="gallery" href="${data.screenshots[1].image}"><img class="full-description__screenshots_image" src="${data.screenshots[1].image}" alt="Game screenshot"></a>
-          <a data-fancybox="gallery" href="${data.screenshots[2].image}"><img class="full-description__screenshots_image" src="${data.screenshots[2].image}" alt="Game screenshot"></a>
+          <a data-fancybox="gallery" href="${(data.screenshots[0]) ? data.screenshots[0].image : "assets/images/background/noimage.jpg"}"><img class="full-description__screenshots_image" src="${(data.screenshots[0]) ? data.screenshots[0].image : "assets/images/background/noimage.jpg"}" alt="Game screenshot"></a>
+          <a data-fancybox="gallery" href="${(data.screenshots[1]) ? data.screenshots[1].image : "assets/images/background/noimage.jpg"}"><img class="full-description__screenshots_image" src="${(data.screenshots[1]) ? data.screenshots[1].image : "assets/images/background/noimage.jpg"}" alt="Game screenshot"></a>
+          <a data-fancybox="gallery" href="${(data.screenshots[2]) ? data.screenshots[2].image : "assets/images/background/noimage.jpg"}"><img class="full-description__screenshots_image" src="${(data.screenshots[2]) ? data.screenshots[2].image : "assets/images/background/noimage.jpg"}" alt="Game screenshot"></a>
         </div>
         <img class="btns card-show__btn-close" alt="Close" title="Close" src="assets/images/svg/close.svg" id="close-full-description">
       `;
@@ -289,7 +289,7 @@ const mySPA = (function() {
       let fullDescription = document.getElementById("full-description");
       fullDescription.classList.add("full-description");
       fullDescription.innerHTML = `
-        <img class="full-description__background" src="${data.screenshots[0].image}" alt="Game image">
+        <img class="full-description__background" src="${(data.screenshots[0]) ? data.screenshots[0].image : "assets/images/background/noimage.jpg"}" alt="Game image">
         <h2 class="full-description__title">${data.title}</h2>
         <img class="full-description__image" src="${data.thumbnail}" alt="Game image">
         <p><span class="red" data-language="en">Genre:</span><span data-language="ru" class="unvisible red">Жанр:</span> ${data.genre}</p>
@@ -309,9 +309,9 @@ const mySPA = (function() {
           </ul>
         </div>
         <div class="full-description__screenshots">
-          <a data-fancybox="gallery" href="${data.screenshots[0].image}"><img class="full-description__screenshots_image" src="${data.screenshots[0].image}" alt="Game screenshot"></a>
-          <a data-fancybox="gallery" href="${data.screenshots[1].image}"><img class="full-description__screenshots_image" src="${data.screenshots[1].image}" alt="Game screenshot"></a>
-          <a data-fancybox="gallery" href="${data.screenshots[2].image}"><img class="full-description__screenshots_image" src="${data.screenshots[2].image}" alt="Game screenshot"></a>
+          <a data-fancybox="gallery" href="${(data.screenshots[0]) ? data.screenshots[0].image : "assets/images/background/noimage.jpg"}"><img class="full-description__screenshots_image" src="${(data.screenshots[0]) ? data.screenshots[0].image : "assets/images/background/noimage.jpg"}" alt="Game screenshot"></a>
+          <a data-fancybox="gallery" href="${(data.screenshots[1]) ? data.screenshots[1].image : "assets/images/background/noimage.jpg"}"><img class="full-description__screenshots_image" src="${(data.screenshots[1]) ? data.screenshots[1].image : "assets/images/background/noimage.jpg"}" alt="Game screenshot"></a>
+          <a data-fancybox="gallery" href="${(data.screenshots[2]) ? data.screenshots[2].image : "assets/images/background/noimage.jpg"}"><img class="full-description__screenshots_image" src="${(data.screenshots[2]) ? data.screenshots[2].image : "assets/images/background/noimage.jpg"}" alt="Game screenshot"></a>
         </div>
         <img class="btns card-show__btn-close" alt="Close" title="Close" src="assets/images/svg/close.svg" id="close-full-description">
       `;
@@ -442,6 +442,9 @@ const mySPA = (function() {
         	arrCards = data;
           maxCards = data.length;
           countCards = 0;
+          arrCardsDouble = data;
+          maxCardsDouble = data.length;
+          countCardsDouble = 0;
           //console.log(arrCards);
         } catch (error) {
           if (error != "") {
@@ -466,7 +469,7 @@ const mySPA = (function() {
         try {
         	const response = await fetch(url, options);
         	const data = await response.json();
-          console.log(data);
+          //console.log(data);
           if (ev === "detail") {
 
             myModuleView.showLoad();
@@ -499,7 +502,7 @@ const mySPA = (function() {
         try {
         	const response = await fetch(url, options);
         	const data = await response.json();
-          console.log(data);
+          //console.log(data);
 
             myModuleView.showLoad();
             setTimeout(() => {
@@ -519,6 +522,7 @@ const mySPA = (function() {
     this.createCards = function () {
       myModuleView.showLoad();
       setTimeout(() => {
+        console.log(arrCards)
         let length = countCards + 20;
         for (let i = countCards; i < length; i++) {
           if (countCards < maxCards) {
@@ -534,7 +538,11 @@ const mySPA = (function() {
       }, 1000);
     }
 
-    this.showCardDescription = function (id, pos) { 
+    this.showCardDescription = function (gameId, gamePos) {
+      let pos = 0;
+      for (let i = 0; i < arrCards.length; i++) {
+        if (arrCards[i].id === Number(gameId)) pos = i;
+      }
       let title = arrCards[pos].title;
       let dev = arrCards[pos].developer;
       let pub = arrCards[pos].publisher;
@@ -544,7 +552,7 @@ const mySPA = (function() {
       let date = arrCards[pos].release_date;
       let description = arrCards[pos].short_description;
       let image = arrCards[pos].thumbnail;
-      myModuleView.showCardDescription(id, image, title, dev, pub, link, genre, platform, date, description);
+      myModuleView.showCardDescription(gameId, image, title, dev, pub, link, genre, platform, date, description);
     }
 
     this.deleteElementById = function (id) { myModuleView.deleteElementById(id); }
@@ -582,53 +590,31 @@ const mySPA = (function() {
     }
 
     this.searchGame = function (str) {
-      arrCardsDouble = arrCards;
-      countCardsDouble = countCards;
-      maxCardsDouble = maxCards;
+
+      if (arrSearch.length > 0) arrSearch = [];
 
       setTimeout(() => {
-        for (let i = 0; i < arrCards.length; i++) {
-          for (let key in arrCards[i]) {
-            if (key == "title" && arrCards[i][key].toLowerCase().indexOf(str.toLowerCase()) != -1) {
-              arrSearch.push(arrCards[i]);
+        for (let i = 0; i < arrCardsDouble.length; i++) {
+          for (let key in arrCardsDouble[i]) {
+            if (key == "title" && arrCardsDouble[i][key].toLowerCase().indexOf(str.toLowerCase()) !== -1) {
+              arrSearch.push(arrCardsDouble[i]);
             }
           }
         }
+        
         this.deleteCards();
         countCards = 0;
         arrCards = arrSearch;
         maxCards = arrSearch.length;
         this.createCards();
-
-        setTimeout(() => {
-          arrSearch = [];
-          arrCards = arrCardsDouble;
-          countCards = countCardsDouble;
-          maxCards = maxCardsDouble;
-        }, 1000)
-        
+  
       }, 1000)
     }
 
     this.windowRefresh = function () {
       myModuleView.windowRefresh();
     }
-/*
-    this.addUser = function (username, useremail) {
-      myAppDB
-        .ref("users/" + `user_${username.replace(/\s/g, "").toLowerCase()}`)
-        .set({
-          username: `${username}`,
-          email: `${useremail}`,
-        })
-        .then(function () {
-          console.log("Пользователь добавлен в коллецию users");
-        })
-        .catch(function (error) {
-          console.error("Ошибка добавления пользователя: ", error);
-        });
-    };
-*/
+
     this.signIn = function (userEmail, userPass) {
       if (userEmail && userPass) {
         auth
@@ -1110,14 +1096,17 @@ const mySPA = (function() {
             this.sortGames(categoryLink, platformLink, typeLink);
             this.showCategoryGamesTitle(event.target.nextSibling.textContent);
             this.changeBackground(event.target.nextSibling.textContent.toLowerCase());
+            if (document.getElementById("search-game").value.length > 0) document.getElementById("search-game").value = "";
           }
           if (event.target.name === "platform") {
             platformLink = "&platform=" + event.target.nextSibling.textContent.toLowerCase(); 
             this.sortGames(categoryLink, platformLink, typeLink);
+            if (document.getElementById("search-game").value.length > 0) document.getElementById("search-game").value = "";
           }
           if (event.target.name === "arrange") {
             typeLink = "&sort-by=" + event.target.nextSibling.textContent.toLowerCase();
             this.sortGames(categoryLink, platformLink, typeLink);
+            if (document.getElementById("search-game").value.length > 0) document.getElementById("search-game").value = "";
           }
 
           if (location.hash === "#main") {
