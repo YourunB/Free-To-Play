@@ -385,6 +385,17 @@ const mySPA = (function() {
       document.getElementById("chat-open").classList.remove("unvisible");
     }
 
+    this.updateMsgs = function (arr) {
+      let allMsg = "";
+      
+      for (let i = 0; i < arr.length; i++) {
+        allMsg += arr[i].name + ": " + arr[i].text + "<br>";
+      }
+
+      document.getElementById("messages").innerHTML = allMsg;
+      document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
+    }
+
   };
 
   /* -------- end view --------- */
@@ -402,8 +413,11 @@ const mySPA = (function() {
     let maxCardsDouble = 0;
     let countCardsDouble = 0;
 
+    let name = null;
+
     this.init = function(view) {
       myModuleView = view;
+      name = "Gamer";
     }
 
     this.updateState = function(pageName) {
@@ -897,12 +911,25 @@ const mySPA = (function() {
       };
 
       msgRef.push(msg);
+      setTimeout(() => {this.updateMsgs(); }, 250);
+    }
+
+    this.updateMsgs = function () {
+      let arr = []
+      msgRef
+        .on("child_added", data => {
+          data.val();
+          arr.push(data.val());
+        })
+
+      setTimeout(() => { myModuleView.updateMsgs(arr); }, 250)
     }
 
   }
 
   /* -------- end model -------- */
   /* ----- begin controller ---- */
+
   function ModuleController () {
       let myModuleContainer = null;
       let myModuleModel = null;
@@ -920,7 +947,6 @@ const mySPA = (function() {
       let msgForm = null;
       let msgInput = null;
       let msgBtn = null;
-      let name = null;
 
       this.init = function(container, model) {
         myModuleContainer = container;
@@ -930,7 +956,6 @@ const mySPA = (function() {
         msgForm = document.getElementById("messageForm");
         msgInput = document.getElementById("msg-input");
         msgBtn = document.getElementById("msg-btn");
-        name = "Gamer";
 
         //window start page
         window.addEventListener("hashchange", this.updateState);

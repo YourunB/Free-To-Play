@@ -180,16 +180,6 @@ const Chat = {
         <img class="btns chat__close" alt="Close" title="Close" src="assets/images/svg/close.svg" id="chat-close">
         <div class = "chat__window" id = "chat-window">
           <ul id = "messages" class="chat__window_messages">
-            <li class="msg">
-              <span class = "msg-span">
-                <i class = "name">Host: </i>Hello and welcome to the chat!
-              </span>
-            </li>
-            <li class="msg my">
-              <span class = "msg-span">
-                <i class = "name">Me: </i>My message is on the right
-              </span>
-            </li>
           </ul>
           <form id = "messageForm" autocomplete="off" class="chat__window_form">
             <input type = "text" id = "msg-input" placeholder="Enter a message">
