@@ -385,14 +385,8 @@ const mySPA = (function() {
       document.getElementById("chat-open").classList.remove("unvisible");
     }
 
-    this.updateMsgs = function (arr) {
-      let allMsg = "";
-      
-      for (let i = 0; i < arr.length; i++) {
-        allMsg += arr[i].name + ": " + arr[i].text + "<br>";
-      }
-
-      document.getElementById("messages").innerHTML = allMsg;
+    this.updateMsgs = function (data) {
+      document.getElementById("messages").innerHTML += data.name + ": " + data.text + "<br>";
       document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
     }
 
@@ -413,11 +407,9 @@ const mySPA = (function() {
     let maxCardsDouble = 0;
     let countCardsDouble = 0;
 
-    let name = null;
 
     this.init = function(view) {
       myModuleView = view;
-      name = "Gamer";
     }
 
     this.updateState = function(pageName) {
@@ -905,25 +897,36 @@ const mySPA = (function() {
     this.hideChat = function () { myModuleView.hideChat(); }
 
     this.sendMessage = function (text) {
-      const msg = {
-        name: name,
-        text: text
-      };
+      let name = "";
+      
+      const user = firebase.auth().currentUser;
+      if (user !== null) {
+        myAppDB
+          .ref("users/" + [user.multiFactor.user.uid])
+          .once("value")
+          .then(function (snapshot) {
+            if (snapshot.val() !== null && snapshot.val().name !== null) name = snapshot.val().name;
+          })
+      }
 
-      msgRef.push(msg);
-      setTimeout(() => {this.updateMsgs(); }, 250);
+      setTimeout(() => {
+        if (name === "" || name === null || name === "undefined" || name.length === 0) name = "Gamer";
+
+        const msg = {
+          name: name,
+          text: text
+        };
+
+        msgRef.push(msg);
+      }, 250)
     }
 
-    this.updateMsgs = function () {
-      let arr = []
-      msgRef
-        .on("child_added", data => {
-          data.val();
-          arr.push(data.val());
-        })
-
-      setTimeout(() => { myModuleView.updateMsgs(arr); }, 250)
-    }
+    msgRef
+      .on("child_added", data => {
+        data.val();
+        //console.log(data.val());
+        myModuleView.updateMsgs(data.val());
+      })
 
   }
 
@@ -961,6 +964,7 @@ const mySPA = (function() {
         window.addEventListener("hashchange", this.updateState);
 
         msgForm.addEventListener('submit', () => {
+          event.preventDefault();
           const text = msgInput.value;
           if (!text.trim()) {
             myModuleModel.audioPlay("song-fail");
