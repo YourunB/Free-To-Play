@@ -386,7 +386,8 @@ const mySPA = (function() {
     }
 
     this.updateMsgs = function (data) {
-      document.getElementById("messages").innerHTML += data.name + ": " + data.text + "<br>";
+      //this.audioPlay("message");
+      document.getElementById("messages").innerHTML += data.name + ": " + "<span>" + data.text + "</span>" + "<br>";
       document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
     }
 
@@ -1006,6 +1007,7 @@ const mySPA = (function() {
 
           if (event.target.id === "close-full-description") {
             this.deleteElementById("full-description");
+            if (location.hash === "#collection") this.scrollOn();
           }
           if (event.target.id === "btn-up") {
             window.scroll({top: 0, behavior: "smooth"});
@@ -1102,6 +1104,7 @@ const mySPA = (function() {
           }
           if (event.target.classList.value === "collection__box_card_image") {
             myModuleModel.getCardDescriptionUserCollection(event.target.dataset.id);
+            this.scrollOff();
           }
           if (event.target.classList.value === "btns collection__box_card_btn") {
             myModuleModel.deleteCardGameCollection(event.target.dataset.id);
@@ -1172,6 +1175,7 @@ const mySPA = (function() {
             if (location.hash === "#collection") {
               if (document.getElementById("full-description") !== null) {
                 this.deleteElementById("full-description");
+                this.scrollOn();
               }
             }
           }
