@@ -1002,6 +1002,82 @@ footer {
   z-index: 1250;
 }
 
+.chat {
+  position: fixed;
+  z-index: 2100;
+  max-width: 200px;
+  width: 100%;
+  height: 320px;
+  opacity: 0.9;
+  border: solid 1px black;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 40px 10px 10px 10px;
+  box-sizing: border-box;
+  right: 10px;
+  bottom: 80px;
+  background-color: white;
+  background-image: url('../assets/images/background/social.png');
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: 50%;
+  color: #A9121F;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+  transition: 2s;
+}
+
+.chat-hide {
+  transform: translateX(250px);
+}
+
+.btn-chat-show {
+  position: fixed;
+  right: 30px;
+  bottom: 80px;
+  animation: show 3s;
+}
+
+.chat__close {
+  position: absolute;
+  border: solid 1px black;
+  right: 10px;
+  top: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.chat__window {
+  display: grid;
+  grid-template-rows: 3.5fr 1fr;
+}
+
+.chat__window_messages {
+  padding: 0;
+  margin: 0;
+}
+
+.chat__window_form {}
+
+.chat__window_form_btn {
+  background: none;
+  border: none;
+  transition: 0.5s;
+  font-size: 20px;
+}
+
+.chat__window_form_btn:hover,
+.chat__window_form_btn:active  {
+  transform: scale(1.1);
+  filter: invert(1);
+  cursor: pointer;
+}
+
+.chat__window_messages li {
+  list-style-type: none;
+  padding-bottom: 10px;
+  margin: 0;
+}
+
 .area{
   width: 100%;
 }
