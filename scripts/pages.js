@@ -109,11 +109,11 @@ const MainPage = {
         <h2><span data-language="en">User Registration</span><span data-language="ru" class="unvisible">Регистрация пользователя</span></h2>
         <div class="registration__box">
           <label for="input-registration-mail"><span data-language="en">Email:</span><span data-language="ru" class="unvisible">Эл. почта:</span> <i class="icon-mail iconmoon"></i></label>
-          <input type="email" maxlength="30" id="input-registration-mail">
+          <input type="email" maxlength="30" id="input-registration-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required title="Enter email (example: name@gmail.com)">
         </div>
         <div class="registration__box">
           <label for="input-registration-pass"><span data-language="en">Choose Password:</span><span data-language="ru" class="unvisible">Введите пароль:</span> <i class="icon-key2 iconmoon"></i></label>
-          <input type="password" maxlength="30" id="input-registration-pass">
+          <input type="password" id="input-registration-pass" pattern=".{8,20}" required title="Password must be (8 - 20) characters" maxlength="20">
         </div>
         <p class="registration__warning unvisible" id="signup-warning"><span data-language="en">Input error</span><span data-language="ru" class="unvisible">Ошибка ввода</span><img class="registration__warning_img" alt="Warning" src="assets/images/svg/warning.svg"></p>
         <div class="box-button">
@@ -162,15 +162,15 @@ const ProfilePage = {
           <div class="my-profile__inputs">
             <div class="my-profile__inputs_box">
               <label for="profile-name"><span data-language="en">Your Name:</span><span data-language="ru" class="unvisible">Имя:</span></label>
-              <input type="text" maxlength="30" id="profile-name">
+              <input type="text" maxlength="30" id="profile-name" pattern="^[а-яёА-ЯЁa-zA-Z \-']+$" required title="Enter your name">
             </div>
             <div class="my-profile__inputs_box">
               <label for="profile-name"><span data-language="en">Your age:</span><span data-language="ru" class="unvisible">Возраст:</span></label>
-              <input type="number" maxlength="3" id="profile-age">
+              <input type="number" maxlength="3" id="profile-age" title="Enter your age">
             </div>
             <div class="my-profile__inputs_box">
               <label for="profile-discord"><span data-language="en">Your discord:</span><span data-language="ru" class="unvisible">Аккаунт discord:</span> <i class="icon-flickr4 iconmoon"></i></label>
-              <input type="text" maxlength="30" id="profile-discord">
+              <input type="text" maxlength="30" id="profile-discord" id="profile-name" pattern="^[a-zA-Z0-9 \-']+$" required title="Enter a discord from letters on English">
             </div>
             <div class="my-profile__save">
             <button class="button button-cancel" id="my-profile-cancel"><span id="my-profile-cancel-e" data-language="en">Cancel</span><span id="my-profile-cancel-r" data-language="ru" class="unvisible">Отмена</span></button>  
