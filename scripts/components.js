@@ -107,6 +107,7 @@ const Song = {
         <audio src="assets/sounds/click.mp3" id="song-click"></audio>
         <audio src="assets/sounds/fail.mp3" id="song-fail"></audio>
         <audio src="assets/sounds/up.mp3" id="song-up"></audio>
+        <audio src="assets/sounds/message.mp3" id="song-message"></audio>
       </div>
     `;
   }
