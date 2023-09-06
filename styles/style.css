@@ -1034,7 +1034,6 @@ footer {
   position: fixed;
   right: 30px;
   bottom: 80px;
-  animation: show 3s;
 }
 
 .chat__close {
@@ -1052,8 +1051,17 @@ footer {
 }
 
 .chat__window_messages {
+  font-size: 13px;
+  border-radius: 3px;
+  height: 210px;
+  overflow: auto;
   padding: 0;
   margin: 0;
+}
+
+.chat__window_messages span {
+  color: #000000;
+  text-shadow: 0 0 3px white;
 }
 
 .chat__window_form {}
