@@ -67,6 +67,7 @@ body {
   background-attachment: fixed;
   min-height: 100vh;
   color: white;
+  text-shadow: 0 0 3px black;
 }
 
 .scroll-off {
@@ -1642,6 +1643,7 @@ content: '';
 .light {
   background-color: white;
   color: black;
+  text-shadow: 0 0 3px white;
 }
 .light__img {filter: invert(1);}
 .unvisible {display: none;}
