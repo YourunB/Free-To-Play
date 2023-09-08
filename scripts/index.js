@@ -1418,9 +1418,10 @@ const mySPA = (function() {
   };
 
 }());
-/* ------ end app module ----- */
 
+/* ------ end app module ----- */
 /*** --- init module --- ***/
+
 document.addEventListener("DOMContentLoaded", mySPA.init({
   container: "app",
   routes: routes,
