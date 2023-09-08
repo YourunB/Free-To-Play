@@ -1319,6 +1319,7 @@ const mySPA = (function() {
       this.updateState = function() {
         const hashPageName = location.hash.slice(1).toLowerCase();
         myModuleModel.updateState(hashPageName);
+        myModuleModel.changeBackground("all");
         
         if (location.hash === "#main") {
           myModuleModel.getGames('https://free-to-play-games-database.p.rapidapi.com/api/games');
