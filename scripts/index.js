@@ -1,4 +1,3 @@
-// Список компонент (from components.js)
 const components = {
   bacAnime: BackAnime,
   header: Header,
@@ -15,7 +14,6 @@ const components = {
   btnChat: BtnChat,
 };
 
-// Список поддердживаемых роутов (from pages.js)
 const routes = {
   welcome: WelcomePage,
   main: MainPage,
@@ -736,18 +734,7 @@ const mySPA = (function() {
         myModuleView.showMessage("Fill in all the fields!", "Заполните все поля!");
       }
     };
-/*
-    this.checkUser = function () {
-      const user = firebase.auth().currentUser;
-      if (user !== null) {
-        console.log("User IN");
-        myModuleView.elementsLogin();
-      } else {
-        myModuleView.elementsLogout();
-        console.log("User OUT");
-      }
-    }
-*/  
+
     this.checkUser = function () {
       if (localStorage.login === "true") {
         myModuleView.elementsLogin();
@@ -1246,6 +1233,10 @@ const mySPA = (function() {
 
         });
 
+        window.addEventListener("beforeunload", () => {
+          this.warning(event);
+        });
+
         window.addEventListener("scroll", myModuleModel.throttle( () => {
           if (window.scrollY > 200) document.getElementById("btn-up").classList.remove("unvisible");
           else document.getElementById("btn-up").classList.add("unvisible");
@@ -1364,7 +1355,13 @@ const mySPA = (function() {
       this.scrollOff = function () { document.body.classList.add("scroll-off"); }
       this.scrollOn = function () { document.body.classList.remove("scroll-off"); }
 
+      this.warning = function (event) {
+        event.preventDefault();
+        event.returnValue = '';
+      }
+
   };
+  
   /* ------ end controller ----- */
 
   return {
