@@ -21,6 +21,7 @@ const routes = {
   collection: CollectionPage,
   default: WelcomePage,
   error: ErrorPage,
+  information: InformationPage,
 };
 
 /* ----- spa init module --- */
@@ -48,7 +49,7 @@ const mySPA = (function() {
       window.document.title = routesObj[routeName].title;
       contentContainer.innerHTML = routesObj[routeName].render(`${routeName}-page`);
 
-      if (location.hash === "#main" || location.hash === "#profile" || location.hash === "#collection") document.getElementById("header").classList.remove("unvisible");
+      if (location.hash === "#main" || location.hash === "#profile" || location.hash === "#collection" || location.hash === "#information") document.getElementById("header").classList.remove("unvisible");
       else document.getElementById("header").classList.add("unvisible");
     }
 
