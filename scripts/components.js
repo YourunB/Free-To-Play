@@ -49,6 +49,7 @@ const Header = {
               <a href="https://www.codewars.com/users/rsschool_785da839e5c30a16" target="_blank"><img class="btns" src="assets/images/svg/codewars.svg" alt="CodeWars" title="Open codewars"></a>
             </div>
             <p><span data-language="en">Email: </span><span data-language="ru" class="unvisible">Почта: </span><a href="mailto:bxyura@gmail.com" target="_blank" class="about__param_social_mail">bxyra@gmail.com</a></p>
+            <p class="about__param_app-info"><a href="#information" title="Open"><span data-language="en">About the APP</span><span data-language="ru" class="unvisible">О приложении</span> <i class="icon-file-text2 iconmoon"></i></a></p>
           </div>
         </div>
       </header>
@@ -86,7 +87,7 @@ const BackAnime = {
 const Footer = {
   render: (customClass = "") => {
     return `
-      <footer class="footer ${customClass}"><a href="https://github.com/YourunB" target="_blank" class="footer-link">&copy; <span data-language="en">2023 Application created for educational purposes.</span><span data-language="ru" class="unvisible">2023 Приложение, созданное в учебных целях.</span></a></footer>
+      <footer class="footer ${customClass}"><a href="https://github.com/YourunB" target="_blank" class="footer-link">&copy; <span data-language="en">2023 Application created for educational purposes.</span><span data-language="ru" class="unvisible">2023 Приложение создано в учебных целях.</span></a></footer>
     `;
   }
 };
@@ -187,6 +188,16 @@ const Chat = {
             <button class="chat__window_form_btn" id = "msg-btn" type = "submit"><i class="icon-mail iconmoon"></i></button>
           </form>
         </div>
+      </div>
+    `;
+  }
+};
+
+const ContextMenu = {
+  render: (customClass = "") => {
+    return `
+      <div class="menu ${customClass} unvisible" id="context-menu">
+        <p><a href="#information" title="Open"><span data-language="en">About the APP</span><span data-language="ru" class="unvisible">О приложении</span> <i class="icon-file-text2 iconmoon"></i></a></p>
       </div>
     `;
   }

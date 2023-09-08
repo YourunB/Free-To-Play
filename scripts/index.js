@@ -12,6 +12,7 @@ const components = {
   message: Message,
   chat: Chat,
   btnChat: BtnChat,
+  contextMenu: ContextMenu,
 };
 
 const routes = {
@@ -389,6 +390,13 @@ const mySPA = (function() {
       document.getElementById("messages").innerHTML += data.name + ": " + "<span>" + data.text + "</span>" + "<br>";
       document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
     }
+
+    this.openContextMenu = function (x, y) {
+      document.getElementById("context-menu").style.left = x + "px";
+      document.getElementById("context-menu").style.top = y + "px";
+      document.getElementById("context-menu").classList.remove("unvisible");
+    }
+    this.closeContextMenu = function () { document.getElementById("context-menu").classList.add("unvisible"); }
 
   };
 
@@ -917,6 +925,13 @@ const mySPA = (function() {
         myModuleView.updateMsgs(data.val());
       })
 
+      this.openContextMenu = function (x, y) {
+        myModuleView.openContextMenu(x,y);
+      }
+      this.closeContextMenu = function () {
+        myModuleView.closeContextMenu();
+      }
+
   }
 
   /* -------- end model -------- */
@@ -963,8 +978,23 @@ const mySPA = (function() {
           myModuleModel.sendMessage(text);
           msgInput.value = "";
         });
+
+        myModuleContainer.addEventListener("contextmenu", (event) => {
+          event.preventDefault();
+          let rect = document.body.getBoundingClientRect();
+          let menu = document.getElementById("context-menu").getBoundingClientRect();
+          let x = event.clientX - rect.left;
+          let y = event.clientY - rect.top;
+
+          if (rect.width < menu.width + x) x = rect.width - menu.width;
+          if (rect.height < menu.height + y) y = rect.height - menu.height;
+
+          myModuleModel.openContextMenu(x, y);
+        });
         
         myModuleContainer.addEventListener("click", () => {
+          if (document.getElementById("context-menu").classList !== "unvisible") myModuleModel.closeContextMenu();
+          
           if (event.target.classList.value === "letter" || event.target.classList.value === "welcome__text" || event.target.classList.value === "welcome__img") {
             this.open(document.getElementById("window-loading"));
             this.audio("song-music", "play");
