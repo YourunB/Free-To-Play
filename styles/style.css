@@ -67,7 +67,6 @@ body {
   background-attachment: fixed;
   min-height: 100vh;
   color: white;
-  text-shadow: 0 0 3px black;
 }
 
 .scroll-off {
@@ -1035,6 +1034,7 @@ footer {
   position: fixed;
   right: 30px;
   bottom: 80px;
+  z-index: 1100;
 }
 
 .chat__close {
@@ -1643,7 +1643,6 @@ content: '';
 .light {
   background-color: white;
   color: black;
-  text-shadow: 0 0 3px white;
 }
 .light__img {filter: invert(1);}
 .unvisible {display: none;}
