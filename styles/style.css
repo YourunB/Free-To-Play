@@ -455,6 +455,57 @@ option {
   text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
 }
 
+.about__param_app-info {
+  transition: 1s;
+}
+
+.about__param_app-info:hover {
+  color: #fff708;
+}
+
+.menu {
+  left: 0;
+  top: 0;
+  position: fixed;
+  z-index: 2110;
+  border-radius: 3px;
+  box-sizing: border-box;
+  width: 200px;
+  height: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  right: 0;
+  border: solid 1px #A9121F;
+  backdrop-filter: blur(5px);
+  transition: 1s;
+  animation: show 1s;
+  box-shadow: 2px 2px 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+.menu p {
+  cursor: pointer;
+  margin: 0;
+  transition: 1s;
+  width: 100%;
+  height: 100%;
+}
+
+.menu p:hover {
+  transform: scale(1.1);
+  color: #971d27;
+}
+
+.menu p a {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
 .information {
   position: relative;
   padding: 10px;
