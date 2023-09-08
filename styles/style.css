@@ -24,6 +24,9 @@
 .icon-images:before {
   content: "\e90e";
 }
+.icon-file-text2:before {
+  content: "\e926";
+}
 .icon-user:before {
   content: "\e971";
 }
@@ -450,6 +453,56 @@ option {
 .about__param_social_mail {
   color: #A9121F;
   text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+}
+
+.information {
+  position: relative;
+  padding: 10px;
+}
+
+.information p a {
+  color: #A9121F;
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+  transition: 1s;
+}
+
+.information p a:hover,
+.information p a:focus {
+  color: yellow;
+}
+
+.information h3 {
+  color: #e7e12c;
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+  font-size: 25px;
+  text-align: center;
+}
+
+.information__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.information__footer_icons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.information__footer_image {
+  width: 300px;
+  transition: 1s;
+}
+
+.information__footer_image:hover {
+  transform: scale(1.05);
+}
+
+.information__footer p {
+  text-align: center;
+  width: 100%;
 }
 
 .collection__box {
@@ -1731,6 +1784,9 @@ content: '';
     padding-top: 50px;
   }
   .collection {
+    padding-top: 50px;
+  }
+  .information {
     padding-top: 50px;
   }
 }
