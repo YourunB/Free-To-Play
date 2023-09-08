@@ -13,6 +13,3 @@ const auth = firebaseApp.auth();
 
 const db = myAppDB;
 const msgRef = db.ref("/msgs");
-
-//const provider = new firebase.auth.GoogleAuthProvider();
-
