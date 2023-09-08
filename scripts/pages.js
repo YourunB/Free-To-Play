@@ -219,3 +219,42 @@ const CollectionPage = {
     `;
   }
 };
+
+const InformationPage = {
+  id: "collection",
+  title: "Collection",
+  render: (className = "container", ...rest) => {
+    return `
+    <a href="#main"><img class="btns btns-home" alt="Home" title="Home" src="assets/images/svg/home.svg" id="btn-information-home"></a>
+    <main class="container area">
+      <div class="information ${className}">
+        <h2><span data-language="en">About the APP</span><span data-language="ru" class="unvisible">О приложении</span> <i class="icon-file-text2 iconmoon"></i></h2>
+        <h3>Free To Play</h3>
+        <p><span data-language="en">This application was created for educational purposes.</span><span data-language="ru" class="unvisible">Данное веб приложение создано в учебных целях.</span></p>
+        <p><span data-language="en">The web application is designed for easy search by users of interesting free games on the Internet.</span><span data-language="ru" class="unvisible">Веб приложение предназначено для легкого поиска пользователями интересующих бесплатных игр в интернете.</span></p>
+        <p><span data-language="en">The application is a single-page (SPA) CRUD application. </span><span data-language="ru" class="unvisible">Приложение является одностраничным (SPA) CRUD-приложением. </span><a href="https://developer.mozilla.org/ru/docs/Learn/JavaScript/Client-side_web_APIs/Introduction" target="_blank" title="Open">Single Page Application</a>.</p>
+        <p><span data-language="en">The web application uses the browser </span><span data-language="ru" class="unvisible">Веб приложение использует браузерное </span><a href="https://developer.mozilla.org/ru/docs/Learn/JavaScript/Client-side_web_APIs/Introduction" target="_blank" title="Open">API</a>.</p>
+        <p><span data-language="en">The API of the database that is publicly available from the site is taken as the basis for the source of information about free games </span><span data-language="ru" class="unvisible">За основу источника информации о бесплатных играх взят API базы данных находящейся в открытом доступе с сайта </span><a href="https://www.freetogame.com/api-doc" title="Open" target="_blank">www.freetogame.com</a>.</p>
+        <p><span data-language="en">For the correct operation of the database with free games, the proxy server API was used </span><span data-language="ru" class="unvisible">Для корректной работы базы данных с бесплатными играми использовался API прокси-сервер </span><a href="https://rapidapi.com/hub" target="_blank" title="Open">RapidAPI</a>.</p>
+        <p><span data-language="en">To send HTTP requests asynchronously and download game data from the server in real time, used </span><span data-language="ru" class="unvisible">Для асинхронной отправки отправки HTTP - запросов и загрузки данных об играх с сервера в режиме реального времени использовался </span><a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch" target="_blank" title="Open">Fetch API</a>.</p>
+        <p><span data-language="en">A Google database was used to store information about users and their games - </span><span data-language="ru" class="unvisible">Для хранения информации о пользователях и их играх была использована база данных компании Google - </span><a href="https://firebase.google.com/" target="_blank" title="Open">FireBase</a>.</p>
+        <p><span data-language="en">The web application is cross-browser and cross-platform.</span><span data-language="ru" class="unvisible">Веб приложение кроссбраузерно и кроссплатформенно.</span></p>
+        <p><span data-language="en">The entire code of the web application is developed by one developer.</span><span data-language="ru" class="unvisible">Весь код веб приложения разработан одним разработчиком.</span></p>
+        <p><span data-language="en">In writing the application code, an object-oriented approach was used to create application components and elements, and a scheme for dividing application data and control logic into three separate components was implemented: model, view, controller - </span><span data-language="ru" class="unvisible">В написании кода приложения использовался объектно-ориентированный подход для создания компонентов и элементов приложения а также реализована схема разделения данных приложения и управляющей логики на три отдельных компонента: модель, представление, контроллер - </span> <a href="https://ru.wikipedia.org/wiki/Model-View-Controller" title="Open" target="_blank">MVC</a>.</p>
+        <p><span data-language="en">The application uses the used library - </span><span data-language="ru" class="unvisible">В приложении используется использовалась библиотека - </span><a href="https://jquery.com/" target="_blank" title="Open">jQuery</a>.</p>
+        <p><span data-language="en">A multimedia component is connected for detailed display of images - </span><span data-language="ru" class="unvisible">Для подробного отображения изображений подключен мультимедейный компонент - </span><a href="https://fancyapps.com" title="Open" target="_blank">Fancybox</a>.</p>
+        <p><span data-language="en"></span><span data-language="ru" class="unvisible">Дополнительно реализован чат режиме реального времени на основе </span><a href="https://firebase.google.com/" title="Open" target="_blank">Firebase</a>.</p>
+        <div class="information__footer">
+          <div class="information__footer_icons">
+            <a href="https://github.com/YourunB" target="_blank"><img class="btns" src="assets/images/svg/github.svg" alt="GitHub" title="Open github"></a>
+            <a href="https://codepen.io/BxYura/pens/public" target="_blank"><img class="btns" src="assets/images/svg/codepen.svg" alt="CodePen" title="Open codepen"></a>
+            <a href="https://www.codewars.com/users/rsschool_785da839e5c30a16" target="_blank"><img class="btns" src="assets/images/svg/codewars.svg" alt="CodeWars" title="Open codewars"></a>
+          </div>
+          <p>&copy; <span data-language="en">The web application was developed in 2023. Developer Yury Butskevich.</span><span data-language="ru" class="unvisible">Веб приложение разработано в 2023 году. Разработчик Буцкевич Юрий.</span></p>
+          <a href="https://www.it-academy.by" title="Open" target="_blank"><img class="information__footer_image" src="assets/images/it-academy.png" alt="IT Academy"></a>
+        </div>
+      </div>
+    </main>
+    `;
+  }
+};
