@@ -1280,9 +1280,9 @@ const mySPA = (function() {
           if (scrollPosition + displaySize > pageSize - 20 && location.hash === "#main") myModuleModel.createCards(); 
         }, 250));
 
-
+        if (navigator.maxTouchPoints <= 1) {
           myModuleContainer.addEventListener("dragstart", (event) => {
-            if (event.target.classList[0] == "card") {
+            if (event.target.classList[0] === "card") {
               event.target.classList.add("move-element");
               this.open(document.getElementById("drop-favorite"));
             }
@@ -1312,6 +1312,7 @@ const mySPA = (function() {
             const nextElement = (eventElement === moveElement.nextElementSibling) ? eventElement.nextElementSibling : eventElement;
             box.insertBefore(moveElement, nextElement);
           });
+        }
           
         this.updateState();
       }
