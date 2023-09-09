@@ -337,6 +337,11 @@ option {
   transition: 0.5s;
 }
 
+.drop-zone-delete {
+  background-color: #A9121F;
+  background-image: url('../assets/images/svg/remove.svg');
+}
+
 .load {
   overflow: hidden;
   position: absolute;

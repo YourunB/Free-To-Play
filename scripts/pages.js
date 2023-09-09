@@ -213,7 +213,9 @@ const CollectionPage = {
       <main class="container area">
         <div class="collection ${className}">
           <h2><span data-language="en">My collection</span><span data-language="ru" class="unvisible">Моя коллекция</span> <i class="icon-images iconmoon"></i></h2>
-          <div id="collection-box" class="collection__box"></div>
+          <div id="collection-box" class="collection__box">
+            <div class="drop-zone drop-zone-delete unvisible" id="drop-favorite"></div>
+          </div>
         </div>
       </main>
     `;

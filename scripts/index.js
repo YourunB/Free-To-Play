@@ -280,11 +280,12 @@ const mySPA = (function() {
           arr = obj[key].split("|");
           collectionBox.append(document.createElement("div"));
           collectionBox.getElementsByTagName("div")[collectionBox.getElementsByTagName("div").length - 1].classList.add("collection__box_card");
-          collectionBox.getElementsByTagName("div")[collectionBox.getElementsByTagName("div").length - 1].dataset.id = key; 
+          collectionBox.getElementsByTagName("div")[collectionBox.getElementsByTagName("div").length - 1].dataset.id = key;
+          collectionBox.getElementsByTagName("div")[collectionBox.getElementsByTagName("div").length - 1].draggable = true;
           collectionBox.getElementsByTagName("div")[collectionBox.getElementsByTagName("div").length - 1].innerHTML = `
-          <img class="collection__box_card_image" src="${arr[1]}" data-id="${key}" alt="Game">
-          <h3>${arr[0]}</h3>
-          <img data-id="${key}" class="btns collection__box_card_btn" src="assets/images/svg/remove.svg" alt="Delete game">
+          <img draggable="false" class="collection__box_card_image" src="${arr[1]}" data-id="${key}" alt="Game">
+          <h3 draggable="false">${arr[0]}</h3>
+          <img draggable="false" data-id="${key}" class="btns collection__box_card_btn" src="assets/images/svg/remove.svg" alt="Delete game">
           `;
         }
       }
@@ -1282,7 +1283,7 @@ const mySPA = (function() {
 
         if (navigator.maxTouchPoints <= 1) {
           myModuleContainer.addEventListener("dragstart", (event) => {
-            if (event.target.classList[0] === "card") {
+            if (event.target.classList[0] === "card" || event.target.classList[0] === "collection__box_card") {
               event.target.classList.add("move-element");
               this.open(document.getElementById("drop-favorite"));
             }
@@ -1295,16 +1296,16 @@ const mySPA = (function() {
           });
           myModuleContainer.addEventListener("dragover", (event) => {
             event.preventDefault();
-            const box = document.getElementById("games-box");
+            const box = (location.hash === "#main") ? document.getElementById("games-box") : document.getElementById("collection-box");
             const moveElement = box.getElementsByClassName("move-element")[0];
             const eventElement = event.target;
-            const checkMove = moveElement !== eventElement && eventElement.classList.contains("card");
+            const checkMove = moveElement !== eventElement && (location.hash === "#main") ? eventElement.classList.contains("card") : eventElement.classList.contains("collection__box_card");
 
             document.getElementById("drop-favorite").onmouseleave = () => {
               if (moveElement !== eventElement && eventElement.id == "drop-favorite") {
-                //alert("Добавлено", moveElement.children[0].dataset.id,moveElement.children[0].dataset.title, moveElement.children[0].dataset.image); // тут будет метод добавления игры по id в БД
-                myModuleModel.addGameToCollection(moveElement.children[0].dataset.id, moveElement.children[0].dataset.title, moveElement.children[0].dataset.image);
-                return;
+                if (location.hash === "#main") myModuleModel.addGameToCollection(moveElement.children[0].dataset.id, moveElement.children[0].dataset.title, moveElement.children[0].dataset.image);
+                if (location.hash === "#collection") myModuleModel.deleteCardGameCollection(moveElement.children[0].dataset.id);
+                return;         
               }
             }
 
