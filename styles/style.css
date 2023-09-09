@@ -1870,6 +1870,15 @@ content: '';
   }
 }
 
+@media (max-width: 576px) {
+  .search__param {
+    transform: translate(-60px, -230%);
+    width: 250px;
+  }
+  .search:hover .search__param {
+    transform: translate(-60px, 0);
+  }
+}
 
 @media (max-width: 480px) {
   .sort__param { left: 45px;}
