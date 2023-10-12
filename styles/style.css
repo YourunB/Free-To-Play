@@ -75,7 +75,7 @@ body {
 .scroll-off {
   height: 100vh;
   overflow: hidden;
-  padding-right: 15px;
+  padding-right: 5px;
 }
 
 header, main {
@@ -1748,6 +1748,22 @@ content: '';
   opacity: 1;
   cursor: pointer;
 }
+
+*::-webkit-scrollbar {
+  width: 5px;
+  width: 5px;
+}
+
+*::-webkit-scrollbar-track {background-color: rgba(0, 0, 0, 0);}
+*::-webkit-scrollbar-track:hover {background-color: rgba(0, 0, 0, 0);}
+*::-webkit-scrollbar-track:active {background-color: rgba(0, 0, 0, 0);}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: #971d27; 
+}
+*::-webkit-scrollbar-thumb:hover {background-color: #cd1928;}
+*::-webkit-scrollbar-thumb:active {background-color: #ff0000;}
 
 .light {
   background-color: white;
