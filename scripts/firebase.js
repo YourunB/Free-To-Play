@@ -1,11 +1,11 @@
 const firebaseApp = firebase.initializeApp({
-  apiKey: "AIzaSyDKnOmwvpLV65vRQuVg3jZSvuKGygBcP7c",
-  authDomain: "free-to-play-study-work.firebaseapp.com",
-  databaseURL: "https://free-to-play-study-work-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "free-to-play-study-work",
-  storageBucket: "free-to-play-study-work.appspot.com",
-  messagingSenderId: "45059650572",
-  appId: "1:45059650572:web:854a1245408257b08b2a29"
+  apiKey: "AIzaSyAqFFJxaXXNquKy1chjyVCBffxtQ9MNhXg",
+  authDomain: "free-to-play-73b9d.firebaseapp.com",
+  databaseURL: "https://free-to-play-73b9d-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "free-to-play-73b9d",
+  storageBucket: "free-to-play-73b9d.appspot.com",
+  messagingSenderId: "678287052346",
+  appId: "1:678287052346:web:ac7a9d0ece34ceb659af03"
 });
 
 const myAppDB = firebaseApp.database();
